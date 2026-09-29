@@ -1,3 +1,33 @@
+// Keep the same logo/header on every page.
+(() => {
+  const applyBrand = () => {
+    document.querySelectorAll('a.brand').forEach((brand) => {
+      brand.innerHTML = '<img class="brand-logo" src="assets/logo.webp" alt="哈雷露亞民宿 Logo"><span class="brand-title">哈雷露亞民宿</span>';
+    });
+    if (!document.getElementById('brandLogoStyle')) {
+      const style = document.createElement('style');
+      style.id = 'brandLogoStyle';
+      style.textContent = `
+        .site-header .nav{height:82px}
+        .header-space{height:82px}
+        .brand{display:flex;align-items:center;gap:12px;min-width:max-content}
+        .brand-logo{width:60px;height:60px;object-fit:contain;display:block;flex:0 0 auto;filter:drop-shadow(0 2px 5px rgba(0,0,0,.18))}
+        .brand-title{display:block;white-space:nowrap;font-weight:900;letter-spacing:.08em}
+        @media(max-width:620px){
+          .site-header .nav{height:70px}
+          .header-space{height:70px}
+          .brand{gap:8px}
+          .brand-logo{width:52px;height:52px}
+          .brand-title{font-size:15px;letter-spacing:.04em}
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyBrand);
+  else applyBrand();
+})();
+
 const homeHero = document.getElementById('homeHero');
 if(homeHero){
   const bgs = Array.from(homeHero.querySelectorAll('.hero-bg'));
