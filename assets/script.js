@@ -1,6 +1,6 @@
 (() => {
   const s = document.createElement('script');
-  s.src = 'assets/bathhouse-photo.js?v=20261001-2255';
+  s.src = 'assets/bathhouse-photo.js?v=20261001-2344';
   document.head.appendChild(s);
 })();
 
