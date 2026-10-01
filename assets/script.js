@@ -53,6 +53,21 @@ function toggleMenu(){
   document.querySelector('.mobile-menu')?.classList.toggle('show');
 }
 
+// Repair the bathhouse slide: always use the real image file instead of the broken embedded image.
+(() => {
+  const fixBathhouseImage = () => {
+    const carousel = document.querySelector('[data-activity-carousel]');
+    if (!carousel) return;
+    const images = carousel.querySelectorAll('.slide img');
+    if (images[1]) {
+      images[1].src = 'assets/images/japanese_bathhouse.jpg?v=20261001-2247';
+      images[1].alt = '日式澡堂';
+    }
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fixBathhouseImage);
+  else fixBathhouseImage();
+})();
+
 document.querySelectorAll('[data-carousel], [data-activity-carousel]').forEach((carousel) => {
   if (carousel.dataset.carouselReady === '1') return;
   carousel.dataset.carouselReady = '1';
