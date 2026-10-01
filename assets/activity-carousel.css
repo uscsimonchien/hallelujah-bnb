@@ -1,0 +1,9 @@
+.activity-card-carousel{border-radius:0;box-shadow:none;background:#e9ece9;overflow:hidden}
+.activity-card-carousel .carousel-track{display:flex;transition:transform .45s ease}
+.activity-card-carousel .slide{min-width:100%;position:relative}
+.activity-card-carousel .slide img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;background:#f3f3f3}
+.activity-card-carousel .carousel-dots{left:12px;bottom:12px}
+.activity-card-carousel .carousel-controls{right:10px;bottom:10px}
+.activity-card-carousel .carousel-btn{width:34px;height:34px;font-size:18px;background:rgba(17,33,26,.58)}
+.activity-card-carousel .carousel-dots button{width:8px;height:8px}
+@media(max-width:620px){.activity-card-carousel .slide img{aspect-ratio:16/10}}
