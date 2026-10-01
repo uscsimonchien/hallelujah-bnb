@@ -53,19 +53,23 @@ function toggleMenu(){
   document.querySelector('.mobile-menu')?.classList.toggle('show');
 }
 
-document.querySelectorAll('[data-carousel]').forEach((carousel) => {
+document.querySelectorAll('[data-carousel], [data-activity-carousel]').forEach((carousel) => {
+  if (carousel.dataset.carouselReady === '1') return;
+  carousel.dataset.carouselReady = '1';
   const track = carousel.querySelector('.carousel-track');
   const slides = Array.from(carousel.querySelectorAll('.slide'));
   const prev = carousel.querySelector('.carousel-btn.prev');
   const next = carousel.querySelector('.carousel-btn.next');
   const dotsWrap = carousel.querySelector('.carousel-dots');
+  if (!track || !slides.length) return;
   let index = 0;
+  if (dotsWrap) dotsWrap.innerHTML = '';
   const dots = slides.map((_, i) => {
     const b = document.createElement('button');
-    b.setAttribute('aria-label', `go to slide ${i+1}`);
+    b.setAttribute('aria-label', `切換到第 ${i+1} 張照片`);
     if(i===0) b.classList.add('active');
     b.addEventListener('click', ()=>go(i));
-    dotsWrap.appendChild(b);
+    dotsWrap?.appendChild(b);
     return b;
   });
   function render(){
@@ -75,9 +79,9 @@ document.querySelectorAll('[data-carousel]').forEach((carousel) => {
   function go(i){ index = (i+slides.length)%slides.length; render(); }
   prev?.addEventListener('click', ()=>go(index-1));
   next?.addEventListener('click', ()=>go(index+1));
-  let timer = setInterval(()=>go(index+1), 4500);
-  carousel.addEventListener('mouseenter', ()=>clearInterval(timer));
-  carousel.addEventListener('mouseleave', ()=>timer = setInterval(()=>go(index+1), 4500));
+  let timer = slides.length > 1 ? setInterval(()=>go(index+1), 4500) : null;
+  carousel.addEventListener('mouseenter', ()=>{ if(timer) clearInterval(timer); });
+  carousel.addEventListener('mouseleave', ()=>{ if(slides.length > 1) timer = setInterval(()=>go(index+1), 4500); });
   render();
 });
 
