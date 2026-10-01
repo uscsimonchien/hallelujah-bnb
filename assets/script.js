@@ -1,3 +1,9 @@
+(() => {
+  const s = document.createElement('script');
+  s.src = 'assets/bathhouse-photo.js?v=20261001-2255';
+  document.head.appendChild(s);
+})();
+
 // Keep the same logo/header on every page.
 (() => {
   const applyBrand = () => {
