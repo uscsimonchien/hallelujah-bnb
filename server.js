@@ -2,10 +2,12 @@ const express=require('express');
 const cors=require('cors');
 const {Pool}=require('pg');
 const app=express();
-const pool=new Pool({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:false}});
+const DB_READY=!!process.env.DATABASE_URL;
+const pool=DB_READY?new Pool({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:false}}):null;
 const TOTAL=4,WD=1600,WE=2000,HOLD_HOURS=2;
 app.use(cors({origin:true}));
 app.use(express.json());
+app.use((req,res,next)=>{if(req.path==='/health')return next();if(!DB_READY)return res.status(503).json({error:'database_not_configured'});next()});
 
 const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||''));
 const rate=s=>{const d=new Date(s+'T12:00:00+08:00'),w=d.getDay();return (w===0||w===6)?WE:WD};
@@ -13,6 +15,7 @@ const nights=(a,b)=>{const out=[];for(let d=new Date(a+'T12:00:00+08:00'),e=new 
 const code=()=>`HL${new Date().toISOString().slice(2,10).replaceAll('-','')}${Math.floor(100000+Math.random()*900000)}`;
 
 async function init(){
+ if(!DB_READY)return;
  await pool.query(`CREATE TABLE IF NOT EXISTS bookings(
  id BIGSERIAL PRIMARY KEY,code TEXT UNIQUE NOT NULL,created_at TIMESTAMPTZ DEFAULT NOW(),updated_at TIMESTAMPTZ DEFAULT NOW(),
  status TEXT NOT NULL DEFAULT 'pending',hold_expires_at TIMESTAMPTZ,name TEXT NOT NULL,phone TEXT NOT NULL,line_name TEXT,
@@ -28,12 +31,15 @@ async function bookedOn(client,date,excludeId=0){
 }
 async function minAvail(client,a,b,excludeId=0){
  const ns=nights(a,b);let min=TOTAL;
- for(const d of ns) min=Math.min(min,TOTAL-await bookedOn(client,d,excludeId));
+ for(const d of ns)min=Math.min(min,TOTAL-await bookedOn(client,d,excludeId));
  return min;
 }
 function admin(req,res,next){if(req.get('x-admin-key')!==process.env.ADMIN_KEY)return res.status(401).json({error:'unauthorized'});next()}
 
-app.get('/health',async(_q,res)=>{try{await pool.query('SELECT 1');res.json({ok:true})}catch(e){res.status(500).json({ok:false})}});
+app.get('/health',async(_q,res)=>{
+ if(!DB_READY)return res.status(503).json({ok:false,database:'not_configured'});
+ try{await pool.query('SELECT 1');res.json({ok:true,database:'connected'})}catch(e){res.status(500).json({ok:false,database:'error'})}
+});
 app.get('/api/availability',async(req,res)=>{
  try{
   const {from,to}=req.query;if(!validDate(from)||!validDate(to))return res.status(400).json({error:'invalid_dates'});
@@ -75,4 +81,4 @@ app.patch('/api/admin/bookings/:id',admin,async(req,res)=>{
  }catch(e){try{await c.query('ROLLBACK')}catch{}res.status(500).json({error:'server_error'})}finally{c.release()}
 });
 
-app.listen(process.env.PORT||10000,()=>init().then(()=>console.log('booking api ready')).catch(e=>{console.error(e);process.exit(1)}));
+app.listen(process.env.PORT||10000,()=>init().then(()=>console.log(DB_READY?'booking api ready':'booking api waiting for database')).catch(e=>console.error('database init failed',e)));
