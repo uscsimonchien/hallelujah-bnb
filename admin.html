@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>訂房管理後台｜哈雷露亞民宿</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}.admin-head{display:flex;justify-content:space-between;gap:20px;align-items:end;flex-wrap:wrap}.admin-login,.admin-card{background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:24px}.admin-login{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.admin-login label{min-width:240px}.admin-login input{margin-top:6px}.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}.admin-stat{background:#fff;padding:20px;border-radius:18px;border:1px solid var(--line)}.admin-stat small{display:block;color:var(--muted)}.admin-stat strong{font-size:28px;color:var(--forest)}.admin-table-wrap{overflow:auto}.admin-table{width:100%;border-collapse:collapse;min-width:1000px}.admin-table th,.admin-table td{padding:12px;border-bottom:1px solid #ecefe9;text-align:left;vertical-align:top}.admin-table th{background:#f4f1e9;position:sticky;top:0}.admin-actions{display:flex;gap:6px;flex-wrap:wrap}.admin-actions button{border:0;border-radius:999px;padding:7px 10px;cursor:pointer}.ok{background:#dcecdf;color:#164d2e}.paid{background:#dbe7f8;color:#234f85}.cancel{background:#f5dddd;color:#7b2424}.pending{background:#eee6d5;color:#705427}.status-chip{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800}.admin-msg{margin:12px 0;color:#8a3b2f}.hidden{display:none}@media(max-width:720px){.admin-stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="wrap"><div class="nav"><a class="brand" href="index.html"><img class="brand-logo" src="assets/logo.webp" alt="哈雷露亞民宿 Logo"><span class="brand-title">哈雷露亞民宿</span></a><a class="nav-cta" href="inquiry.html">前往線上預訂</a></div></div></header><div class="header-space"></div>
+<main class="admin-wrap">
+<div class="admin-head"><div><div class="kicker">BOOKING ADMIN</div><h1 class="title">訂房管理後台</h1><p class="lead">中央房況、待確認訂單、已確認與已取消訂單。</p></div></div>
+<div class="admin-login" id="loginBox"><label>管理金鑰<input id="adminKey" type="password" autocomplete="current-password" placeholder="輸入管理金鑰"></label><button id="adminLogin" class="btn dark">登入後台</button><button id="adminLogout" class="btn hidden">登出</button></div>
+<div id="adminMessage" class="admin-msg"></div>
+<section id="dashboard" class="hidden">
+<div class="admin-stats"><div class="admin-stat"><small>待確認</small><strong id="statPending">0</strong></div><div class="admin-stat"><small>已確認</small><strong id="statConfirmed">0</strong></div><div class="admin-stat"><small>已收款</small><strong id="statPaid">0</strong></div><div class="admin-stat"><small>總訂單</small><strong id="statTotal">0</strong></div></div>
+<div class="admin-card"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px"><h3 style="margin:0">訂單列表</h3><button id="adminRefresh" class="btn">重新整理</button></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>狀態</th><th>編號／建立時間</th><th>客人</th><th>住宿日期</th><th>房數／人數</th><th>金額</th><th>備註</th><th>操作</th></tr></thead><tbody id="bookingRows"></tbody></table></div></div>
+</section>
+</main>
+<script src="assets/admin.js?v=20261003-1"></script>
+</body></html>
