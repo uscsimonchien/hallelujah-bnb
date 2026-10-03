@@ -1,11 +1,11 @@
 (() => {
   const applyCorrectRentalPhotos = () => {
     const map = {
-      'Hispeed 單人床墊': 'assets/images/rental_hispeed_single.webp?v=20261004-0015',
-      'Hispeed 雙人床墊': 'assets/images/rental_hispeed_double.webp?v=20261004-0015',
-      '單人奶酪床墊': 'assets/images/rental_cheese_single.webp?v=20261004-0015',
-      '雙人奶酪床墊': 'assets/images/rental_cheese_double.webp?v=20261004-0015',
-      '充氣帳篷': 'assets/images/rental_inflatable_tent.webp?v=20261004-0015'
+      'Hispeed 單人床墊': 'assets/images/rental_cheese_single.webp?v=20261004-0025',
+      'Hispeed 雙人床墊': 'assets/images/rental_cheese_double.webp?v=20261004-0025',
+      '單人奶酪床墊': 'assets/images/rental_hispeed_single.webp?v=20261004-0025',
+      '雙人奶酪床墊': 'assets/images/rental_hispeed_double.webp?v=20261004-0025',
+      '充氣帳篷': 'assets/images/rental_inflatable_tent.webp?v=20261004-0025'
     };
     document.querySelectorAll('.rental-photo-window img').forEach((img) => {
       const src = map[img.alt];
