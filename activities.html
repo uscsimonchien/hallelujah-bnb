@@ -9,43 +9,149 @@
 <link rel="stylesheet" href="assets/activity-carousel.css" />
 <style>
 .activity-card .body{min-height:260px}.activity-card .desc{line-height:1.8}.activity-price small{font-size:13px;color:#69746d;font-weight:600;margin-left:6px}
-.rental-section{padding-top:22px}.rental-heading-note{color:#657168;line-height:1.8;margin-top:8px}.rental-badge{display:inline-flex;align-items:center;background:#234f40;color:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:800}
-.rental-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:24px 0 42px}.rental-product-card{overflow:hidden;background:#fff}
-.rental-photo-window{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:#f2f2ef}.rental-photo-window img{position:absolute;display:block;width:400%;height:200%;max-width:none;object-fit:fill}
-.rental-photo-window.c1 img{left:0;top:0}.rental-photo-window.c2 img{left:-100%;top:0}.rental-photo-window.c3 img{left:-200%;top:0}.rental-photo-window.c4 img{left:-300%;top:0}.rental-photo-window.c5 img{left:0;top:-100%}.rental-photo-window.c6 img{left:-100%;top:-100%}.rental-photo-window.c7 img{left:-200%;top:-100%}
-.rental-product-card .body{min-height:0!important;display:flex;flex-direction:column;gap:10px}.rental-product-card h3{margin:0}.rental-product-card .desc{margin:0 0 2px}.rental-product-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}.rental-chip{display:inline-flex;align-items:center;border-radius:999px;padding:7px 11px;background:#f3efe5;color:#65563d;font-size:12px;font-weight:800}
-.rental-price-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-top:4px;padding-top:13px;border-top:1px solid #ece9df}.rental-price-row small{display:block;color:#6d766f;font-size:12px;margin-bottom:4px}.rental-price-row strong{font-size:24px;color:#1d5945}.rental-deposit{font-size:13px;font-weight:900;color:#795f35;text-align:right}
-.rental-policy{background:#f7f3e9;border-radius:24px;padding:26px;margin:0 0 32px}.rental-policy h3{font-size:28px;line-height:1.3;margin:7px 0 12px;color:#173b2f}.rental-policy p{color:#5e675f;line-height:1.85}.rental-note{border-left:4px solid #b4905a;background:#fffaf1;padding:15px 17px;border-radius:0 14px 14px 0;color:#604e36;line-height:1.8}
-.rental-table-wrap{overflow-x:auto;background:#fff;border:1px solid rgba(39,65,54,.12);border-radius:22px;box-shadow:0 12px 32px rgba(22,48,39,.06);margin:16px 0 28px}.rental-table{width:100%;border-collapse:collapse;min-width:760px}.rental-table th,.rental-table td{padding:15px 16px;text-align:left;border-bottom:1px solid #ece9df;vertical-align:middle}.rental-table th{background:#234f40;color:#fff;font-size:13px}.rental-table tbody tr:last-child td{border-bottom:0}.rental-table td:first-child{font-weight:800;color:#173b2f}
-.fee-title{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:40px 0 10px}.fee-title h2{margin:0}.fee-alert{background:#fff2df;color:#7a4d16;border:1px solid #efd7b6;padding:9px 13px;border-radius:999px;font-size:13px;font-weight:800}.damage-box{background:#183d31;color:#fff;border-radius:24px;padding:26px;margin-top:22px}.damage-box h3{font-size:24px;margin:0 0 12px;color:#fff}.damage-box ul{padding-left:21px;margin:0}.damage-box li{line-height:1.85;margin:7px 0;color:#f1f4ef}.rental-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-@media(max-width:900px){.rental-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){.rental-product-grid{grid-template-columns:1fr;gap:18px}.rental-price-row strong{font-size:22px}.rental-policy,.damage-box{padding:20px}.fee-alert{border-radius:14px}.rental-table th,.rental-table td{padding:12px}}
+.rental-section{padding-top:22px}.rental-heading-note{color:#657168;line-height:1.8;margin-top:8px}
+.rental-badge{display:inline-flex;align-items:center;background:#234f40;color:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:800}
+.rental-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:24px 0 42px}
+.rental-product-card{overflow:hidden;background:#fff}
+.rental-photo-window{width:100%;aspect-ratio:1/1;overflow:hidden;background:#f2f2ef}
+.rental-photo-window img{display:block;width:100%;height:100%;max-width:100%;object-fit:cover}
+.rental-product-card .body{min-height:0!important;display:flex;flex-direction:column;gap:10px}
+.rental-product-card h3{margin:0}.rental-product-card .desc{margin:0 0 2px}
+.rental-product-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.rental-chip{display:inline-flex;align-items:center;border-radius:999px;padding:7px 11px;background:#f3efe5;color:#65563d;font-size:12px;font-weight:800}
+.rental-price-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-top:4px;padding-top:13px;border-top:1px solid #ece9df}
+.rental-price-row small{display:block;color:#6d766f;font-size:12px;margin-bottom:4px}.rental-price-row strong{font-size:24px;color:#1d5945}
+.rental-deposit{font-size:13px;font-weight:900;color:#795f35;text-align:right}
+.rental-policy{background:#f7f3e9;border-radius:24px;padding:26px;margin:0 0 32px}.rental-policy h3{font-size:28px;line-height:1.3;margin:7px 0 12px;color:#173b2f}.rental-policy p{color:#5e675f;line-height:1.85}
+.rental-note{border-left:4px solid #b4905a;background:#fffaf1;padding:15px 17px;border-radius:0 14px 14px 0;color:#604e36;line-height:1.8}
+.rental-table-wrap{overflow-x:auto;background:#fff;border:1px solid rgba(39,65,54,.12);border-radius:22px;box-shadow:0 12px 32px rgba(22,48,39,.06);margin:16px 0 28px}
+.rental-table{width:100%;border-collapse:collapse;min-width:760px}.rental-table th,.rental-table td{padding:15px 16px;text-align:left;border-bottom:1px solid #ece9df;vertical-align:middle}
+.rental-table th{background:#234f40;color:#fff;font-size:13px}.rental-table tbody tr:last-child td{border-bottom:0}.rental-table td:first-child{font-weight:800;color:#173b2f}
+.fee-title{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:40px 0 10px}.fee-title h2{margin:0}
+.fee-alert{background:#fff2df;color:#7a4d16;border:1px solid #efd7b6;padding:9px 13px;border-radius:999px;font-size:13px;font-weight:800}
+.damage-box{background:#183d31;color:#fff;border-radius:24px;padding:26px;margin-top:22px}.damage-box h3{font-size:24px;margin:0 0 12px;color:#fff}.damage-box ul{padding-left:21px;margin:0}.damage-box li{line-height:1.85;margin:7px 0;color:#f1f4ef}
+.rental-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+@media(max-width:900px){.rental-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.rental-product-grid{grid-template-columns:1fr;gap:18px}.rental-price-row strong{font-size:22px}.rental-policy,.damage-box{padding:20px}.fee-alert{border-radius:14px}.rental-table th,.rental-table td{padding:12px}}
 </style>
 </head>
 <body>
-<header class="site-header"><div class="wrap"><div class="nav"><a class="brand" href="index.html"><img alt="哈雷露亞民宿 Logo" src="assets/logo.webp"><span>哈雷露亞民宿</span></a><nav class="nav-links"><a href="index.html">首頁</a><a href="rooms.html">房型</a><a href="space.html">園區</a><a href="rules.html">營區守則</a><a href="qa.html">Q&amp;A</a><a href="activities.html">活動項目&amp;租借服務</a><a href="inquiry.html">線上預訂</a><a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">官方粉專</a><a href="contact.html">聯絡我們</a></nav><a class="nav-cta" href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約</a><button aria-label="open menu" class="menu-toggle" onclick="toggleMenu()">☰</button></div><div class="mobile-menu"><a href="index.html">首頁</a><a href="rooms.html">房型</a><a href="space.html">園區</a><a href="rules.html">營區守則</a><a href="qa.html">Q&amp;A</a><a href="activities.html">活動項目&amp;租借服務</a><a href="inquiry.html">線上預訂</a><a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">官方粉專</a><a href="contact.html">聯絡我們</a><a href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約</a></div></div></header><div class="header-space"></div>
-<section class="page-hero"><div class="wrap"><div class="breadcrumb">首頁 / 活動項目＆租借服務</div><div class="kicker" style="color:#dcc9aa">ACTIVITIES & RENTALS</div><h1 class="title">活動項目＆租借服務</h1><p class="lead">住宿加購、休閒活動與露營裝備租借都整理在這一頁。數量與使用時段有限，建議訂房時一併預約。</p></div></section>
-<section class="section"><div class="wrap"><div class="heading"><div><div class="kicker">SERVICE MENU</div><h2 class="title">住宿之外，<br>多一點山裡的玩法。</h2></div><p class="lead">以下為目前提供的活動與加購服務。實際可用日期、時段與設備狀況，以民宿確認為準。</p></div><div class="activity-grid">
-<article class="activity-card"><img src="assets/images/kids_pool.jpg" alt="兒童泳池 4.6 x 2 x 0.6 公尺"><div class="body"><div class="kicker">KIDS POOL</div><h3>兒童泳池</h3><p class="desc">尺寸約 4.6 × 2 × 0.6M。戶外設施會依天候與現場狀況開放，建議提前預約。</p><div class="activity-price">NT$1,000</div></div></article>
-<article class="activity-card"><div class="carousel activity-card-carousel" data-carousel><div class="carousel-track"><div class="slide"><img src="assets/images/outdoor_bath.jpg" alt="私人戶外湯屋"><div class="slide-caption">私人戶外湯屋</div></div><div class="slide"><img src="assets/images/outdoor_bath.jpg" alt="日式澡堂"><div class="slide-caption">日式澡堂</div></div></div><div class="carousel-dots"></div><div class="carousel-controls"><button class="carousel-btn prev" type="button" aria-label="上一張">‹</button><button class="carousel-btn next" type="button" aria-label="下一張">›</button></div></div><div class="body"><div class="kicker">PRIVATE BATH + JAPANESE BATHHOUSE</div><h3>私人戶外湯屋＋日式澡堂 ×1・90分鐘</h3><p class="desc">一次可使用私人戶外湯屋與日式澡堂空間，每次 90 分鐘，共 1 組；實際使用時段請先與民宿確認。</p><div class="activity-price">NT$1,200 <small>／90 分鐘</small></div></div></article>
-<article class="activity-card"><img src="assets/images/projector4k.jpg" alt="4K 投影機與布幕"><div class="body"><div class="kicker">4K PROJECTOR</div><h3>4K 投影機＋布幕・3H</h3><p class="desc">適合聚會、電影夜或簡報使用，租借時間 3 小時；設備使用請依現場說明操作。</p><div class="activity-price">NT$1,200 <small>／3 小時</small></div></div></article>
-</div></div></section>
-<section class="section rental-section" id="camp-rentals"><div class="wrap"><div class="heading"><div><div class="kicker">CAMPING GEAR RENTAL</div><h2 class="title">露營區裝備租借</h2><p class="rental-heading-note">現場單日（每晚）固定出租，租金已內含日常清潔與消毒工時。每項設備數量皆為 1，建議提前預約。</p></div><span class="rental-badge">數量有限・建議提前預約</span></div>
-<div id="rentalCardGridV2"><div class="rental-product-grid">
-<article class="activity-card rental-product-card"><div class="rental-photo-window c1"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="Hispeed 單人床墊"></div><div class="body"><div class="kicker">HISPEED SINGLE MATTRESS</div><h3>Hispeed 單人床墊</h3><p class="desc">適合單人露營使用，輕便好收納。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$100</strong></div><div class="rental-deposit">押金<br>NT$300</div></div></div></article>
-<article class="activity-card rental-product-card"><div class="rental-photo-window c2"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="Hispeed 雙人床墊"></div><div class="body"><div class="kicker">HISPEED DOUBLE MATTRESS</div><h3>Hispeed 雙人床墊</h3><p class="desc">適合雙人使用，充氣快速、收納方便。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$150</strong></div><div class="rental-deposit">押金<br>NT$500</div></div></div></article>
-<article class="activity-card rental-product-card"><div class="rental-photo-window c3"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="單人奶酪床墊"></div><div class="body"><div class="kicker">SINGLE CHEESE MATTRESS</div><h3>單人奶酪床墊</h3><p class="desc">厚實舒適，適合重視睡感的單人露營需求。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$250</strong></div><div class="rental-deposit">押金<br>NT$500</div></div></div></article>
-<article class="activity-card rental-product-card"><div class="rental-photo-window c4"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="雙人奶酪床墊"></div><div class="body"><div class="kicker">DOUBLE CHEESE MATTRESS</div><h3>雙人奶酪床墊</h3><p class="desc">雙人加大尺寸，適合家庭或雙人使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$400</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div></article>
-<article class="activity-card rental-product-card"><div class="rental-photo-window c5"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="車尾帳（一般款）"></div><div class="body"><div class="kicker">STANDARD CAR TAIL TENT</div><h3>車尾帳（一般款）</h3><p class="desc">適合簡易車宿搭設，提供遮蔽與延伸休憩空間。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div></article>
-<article class="activity-card rental-product-card"><div class="rental-photo-window c6"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="阿拉丁車尾帳"></div><div class="body"><div class="kicker">ALADDIN CAR TAIL TENT</div><h3>阿拉丁車尾帳</h3><p class="desc">空間較大，適合多人休憩與車宿延伸使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,000</strong></div><div class="rental-deposit">押金<br>NT$2,000</div></div></div></article>
-<article class="activity-card rental-product-card"><div class="rental-photo-window c7"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="充氣帳篷"></div><div class="body"><div class="kicker">INFLATABLE TENT</div><h3>充氣帳篷</h3><p class="desc">搭設快速、空間寬敞，適合家庭露營使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,500</strong></div><div class="rental-deposit">押金<br>NT$3,000</div></div></div></article>
-</div></div>
-<div class="rental-policy"><div class="kicker">RENTAL POLICY</div><h3>乾收無污不加收，特殊清潔自押金扣除。</h3><p>所有裝備於取件及退還時進行點交。一般使用後的日常清潔與消毒已包含在租金內，不另收費。</p><div class="rental-note"><strong>特別提醒：</strong>若帳篷潮濕收折、重度泥濘／細沙、床墊有液體滲透，或帳內烤肉造成重度異味，將依下方固定標準收取特殊清潔與乾燥費，並自押金中扣除。</div><div class="rental-actions"><a class="btn dark" href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約租借</a><a class="btn" href="inquiry.html">線上預訂住宿</a></div></div>
-<div class="fee-title"><div><div class="kicker">SPECIAL CLEANING & DRYING</div><h2 class="title" style="font-size:34px">特殊清潔與乾燥費</h2></div><span class="fee-alert">自押金扣除</span></div>
-<div class="rental-table-wrap"><table class="rental-table"><thead><tr><th>狀況項目</th><th>適用裝備</th><th>處理作業內容</th><th>固定清潔費</th></tr></thead><tbody><tr><td>濕帳收折（一般款）</td><td>一般車尾帳</td><td>展開通風除濕、烘乾作業</td><td><strong>NT$500／頂</strong></td></tr><tr><td>濕帳收折（大型／充氣款）</td><td>阿拉丁車尾帳、充氣帳篷</td><td>重新充氣立帳、除濕、折疊入袋</td><td><strong>NT$1,000／頂</strong></td></tr><tr><td>重度泥濘／細沙沾附</td><td>車尾帳、充氣帳</td><td>沖洗帳底與氣柱、人工刷洗並晾乾</td><td><strong>NT$500／頂</strong></td></tr><tr><td>床墊液體滲透</td><td>單人／雙人奶酪床墊</td><td>深層去漬清洗、海綿消毒除臭</td><td><strong>NT$500／張</strong></td></tr><tr><td>帳內烤肉／重度異味</td><td>車尾帳、充氣帳</td><td>帳內通風與除味處理</td><td><strong>NT$500／次</strong></td></tr></tbody></table></div>
-<div class="damage-box"><h3>合約配套賠償約定</h3><ul><li><strong>嚴重污損不可復原：</strong>單人奶酪床墊扣抵 NT$1,500；雙人奶酪床墊扣抵 NT$2,500。全額賠償後，該裝備由客人帶回。</li><li><strong>人為穿刺破洞：</strong>充氣帳氣柱或奶酪床墊因使用不當造成穿刺漏氣，每處修補費 NT$800。</li><li><strong>氣柱爆裂無法修補：</strong>依原廠氣柱更換報價，自押金中抵扣。</li></ul></div>
+<header class="site-header"><div class="wrap"><div class="nav">
+<a class="brand" href="index.html"><img alt="哈雷露亞民宿 Logo" src="assets/logo.webp"><span>哈雷露亞民宿</span></a>
+<nav class="nav-links"><a href="index.html">首頁</a><a href="rooms.html">房型</a><a href="space.html">園區</a><a href="rules.html">營區守則</a><a href="qa.html">Q&amp;A</a><a href="activities.html">活動項目&amp;租借服務</a><a href="inquiry.html">線上預訂</a><a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">官方粉專</a><a href="contact.html">聯絡我們</a></nav>
+<a class="nav-cta" href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約</a>
+<button aria-label="open menu" class="menu-toggle" onclick="toggleMenu()">☰</button>
+</div>
+<div class="mobile-menu"><a href="index.html">首頁</a><a href="rooms.html">房型</a><a href="space.html">園區</a><a href="rules.html">營區守則</a><a href="qa.html">Q&amp;A</a><a href="activities.html">活動項目&amp;租借服務</a><a href="inquiry.html">線上預訂</a><a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">官方粉專</a><a href="contact.html">聯絡我們</a><a href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約</a></div>
+</div></header>
+<div class="header-space"></div>
+
+<section class="page-hero"><div class="wrap">
+<div class="breadcrumb">首頁 / 活動項目＆租借服務</div>
+<div class="kicker" style="color:#dcc9aa">ACTIVITIES & RENTALS</div>
+<h1 class="title">活動項目＆租借服務</h1>
+<p class="lead">住宿加購、休閒活動與露營裝備租借都整理在這一頁。數量與使用時段有限，建議訂房時一併預約。</p>
 </div></section>
+
+<section class="section"><div class="wrap">
+<div class="heading"><div><div class="kicker">SERVICE MENU</div><h2 class="title">住宿之外，<br>多一點山裡的玩法。</h2></div><p class="lead">以下為目前提供的活動與加購服務。實際可用日期、時段與設備狀況，以民宿確認為準。</p></div>
+<div class="activity-grid">
+<article class="activity-card">
+<img src="assets/images/kids_pool.jpg" alt="兒童泳池 4.6 x 2 x 0.6 公尺">
+<div class="body"><div class="kicker">KIDS POOL</div><h3>兒童泳池</h3><p class="desc">尺寸約 4.6 × 2 × 0.6M。戶外設施會依天候與現場狀況開放，建議提前預約。</p><div class="activity-price">NT$1,000</div></div>
+</article>
+
+<article class="activity-card">
+<div class="carousel activity-card-carousel" data-carousel>
+<div class="carousel-track">
+<div class="slide"><img src="assets/images/outdoor_bath.jpg" alt="私人戶外湯屋"><div class="slide-caption">私人戶外湯屋</div></div>
+<div class="slide"><img src="assets/images/outdoor_bath.jpg" alt="日式澡堂"><div class="slide-caption">日式澡堂</div></div>
+</div>
+<div class="carousel-dots"></div>
+<div class="carousel-controls"><button class="carousel-btn prev" type="button" aria-label="上一張">‹</button><button class="carousel-btn next" type="button" aria-label="下一張">›</button></div>
+</div>
+<div class="body"><div class="kicker">PRIVATE BATH + JAPANESE BATHHOUSE</div><h3>私人戶外湯屋＋日式澡堂 ×1・90分鐘</h3><p class="desc">一次可使用私人戶外湯屋與日式澡堂空間，每次 90 分鐘，共 1 組；實際使用時段請先與民宿確認。</p><div class="activity-price">NT$1,200 <small>／90 分鐘</small></div></div>
+</article>
+
+<article class="activity-card">
+<img src="assets/images/projector4k.jpg" alt="4K 投影機與布幕">
+<div class="body"><div class="kicker">4K PROJECTOR</div><h3>4K 投影機＋布幕・3H</h3><p class="desc">適合聚會、電影夜或簡報使用，租借時間 3 小時；設備使用請依現場說明操作。</p><div class="activity-price">NT$1,200 <small>／3 小時</small></div></div>
+</article>
+</div>
+</div></section>
+
+<section class="section rental-section" id="camp-rentals"><div class="wrap">
+<div class="heading"><div><div class="kicker">CAMPING GEAR RENTAL</div><h2 class="title">露營區裝備租借</h2><p class="rental-heading-note">現場單日（每晚）固定出租，租金已內含日常清潔與消毒工時。每項設備數量皆為 1，建議提前預約。</p></div><span class="rental-badge">數量有限・建議提前預約</span></div>
+
+<div id="rentalCardGridV2">
+<div class="rental-product-grid">
+
+<article class="activity-card rental-product-card">
+<div class="rental-photo-window"><img src="assets/images/rental_hispeed_single.webp?v=20261003-0915" alt="Hispeed 單人床墊" loading="lazy"></div>
+<div class="body"><div class="kicker">HISPEED SINGLE MATTRESS</div><h3>Hispeed 單人床墊</h3><p class="desc">適合單人露營使用，輕便好收納。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$100</strong></div><div class="rental-deposit">押金<br>NT$300</div></div></div>
+</article>
+
+<article class="activity-card rental-product-card">
+<div class="rental-photo-window"><img src="assets/images/rental_hispeed_double.webp?v=20261003-0915" alt="Hispeed 雙人床墊" loading="lazy"></div>
+<div class="body"><div class="kicker">HISPEED DOUBLE MATTRESS</div><h3>Hispeed 雙人床墊</h3><p class="desc">適合雙人使用，充氣快速、收納方便。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$150</strong></div><div class="rental-deposit">押金<br>NT$500</div></div></div>
+</article>
+
+<article class="activity-card rental-product-card">
+<div class="rental-photo-window"><img src="assets/images/rental_cheese_single.webp?v=20261003-0915" alt="單人奶酪床墊" loading="lazy"></div>
+<div class="body"><div class="kicker">SINGLE CHEESE MATTRESS</div><h3>單人奶酪床墊</h3><p class="desc">厚實舒適，適合重視睡感的單人露營需求。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$250</strong></div><div class="rental-deposit">押金<br>NT$500</div></div></div>
+</article>
+
+<article class="activity-card rental-product-card">
+<div class="rental-photo-window"><img src="assets/images/rental_cheese_double.webp?v=20261003-0915" alt="雙人奶酪床墊" loading="lazy"></div>
+<div class="body"><div class="kicker">DOUBLE CHEESE MATTRESS</div><h3>雙人奶酪床墊</h3><p class="desc">雙人加大尺寸，適合家庭或雙人使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$400</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div>
+</article>
+
+<article class="activity-card rental-product-card">
+<div class="rental-photo-window"><img src="assets/images/rental_tailtent_standard.webp?v=20261003-0915" alt="車尾帳（一般款）" loading="lazy"></div>
+<div class="body"><div class="kicker">STANDARD CAR TAIL TENT</div><h3>車尾帳（一般款）</h3><p class="desc">適合簡易車宿搭設，提供遮蔽與延伸休憩空間。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div>
+</article>
+
+<article class="activity-card rental-product-card">
+<div class="rental-photo-window"><img src="assets/images/rental_tailtent_aladdin.webp?v=20261003-0915" alt="阿拉丁車尾帳" loading="lazy"></div>
+<div class="body"><div class="kicker">ALADDIN CAR TAIL TENT</div><h3>阿拉丁車尾帳</h3><p class="desc">空間較大，適合多人休憩與車宿延伸使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,000</strong></div><div class="rental-deposit">押金<br>NT$2,000</div></div></div>
+</article>
+
+<article class="activity-card rental-product-card">
+<div class="rental-photo-window"><img src="assets/images/rental_inflatable_tent.webp?v=20261003-0915" alt="充氣帳篷" loading="lazy"></div>
+<div class="body"><div class="kicker">INFLATABLE TENT</div><h3>充氣帳篷</h3><p class="desc">搭設快速、空間寬敞，適合家庭露營使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,500</strong></div><div class="rental-deposit">押金<br>NT$3,000</div></div></div>
+</article>
+
+</div>
+</div>
+
+<div class="rental-policy">
+<div class="kicker">RENTAL POLICY</div><h3>乾收無污不加收，特殊清潔自押金扣除。</h3>
+<p>所有裝備於取件及退還時進行點交。一般使用後的日常清潔與消毒已包含在租金內，不另收費。</p>
+<div class="rental-note"><strong>特別提醒：</strong>若帳篷潮濕收折、重度泥濘／細沙、床墊有液體滲透，或帳內烤肉造成重度異味，將依下方固定標準收取特殊清潔與乾燥費，並自押金中扣除。</div>
+<div class="rental-actions"><a class="btn dark" href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約租借</a><a class="btn" href="inquiry.html">線上預訂住宿</a></div>
+</div>
+
+<div class="fee-title"><div><div class="kicker">SPECIAL CLEANING & DRYING</div><h2 class="title" style="font-size:34px">特殊清潔與乾燥費</h2></div><span class="fee-alert">自押金扣除</span></div>
+<div class="rental-table-wrap"><table class="rental-table"><thead><tr><th>狀況項目</th><th>適用裝備</th><th>處理作業內容</th><th>固定清潔費</th></tr></thead><tbody>
+<tr><td>濕帳收折（一般款）</td><td>一般車尾帳</td><td>展開通風除濕、烘乾作業</td><td><strong>NT$500／頂</strong></td></tr>
+<tr><td>濕帳收折（大型／充氣款）</td><td>阿拉丁車尾帳、充氣帳篷</td><td>重新充氣立帳、除濕、折疊入袋</td><td><strong>NT$1,000／頂</strong></td></tr>
+<tr><td>重度泥濘／細沙沾附</td><td>車尾帳、充氣帳</td><td>沖洗帳底與氣柱、人工刷洗並晾乾</td><td><strong>NT$500／頂</strong></td></tr>
+<tr><td>床墊液體滲透</td><td>單人／雙人奶酪床墊</td><td>深層去漬清洗、海綿消毒除臭</td><td><strong>NT$500／張</strong></td></tr>
+<tr><td>帳內烤肉／重度異味</td><td>車尾帳、充氣帳</td><td>帳內通風與除味處理</td><td><strong>NT$500／次</strong></td></tr>
+</tbody></table></div>
+
+<div class="damage-box">
+<h3>合約配套賠償約定</h3>
+<ul>
+<li><strong>嚴重污損不可復原：</strong>單人奶酪床墊扣抵 NT$1,500；雙人奶酪床墊扣抵 NT$2,500。全額賠償後，該裝備由客人帶回。</li>
+<li><strong>人為穿刺破洞：</strong>充氣帳氣柱或奶酪床墊因使用不當造成穿刺漏氣，每處修補費 NT$800。</li>
+<li><strong>氣柱爆裂無法修補：</strong>依原廠氣柱更換報價，自押金中抵扣。</li>
+</ul>
+</div>
+</div></section>
+
 <footer class="footer"><div class="wrap"><p>哈雷露亞民宿｜苗栗縣民宿第 533 號</p><p>苗栗縣獅潭鄉新店村15鄰大東勢20之5號｜0910-541-814</p></div></footer>
 <div class="floating-social"><a class="fb" href="https://www.facebook.com/profile.php?id=61591411270505" target="_blank" rel="noopener" aria-label="Facebook">f</a><a class="line" href="https://lin.ee/XsIMYvU" target="_blank" rel="noopener" aria-label="LINE">LINE</a></div>
-<script src="assets/script.js?v=20261003-0905"></script>
+<script src="assets/script.js?v=20261003-0915"></script>
 </body>
 </html>
