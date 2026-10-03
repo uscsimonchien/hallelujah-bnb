@@ -130,3 +130,91 @@ document.querySelectorAll('.faq-q').forEach((btn)=>{
     item.classList.toggle('open');
   });
 });
+
+// Activities page: show every camping rental as its own photo card.
+(() => {
+  const mountRentalCards = () => {
+    if (!location.pathname.endsWith('/activities.html') && !location.pathname.endsWith('activities.html')) return;
+    if (document.getElementById('rentalCardGridV2')) return;
+
+    const section = Array.from(document.querySelectorAll('section')).find((el) =>
+      el.textContent.includes('露營區裝備租借') || el.textContent.includes('露營區租借服務')
+    );
+    if (!section) return;
+
+    section.querySelector('.rental-hero')?.remove();
+    section.querySelectorAll('.rental-table-wrap').forEach((wrap) => {
+      if (wrap.textContent.includes('Hispeed 單人床墊')) wrap.remove();
+    });
+    section.querySelectorAll('.equipment-caption').forEach((el)=>el.remove());
+
+    if (!document.getElementById('rentalCardsV2Style')) {
+      const style = document.createElement('style');
+      style.id = 'rentalCardsV2Style';
+      style.textContent = `
+        .rental-card-heading{margin:12px 0 24px}
+        .rental-card-heading .lead{max-width:760px}
+        .rental-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:20px 0 42px}
+        .rental-product-card{overflow:hidden;background:#fff}
+        .rental-product-photo{width:100%;aspect-ratio:1/1;background-image:url('assets/images/rental-sprite.webp?v=20261003-0825');background-repeat:no-repeat;background-size:400% 200%;background-color:#eee;display:block}
+        .rental-product-photo.p1{background-position:0% 0%}
+        .rental-product-photo.p2{background-position:33.333% 0%}
+        .rental-product-photo.p3{background-position:66.666% 0%}
+        .rental-product-photo.p4{background-position:100% 0%}
+        .rental-product-photo.p5{background-position:0% 100%}
+        .rental-product-photo.p6{background-position:33.333% 100%}
+        .rental-product-photo.p7{background-position:66.666% 100%}
+        .rental-product-card .body{min-height:0!important;display:flex;flex-direction:column;gap:10px}
+        .rental-product-card h3{margin:0}
+        .rental-product-card .desc{margin:0 0 2px}
+        .rental-product-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+        .rental-chip{display:inline-flex;align-items:center;border-radius:999px;padding:7px 11px;background:#f3efe5;color:#65563d;font-size:12px;font-weight:800}
+        .rental-price-row{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-top:4px;padding-top:13px;border-top:1px solid #ece9df}
+        .rental-price-row small{display:block;color:#6d766f;font-size:12px;margin-bottom:4px}
+        .rental-price-row strong{font-size:24px;color:#1d5945}
+        .rental-deposit{font-size:13px;font-weight:900;color:#795f35;text-align:right}
+        @media(max-width:900px){.rental-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+        @media(max-width:620px){.rental-product-grid{grid-template-columns:1fr;gap:18px}.rental-product-photo{aspect-ratio:1/1}.rental-price-row strong{font-size:22px}}
+      `;
+      document.head.appendChild(style);
+    }
+
+    const items = [
+      {p:'p1',en:'HISPEED SINGLE MATTRESS',name:'Hispeed 單人床墊',desc:'適合單人露營使用，輕便好收納。',price:'NT$100',deposit:'NT$300'},
+      {p:'p2',en:'HISPEED DOUBLE MATTRESS',name:'Hispeed 雙人床墊',desc:'適合雙人使用，充氣快速、收納方便。',price:'NT$150',deposit:'NT$500'},
+      {p:'p3',en:'SINGLE CHEESE MATTRESS',name:'單人奶酪床墊',desc:'厚實舒適，適合重視睡感的單人露營需求。',price:'NT$250',deposit:'NT$500'},
+      {p:'p4',en:'DOUBLE CHEESE MATTRESS',name:'雙人奶酪床墊',desc:'雙人加大尺寸，適合家庭或雙人使用。',price:'NT$400',deposit:'NT$1,000'},
+      {p:'p5',en:'STANDARD CAR TAIL TENT',name:'車尾帳（一般款）',desc:'適合簡易車宿搭設，提供遮蔽與延伸休憩空間。',price:'NT$500',deposit:'NT$1,000'},
+      {p:'p6',en:'ALADDIN CAR TAIL TENT',name:'阿拉丁車尾帳',desc:'空間較大，適合多人休憩與車宿延伸使用。',price:'NT$1,000',deposit:'NT$2,000'},
+      {p:'p7',en:'INFLATABLE TENT',name:'充氣帳篷',desc:'搭設快速、空間寬敞，適合家庭露營使用。',price:'NT$1,500',deposit:'NT$3,000'}
+    ];
+
+    const block = document.createElement('div');
+    block.id = 'rentalCardGridV2';
+    block.innerHTML = `
+      <div class="rental-card-heading">
+        <div class="kicker">CAMPING GEAR RENTAL</div>
+        <h2 class="title">露營區裝備租借</h2>
+        <p class="lead">現場單日（每晚）固定出租，租金已內含日常清潔與消毒工時。每項設備數量皆為 1，建議提前預約。</p>
+      </div>
+      <div class="rental-product-grid">
+        ${items.map((x)=>`<article class="activity-card rental-product-card">
+          <div class="rental-product-photo ${x.p}" role="img" aria-label="${x.name}"></div>
+          <div class="body">
+            <div class="kicker">${x.en}</div>
+            <h3>${x.name}</h3>
+            <p class="desc">${x.desc}</p>
+            <div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div>
+            <div class="rental-price-row"><div><small>固定租金</small><strong>${x.price}</strong></div><div class="rental-deposit">押金<br>${x.deposit}</div></div>
+          </div>
+        </article>`).join('')}
+      </div>`;
+
+    const feeTitle = section.querySelector('.fee-title');
+    if (feeTitle) feeTitle.before(block);
+    else section.querySelector('.wrap')?.appendChild(block);
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mountRentalCards);
+  else mountRentalCards();
+})();
