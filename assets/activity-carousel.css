@@ -7,3 +7,19 @@
 .activity-card-carousel .carousel-btn{width:34px;height:34px;font-size:18px;background:rgba(17,33,26,.58)}
 .activity-card-carousel .carousel-dots button{width:8px;height:8px}
 @media(max-width:620px){.activity-card-carousel .slide img{aspect-ratio:16/10}}
+
+/* HD rental photos: keep the original product compositions but load clearer source images. */
+.rental-photo-window:has(img[alt="車尾帳（一般款）"]){
+  background-image:url("https://image.made-in-china.com/2f0j00MHBcQlVCbspg/Portable-Trailer-Tents-for-SUV-Tent-Car-Awning-Truck-Wilderness-Camping-Tent.jpg");
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:contain;
+}
+.rental-photo-window:has(img[alt="阿拉丁車尾帳"]){
+  background-image:url("https://i5.walmartimages.com/asr/2f3ff7c8-418f-4168-a104-16659a2789e3.1a9dc6a8c84640474cd38a5e5d44ad27.jpeg?odnBg=FFFFFF&odnHeight=1200&odnWidth=1200");
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:contain;
+}
+.rental-photo-window:has(img[alt="車尾帳（一般款）"]) img,
+.rental-photo-window:has(img[alt="阿拉丁車尾帳"]) img{opacity:0}
