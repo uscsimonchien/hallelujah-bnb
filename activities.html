@@ -13,8 +13,10 @@
 .rental-badge{display:inline-flex;align-items:center;background:#234f40;color:#fff;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:800}
 .rental-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:24px 0 42px}
 .rental-product-card{overflow:hidden;background:#fff}
-.rental-photo-window{width:100%;aspect-ratio:1/1;overflow:hidden;background:#f2f2ef}
-.rental-photo-window img{display:block;width:100%;height:100%;max-width:100%;object-fit:cover}
+.rental-photo-window{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:#f2f2ef}
+.rental-photo-window img{position:absolute;display:block;width:400%;height:200%;max-width:none;object-fit:fill}
+.rental-photo-window.c1 img{left:0;top:0}.rental-photo-window.c2 img{left:-100%;top:0}.rental-photo-window.c3 img{left:-200%;top:0}.rental-photo-window.c4 img{left:-300%;top:0}
+.rental-photo-window.c5 img{left:0;top:-100%}.rental-photo-window.c6 img{left:-100%;top:-100%}.rental-photo-window.c7 img{left:-200%;top:-100%}
 .rental-product-card .body{min-height:0!important;display:flex;flex-direction:column;gap:10px}
 .rental-product-card h3{margin:0}.rental-product-card .desc{margin:0 0 2px}
 .rental-product-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
@@ -87,37 +89,37 @@
 <div class="rental-product-grid">
 
 <article class="activity-card rental-product-card">
-<div class="rental-photo-window"><img src="assets/images/rental_hispeed_single.webp?v=20261003-0915" alt="Hispeed 單人床墊" loading="lazy"></div>
+<div class="rental-photo-window c1"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="Hispeed 單人床墊"></div>
 <div class="body"><div class="kicker">HISPEED SINGLE MATTRESS</div><h3>Hispeed 單人床墊</h3><p class="desc">適合單人露營使用，輕便好收納。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$100</strong></div><div class="rental-deposit">押金<br>NT$300</div></div></div>
 </article>
 
 <article class="activity-card rental-product-card">
-<div class="rental-photo-window"><img src="assets/images/rental_hispeed_double.webp?v=20261003-0915" alt="Hispeed 雙人床墊" loading="lazy"></div>
+<div class="rental-photo-window c2"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="Hispeed 雙人床墊"></div>
 <div class="body"><div class="kicker">HISPEED DOUBLE MATTRESS</div><h3>Hispeed 雙人床墊</h3><p class="desc">適合雙人使用，充氣快速、收納方便。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$150</strong></div><div class="rental-deposit">押金<br>NT$500</div></div></div>
 </article>
 
 <article class="activity-card rental-product-card">
-<div class="rental-photo-window"><img src="assets/images/rental_cheese_single.webp?v=20261003-0915" alt="單人奶酪床墊" loading="lazy"></div>
+<div class="rental-photo-window c3"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="單人奶酪床墊"></div>
 <div class="body"><div class="kicker">SINGLE CHEESE MATTRESS</div><h3>單人奶酪床墊</h3><p class="desc">厚實舒適，適合重視睡感的單人露營需求。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$250</strong></div><div class="rental-deposit">押金<br>NT$500</div></div></div>
 </article>
 
 <article class="activity-card rental-product-card">
-<div class="rental-photo-window"><img src="assets/images/rental_cheese_double.webp?v=20261003-0915" alt="雙人奶酪床墊" loading="lazy"></div>
+<div class="rental-photo-window c4"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="雙人奶酪床墊"></div>
 <div class="body"><div class="kicker">DOUBLE CHEESE MATTRESS</div><h3>雙人奶酪床墊</h3><p class="desc">雙人加大尺寸，適合家庭或雙人使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$400</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div>
 </article>
 
 <article class="activity-card rental-product-card">
-<div class="rental-photo-window"><img src="assets/images/rental_tailtent_standard.webp?v=20261003-0915" alt="車尾帳（一般款）" loading="lazy"></div>
+<div class="rental-photo-window c5"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="車尾帳（一般款）"></div>
 <div class="body"><div class="kicker">STANDARD CAR TAIL TENT</div><h3>車尾帳（一般款）</h3><p class="desc">適合簡易車宿搭設，提供遮蔽與延伸休憩空間。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div>
 </article>
 
 <article class="activity-card rental-product-card">
-<div class="rental-photo-window"><img src="assets/images/rental_tailtent_aladdin.webp?v=20261003-0915" alt="阿拉丁車尾帳" loading="lazy"></div>
+<div class="rental-photo-window c6"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="阿拉丁車尾帳"></div>
 <div class="body"><div class="kicker">ALADDIN CAR TAIL TENT</div><h3>阿拉丁車尾帳</h3><p class="desc">空間較大，適合多人休憩與車宿延伸使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,000</strong></div><div class="rental-deposit">押金<br>NT$2,000</div></div></div>
 </article>
 
 <article class="activity-card rental-product-card">
-<div class="rental-photo-window"><img src="assets/images/rental_inflatable_tent.webp?v=20261003-0915" alt="充氣帳篷" loading="lazy"></div>
+<div class="rental-photo-window c7"><img src="assets/images/rental-sprite.webp?v=20261003-0905" alt="充氣帳篷"></div>
 <div class="body"><div class="kicker">INFLATABLE TENT</div><h3>充氣帳篷</h3><p class="desc">搭設快速、空間寬敞，適合家庭露營使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,500</strong></div><div class="rental-deposit">押金<br>NT$3,000</div></div></div>
 </article>
 
@@ -152,6 +154,6 @@
 
 <footer class="footer"><div class="wrap"><p>哈雷露亞民宿｜苗栗縣民宿第 533 號</p><p>苗栗縣獅潭鄉新店村15鄰大東勢20之5號｜0910-541-814</p></div></footer>
 <div class="floating-social"><a class="fb" href="https://www.facebook.com/profile.php?id=61591411270505" target="_blank" rel="noopener" aria-label="Facebook">f</a><a class="line" href="https://lin.ee/XsIMYvU" target="_blank" rel="noopener" aria-label="LINE">LINE</a></div>
-<script src="assets/script.js?v=20261003-0915"></script>
+<script src="assets/script.js?v=20261003-0905"></script>
 </body>
 </html>
