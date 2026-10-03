@@ -1,13 +1,12 @@
 (() => {
   const applyCorrectRentalPhotos = () => {
     const map = {
-      // Hispeed：使用 76×200（單人）與 132×200（雙人）高清來源
-      'Hispeed 單人床墊': 'https://surplus-militaires.fr/cdn/shop/files/matelas-autogonflant-simple-5-cm-beige-697.webp?v=1763044690&width=1600',
-      'Hispeed 雙人床墊': 'https://qsales.qa/cdn/shop/files/Qsales_Size_Self-Inflating_Camping_Mattress_1024x.jpg?v=1764586477',
-      // 奶酪床墊：使用 190×65×5（單人）與 190×130×5（雙人）高清來源
-      '單人奶酪床墊': 'https://www.naturehike.com/cdn/shop/files/1_676af73d-97ca-49ab-a8a1-e10a5ed66f56.jpg?v=1775115183&width=1600',
-      '雙人奶酪床墊': 'https://img.myshopline.com/image/store/1660207760542/3-82.jpeg?h=1600&w=1600',
-      '充氣帳篷': 'https://hupa.gr/images/stories/virtuemart/product/51-2020-75.webp'
+      // 依使用者提供的五張原圖順序固定對應：Hispeed = 帶枕 190cm 系列；奶酪 = 76/132 x 200 系列
+      'Hispeed 單人床墊': 'assets/images/rental_hispeed_single_hd.webp?v=20261004-0125',
+      'Hispeed 雙人床墊': 'assets/images/rental_hispeed_double_hd.webp?v=20261004-0125',
+      '單人奶酪床墊': 'assets/images/rental_cheese_single_hd.webp?v=20261004-0125',
+      '雙人奶酪床墊': 'assets/images/rental_cheese_double_hd.webp?v=20261004-0125',
+      '充氣帳篷': 'assets/images/rental_inflatable_tent.webp?v=20261004-0125'
     };
 
     document.querySelectorAll('.rental-photo-window img').forEach((img) => {
