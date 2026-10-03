@@ -156,7 +156,7 @@ document.querySelectorAll('.faq-q').forEach((btn)=>{
         .rental-card-heading .lead{max-width:760px}
         .rental-product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:20px 0 42px}
         .rental-product-card{overflow:hidden;background:#fff}
-        .rental-product-photo{width:100%;aspect-ratio:1/1;background-image:url('assets/images/rental-sprite.webp?v=20261003-0825');background-repeat:no-repeat;background-size:400% 200%;background-color:#eee;display:block}
+        .rental-product-photo{width:100%;aspect-ratio:1/1;background-image:url('assets/images/rental-sprite.webp?v=20261003-0838');background-repeat:no-repeat;background-size:400% 200%;background-color:#eee;display:block}
         .rental-product-photo.p1{background-position:0% 0%}
         .rental-product-photo.p2{background-position:33.333% 0%}
         .rental-product-photo.p3{background-position:66.666% 0%}
