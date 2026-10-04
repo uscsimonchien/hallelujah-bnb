@@ -202,3 +202,34 @@ document.querySelectorAll('.faq-q').forEach((btn)=>{
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyRentalHdPhotos);
   else applyRentalHdPhotos();
 })();
+
+// Global navigation pills: apply the same separated oval buttons on every page.
+(() => {
+  const applyGlobalNavPills = () => {
+    if (!document.getElementById('globalNavPillStyle')) {
+      const style = document.createElement('style');
+      style.id = 'globalNavPillStyle';
+      style.textContent = `
+        .site-header .nav-links{gap:7px!important;align-items:center}
+        .site-header .nav-links a{display:inline-flex;align-items:center;justify-content:center;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.16);opacity:1!important;line-height:1.25;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease}
+        .site-header .nav-links a:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.32);transform:translateY(-1px)}
+        .site-header .nav-links a.nav-current{background:#efe4d3!important;color:#244537!important;border-color:#efe4d3!important;box-shadow:0 4px 14px rgba(0,0,0,.16)}
+        .site-header .mobile-menu{padding:8px 0 18px}
+        .site-header .mobile-menu a{margin:6px 0;padding:10px 14px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.07)}
+        .site-header .mobile-menu a.nav-current{background:#efe4d3;color:#244537;border-color:#efe4d3}
+        @media(min-width:1121px) and (max-width:1260px){.site-header .nav-links{gap:5px!important}.site-header .nav-links a{padding:6px 8px;font-size:12.5px}}
+      `;
+      document.head.appendChild(style);
+    }
+
+    const current = (location.pathname.split('/').pop() || 'index.html').split('?')[0];
+    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach((a) => {
+      a.classList.remove('nav-current');
+      const href = (a.getAttribute('href') || '').split('#')[0].split('?')[0];
+      if (!href || href.startsWith('http')) return;
+      if (href === current || (current === '' && href === 'index.html')) a.classList.add('nav-current');
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyGlobalNavPills);
+  else applyGlobalNavPills();
+})();
