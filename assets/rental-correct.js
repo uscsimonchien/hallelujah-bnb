@@ -1,12 +1,14 @@
 (() => {
-  const VERSION = '20261004-2155';
+  const VERSION = '20261004-2215';
 
   const photoMap = {
     'Hispeed 單人床墊': `assets/images/rental_hispeed_single_hd.png?v=${VERSION}`,
     'Hispeed 雙人床墊': `assets/images/rental_hispeed_double_hd.png?v=${VERSION}`,
     '單人奶酪床墊': `assets/images/rental_cheese_single_hd.png?v=${VERSION}`,
     '雙人奶酪床墊': `assets/images/rental_cheese_double_hd.png?v=${VERSION}`,
-    '充氣帳篷': `assets/images/rental_inflatable_tent_hd.png?v=${VERSION}`
+    '充氣帳篷': `assets/images/rental_inflatable_tent_hd.png?v=${VERSION}`,
+    '車尾帳（一般款）': `assets/images/rental-tailtent-aladdin.jpg?v=${VERSION}`,
+    '阿拉丁車尾帳': `assets/images/rental-tailtent-standard.jpg?v=${VERSION}`
   };
 
   const applyCorrectRentalPhotos = () => {
@@ -20,15 +22,94 @@
     });
   };
 
-  const cardHtml = ({ image, alt, kicker, title, desc, rent, deposit }) => `
+  const cardHtml = ({ image, alt, kicker, title, desc, rent, deposit, qty = '1' }) => `
     <article class="activity-card rental-product-card">
       <div class="rental-photo-window"><img src="${image}" alt="${alt}" loading="eager" decoding="async"></div>
       <div class="body">
         <div class="kicker">${kicker}</div><h3>${title}</h3><p class="desc">${desc}</p>
-        <div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div>
+        <div class="rental-product-meta"><span class="rental-chip">數量：${qty}</span><span class="rental-chip">單日／每晚</span></div>
         <div class="rental-price-row"><div><small>固定租金</small><strong>NT$${rent}</strong></div><div class="rental-deposit">押金<br>NT$${deposit}</div></div>
       </div>
     </article>`;
+
+  const ensureFurnitureStyles = () => {
+    if (document.getElementById('furnitureRentalStyle')) return;
+    const style = document.createElement('style');
+    style.id = 'furnitureRentalStyle';
+    style.textContent = `
+      .furniture-combo-window{position:relative!important;display:block!important;background:#f8f4ea!important;overflow:hidden}
+      .furniture-combo-window .combo-table{position:absolute!important;right:1%!important;bottom:2%!important;width:72%!important;height:72%!important;object-fit:contain!important;background:transparent!important}
+      .furniture-combo-window .combo-chair{position:absolute!important;left:1%!important;bottom:4%!important;width:44%!important;height:58%!important;object-fit:contain!important;background:transparent!important;z-index:2}
+      .furniture-combo-badge{position:absolute;left:14px;top:14px;z-index:3;padding:8px 12px;border-radius:999px;background:#234f40;color:#fff;font-size:13px;font-weight:900;box-shadow:0 5px 14px rgba(0,0,0,.14)}
+    `;
+    document.head.appendChild(style);
+  };
+
+  const ensureFurnitureCards = () => {
+    const grid = document.querySelector('#rentalCardGridV2 .rental-product-grid');
+    if (!grid) return;
+    ensureFurnitureStyles();
+
+    const items = [
+      {
+        title:'克米特露營椅', image:`assets/images/rental-kermit-chair.svg?v=${VERSION}`, alt:'克米特露營椅',
+        kicker:'KERMIT CAMPING CHAIR', desc:'仿木紋鋁合金骨架、高磅數牛津布，含椅腳防滑耐磨保護套。',
+        rent:'100', deposit:'300', qty:'4'
+      },
+      {
+        title:'120cm 升降蛋捲桌', image:`assets/images/rental-roll-table.svg?v=${VERSION}`, alt:'120cm 升降蛋捲桌',
+        kicker:'120CM ADJUSTABLE ROLL TABLE', desc:'20片木紋鋁合金面板，可調高度 55–80cm，附置物網兜與收納袋。',
+        rent:'200', deposit:'500', qty:'1'
+      }
+    ];
+
+    items.forEach((item) => {
+      const existing = [...grid.querySelectorAll('.rental-product-card')].find((card) => card.querySelector('h3')?.textContent.trim() === item.title);
+      if (!existing) grid.insertAdjacentHTML('beforeend', cardHtml(item));
+    });
+
+    const setTitle = '經典桌椅組（1桌4椅）';
+    const setExisting = [...grid.querySelectorAll('.rental-product-card')].find((card) => card.querySelector('h3')?.textContent.trim() === setTitle);
+    if (!setExisting) {
+      grid.insertAdjacentHTML('beforeend', `
+        <article class="activity-card rental-product-card">
+          <div class="rental-photo-window furniture-combo-window">
+            <span class="furniture-combo-badge">1 桌＋4 椅</span>
+            <img class="combo-table" src="assets/images/rental-roll-table.svg?v=${VERSION}" alt="經典桌椅組蛋捲桌" loading="eager" decoding="async">
+            <img class="combo-chair" src="assets/images/rental-kermit-chair.svg?v=${VERSION}" alt="經典桌椅組克米特椅" loading="eager" decoding="async">
+          </div>
+          <div class="body">
+            <div class="kicker">CLASSIC TABLE & CHAIR SET</div><h3>${setTitle}</h3>
+            <p class="desc">120cm 升降蛋捲桌 × 1＋克米特露營椅 × 4，適合家庭露營、烤肉與戶外聚餐。</p>
+            <div class="rental-product-meta"><span class="rental-chip">數量：1 套</span><span class="rental-chip">單日／每晚</span></div>
+            <div class="rental-price-row"><div><small>固定租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>NT$1,500</div></div>
+          </div>
+        </article>`);
+    }
+  };
+
+  const ensureFurnitureDamageRules = () => {
+    if (document.getElementById('furnitureDamageRules')) return;
+    const damageBox = document.querySelector('.damage-box');
+    if (!damageBox) return;
+    damageBox.insertAdjacentHTML('beforebegin', `
+      <div id="furnitureDamageRules">
+        <div class="fee-title">
+          <div><div class="kicker">TABLE & CHAIR DAMAGE / CLEANING</div><h2 class="title" style="font-size:34px">桌椅類「特殊清潔與損壞扣抵」固定收費標準</h2></div>
+          <span class="fee-alert">自押金扣抵</span>
+        </div>
+        <div class="rental-table-wrap"><table class="rental-table">
+          <thead><tr><th>狀況項目</th><th>說明與處理工序</th><th>固定扣抵費用（NT$）</th></tr></thead>
+          <tbody>
+            <tr><td>重度泥濘／醬汁重度油污</td><td>椅面沾附重泥、烤肉醬汁、紅酒等深色液體未清，需專人拆洗刷曬</td><td><strong>NT$100／張（桌／椅同價）</strong></td></tr>
+            <tr><td>火星燒破／椅布穿刺</td><td>焚火台火星燙破洞、銳物割破椅布（需更換布套）</td><td><strong>NT$300／張</strong></td></tr>
+            <tr><td>配件遺失</td><td>蛋捲桌底層置物網袋、桌子外袋、椅子收納袋遺失</td><td><strong>NT$150／件</strong></td></tr>
+            <tr><td>椅腳耐磨套遺失</td><td>黑色椅腳防磨保護套脫落遺失</td><td><strong>NT$50／個</strong></td></tr>
+            <tr><td>骨架變形斷裂（嚴重毀損）</td><td>超重乘坐、踩踏導致椅架折斷，或桌板變形無法捲收（整件報廢）</td><td><strong>椅子：NT$600／張<br>蛋捲桌：NT$1,200／張</strong></td></tr>
+          </tbody>
+        </table></div>
+      </div>`);
+  };
 
   const ensureG40Cards = () => {
     const grid = document.querySelector('#rentalCardGridV2 .rental-product-grid');
@@ -83,7 +164,15 @@
     });
   };
 
-  const applyAll = () => { applyCorrectRentalPhotos(); ensureG40Cards(); ensureG40DamageRules(); enhanceNavigation(); };
+  const applyAll = () => {
+    applyCorrectRentalPhotos();
+    ensureG40Cards();
+    ensureFurnitureCards();
+    ensureFurnitureDamageRules();
+    ensureG40DamageRules();
+    enhanceNavigation();
+  };
+
   const run = () => { applyAll(); setTimeout(applyAll, 200); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
 })();
