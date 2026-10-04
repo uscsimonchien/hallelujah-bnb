@@ -1,17 +1,17 @@
 (() => {
-  const g40Image = 'data:image/jpeg;base64,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';
+  const VERSION = '20261004-1248';
+
+  const photoMap = {
+    'Hispeed 單人床墊': `assets/images/rental_hispeed_single_hd.png?v=${VERSION}`,
+    'Hispeed 雙人床墊': `assets/images/rental_hispeed_double_hd.png?v=${VERSION}`,
+    '單人奶酪床墊': `assets/images/rental_cheese_single_hd.png?v=${VERSION}`,
+    '雙人奶酪床墊': `assets/images/rental_cheese_double_hd.png?v=${VERSION}`,
+    '充氣帳篷': `assets/images/rental_inflatable_tent_hd.png?v=${VERSION}`
+  };
 
   const applyCorrectRentalPhotos = () => {
-    const map = {
-      'Hispeed 單人床墊': 'assets/images/rental_hispeed_single_hd.png?v=20261004-1015',
-      'Hispeed 雙人床墊': 'assets/images/rental_hispeed_double_hd.png?v=20261004-1015',
-      '單人奶酪床墊': 'assets/images/rental_cheese_single_hd.png?v=20261004-1015',
-      '雙人奶酪床墊': 'assets/images/rental_cheese_double_hd.png?v=20261004-1015',
-      '充氣帳篷': 'assets/images/rental_inflatable_tent_hd.png?v=20261004-1015'
-    };
-
     document.querySelectorAll('.rental-photo-window img').forEach((img) => {
-      const src = map[img.alt];
+      const src = photoMap[img.alt];
       if (!src) return;
       img.src = src;
       img.loading = 'eager';
@@ -20,52 +20,129 @@
     });
   };
 
-  const addG40Rentals = () => {
-    const grid = document.querySelector('#rentalCardGridV2 .rental-product-grid');
-    if (!grid || document.getElementById('rental-g40-light')) return;
-
-    const makeCard = ({ id, kicker, title, desc, chips, price, deposit, alt }) => `
-      <article id="${id}" class="activity-card rental-product-card">
-        <div class="rental-photo-window"><img src="${g40Image}" alt="${alt}" loading="eager" decoding="async"></div>
-        <div class="body">
-          <div class="kicker">${kicker}</div>
-          <h3>${title}</h3>
-          <p class="desc">${desc}</p>
-          <div class="rental-product-meta">${chips.map(chip => `<span class="rental-chip">${chip}</span>`).join('')}</div>
-          <div class="rental-price-row">
-            <div><small>固定租金</small><strong>NT$${price}</strong></div>
-            <div class="rental-deposit">押金<br>NT$${deposit}</div>
-          </div>
+  const cardHtml = ({ image, alt, kicker, title, desc, rent, deposit }) => `
+    <article class="activity-card rental-product-card">
+      <div class="rental-photo-window">
+        <img src="${image}" alt="${alt}" loading="eager" decoding="async">
+      </div>
+      <div class="body">
+        <div class="kicker">${kicker}</div>
+        <h3>${title}</h3>
+        <p class="desc">${desc}</p>
+        <div class="rental-product-meta">
+          <span class="rental-chip">數量：1</span>
+          <span class="rental-chip">單日／每晚</span>
         </div>
-      </article>`;
+        <div class="rental-price-row">
+          <div><small>固定租金</small><strong>NT$${rent}</strong></div>
+          <div class="rental-deposit">押金<br>NT$${deposit}</div>
+        </div>
+      </div>
+    </article>`;
 
-    grid.insertAdjacentHTML('beforeend', makeCard({
-      id: 'rental-g40-light',
-      kicker: 'G40 LED STRING LIGHTS',
-      title: 'G40 LED 氣氛燈串',
-      desc: '總長約 7.6 米、25 顆暖黃光 LED 燈泡，附防撞收納袋。適合露營、車宿與戶外聚會營造溫暖氣氛。',
-      chips: ['7.6米／25燈', '單日／每晚'],
-      price: '50／條',
-      deposit: '200／條',
-      alt: 'G40 戶外防水復古氣氛燈串 7.6米 25燈'
-    }));
+  const ensureG40Cards = () => {
+    const grid = document.querySelector('#rentalCardGridV2 .rental-product-grid');
+    if (!grid) return;
 
-    grid.insertAdjacentHTML('beforeend', makeCard({
-      id: 'rental-g40-extension-set',
-      kicker: 'STRING LIGHTS + EXTENSION',
-      title: '燈串加購動力延長線組',
-      desc: 'G40 7.6 米燈串 ×1＋5米／10米動力延長線 ×1，依現場使用需求提供規格。',
-      chips: ['燈串 ×1', '延長線 ×1', '單日／每晚'],
-      price: '100／套',
-      deposit: '300／套',
-      alt: 'G40 氣氛燈串與動力延長線組'
-    }));
+    const items = [
+      {
+        title: 'G40 LED 氣氛燈串',
+        image: `assets/images/g40_string_lights.svg?v=${VERSION}`,
+        alt: 'G40 LED 氣氛燈串',
+        kicker: 'G40 LED STRING LIGHTS',
+        desc: '總長約 7.6 米、25 顆暖黃光 LED 燈泡，附防撞收納袋。適合露營、車宿與戶外聚會營造溫暖氣氛。',
+        rent: '50',
+        deposit: '200'
+      },
+      {
+        title: '燈串加購動力延長線組',
+        image: `assets/images/g40_extension_cable.svg?v=${VERSION}`,
+        alt: '燈串加購動力延長線組',
+        kicker: 'G40 POWER EXTENSION SET',
+        desc: 'G40 7.6 米燈串 ×1＋5米／10米動力延長線 ×1，依現場使用需求提供規格。',
+        rent: '100',
+        deposit: '300'
+      }
+    ];
+
+    items.forEach((item) => {
+      const existing = [...grid.querySelectorAll('.rental-product-card')]
+        .find((card) => card.querySelector('h3')?.textContent.trim() === item.title);
+
+      if (!existing) {
+        grid.insertAdjacentHTML('beforeend', cardHtml(item));
+        return;
+      }
+
+      const img = existing.querySelector('.rental-photo-window img');
+      if (img) {
+        img.src = item.image;
+        img.alt = item.alt;
+        img.loading = 'eager';
+        img.decoding = 'async';
+      }
+      const desc = existing.querySelector('.desc');
+      if (desc) desc.textContent = item.desc;
+      const price = existing.querySelector('.rental-price-row strong');
+      if (price) price.textContent = `NT$${item.rent}`;
+      const deposit = existing.querySelector('.rental-deposit');
+      if (deposit) deposit.innerHTML = `押金<br>NT$${item.deposit}`;
+    });
   };
 
-  const run = () => setTimeout(() => {
+  const ensureG40DamageRules = () => {
+    if (document.getElementById('g40DamageRules')) return;
+    const damageBox = document.querySelector('.damage-box');
+    if (!damageBox) return;
+
+    const html = `
+      <div id="g40DamageRules">
+        <div class="fee-title">
+          <div>
+            <div class="kicker">STRING LIGHT DAMAGE & ORGANIZING</div>
+            <h2 class="title" style="font-size:34px">燈串類「損耗與未整理解結扣抵」固定收費標準</h2>
+          </div>
+          <span class="fee-alert">自押金扣抵</span>
+        </div>
+        <div class="rental-table-wrap">
+          <table class="rental-table">
+            <thead>
+              <tr><th>狀況項目</th><th>說明與處理工序</th><th>固定扣抵費用（NT$）</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>單顆燈泡破裂／缺損</td>
+                <td>人為拉扯撞擊破裂或燈泡遺失</td>
+                <td><strong>NT$30／顆</strong></td>
+              </tr>
+              <tr>
+                <td>嚴重打結未依序收整</td>
+                <td>歸還時揉成一團嚴重打結，需工作人員花時間拆解理線</td>
+                <td><strong>NT$50／條</strong></td>
+              </tr>
+              <tr>
+                <td>電線拉扯斷裂／插頭損壞</td>
+                <td>燈串導線扯斷、銅線外露或插頭進水變形無法通電（整條報廢）</td>
+                <td><strong>NT$200／條（全額扣抵押金）</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+
+    damageBox.insertAdjacentHTML('beforebegin', html);
+  };
+
+  const applyAll = () => {
     applyCorrectRentalPhotos();
-    addG40Rentals();
-  }, 50);
+    ensureG40Cards();
+    ensureG40DamageRules();
+  };
+
+  const run = () => {
+    applyAll();
+    setTimeout(applyAll, 200);
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', run);
