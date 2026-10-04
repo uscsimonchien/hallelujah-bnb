@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261005-0045';
+  const VERSION = '20261005-0215';
 
   const photoMap = {
     'Hispeed 單人床墊': `assets/images/rental_hispeed_single_hd.png?v=${VERSION}`,
