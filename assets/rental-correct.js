@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261004-1248';
+  const VERSION = '20261004-1635';
 
   const photoMap = {
     'Hispeed 單人床墊': `assets/images/rental_hispeed_single_hd.png?v=${VERSION}`,
@@ -47,7 +47,7 @@
     const items = [
       {
         title: 'G40 LED 氣氛燈串',
-        image: `assets/images/g40_string_lights.svg?v=${VERSION}`,
+        image: `assets/images/g40_string_lights.png.png?v=${VERSION}`,
         alt: 'G40 LED 氣氛燈串',
         kicker: 'G40 LED STRING LIGHTS',
         desc: '總長約 7.6 米、25 顆暖黃光 LED 燈泡，附防撞收納袋。適合露營、車宿與戶外聚會營造溫暖氣氛。',
@@ -56,7 +56,7 @@
       },
       {
         title: '燈串加購動力延長線組',
-        image: `assets/images/g40_extension_cable.svg?v=${VERSION}`,
+        image: `assets/images/g40_extension_cable.png.png?v=${VERSION}`,
         alt: '燈串加購動力延長線組',
         kicker: 'G40 POWER EXTENSION SET',
         desc: 'G40 7.6 米燈串 ×1＋5米／10米動力延長線 ×1，依現場使用需求提供規格。',
