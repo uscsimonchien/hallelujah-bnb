@@ -1,14 +1,12 @@
 (() => {
-  const VERSION = '20261005-0215';
+  const VERSION = '20261005-0245';
 
   const photoMap = {
     'Hispeed 單人床墊': `assets/images/rental_hispeed_single_hd.png?v=${VERSION}`,
     'Hispeed 雙人床墊': `assets/images/rental_hispeed_double_hd.png?v=${VERSION}`,
     '單人奶酪床墊': `assets/images/rental_cheese_single_hd.png?v=${VERSION}`,
     '雙人奶酪床墊': `assets/images/rental_cheese_double_hd.png?v=${VERSION}`,
-    '充氣帳篷': `assets/images/rental_inflatable_tent_hd.png?v=${VERSION}`,
-    '車尾帳（一般款）': `assets/images/rental-tailtent-aladdin.jpg?v=${VERSION}`,
-    '阿拉丁車尾帳': `assets/images/rental-tailtent-standard.jpg?v=${VERSION}`
+    '充氣帳篷': `assets/images/rental_inflatable_tent_hd.png?v=${VERSION}`
   };
 
   const applyCorrectRentalPhotos = () => {
