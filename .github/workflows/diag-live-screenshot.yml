@@ -1,0 +1,28 @@
+name: Live Tailtent Screenshot
+on:
+  push:
+    branches: [diag-tailtent-visual]
+jobs:
+  shot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Screenshot live page
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME=$(command -v google-chrome || command -v chromium)
+          URL="https://hallelujah-bnb.onrender.com/activities.html?visualdiag=$(date +%s)#camp-rentals"
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size=1440,1800 --virtual-time-budget=5000 --screenshot=/tmp/live.png "$URL" >/dev/null 2>&1 || true
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          from PIL import Image
+          import base64
+          im=Image.open('/tmp/live.png').convert('RGB')
+          # keep the visible viewport, downsample for compact log transport
+          im.thumbnail((720,900))
+          im.save('/tmp/live.jpg','JPEG',quality=50,optimize=True)
+          b64=base64.b64encode(open('/tmp/live.jpg','rb').read()).decode()
+          print('LIVE_B64_BEGIN')
+          print(b64)
+          print('LIVE_B64_END')
+          PY
