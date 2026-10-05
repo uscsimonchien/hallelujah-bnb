@@ -1,0 +1,63 @@
+name: Add three free experience activities
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-three-free-experiences.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-page:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Update free activities page
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('free-activities.html')
+          s = p.read_text(encoding='utf-8')
+
+          s = s.replace(
+              '哈雷露亞民宿住宿旅客免費活動：兒童戲水池、Switch 遊戲、草地羽毛球、草地推桿與高爾夫揮桿體驗。',
+              '哈雷露亞民宿住宿旅客免費活動：兒童戲水池、Switch 遊戲、草地羽毛球、草地推桿、高爾夫揮桿、割草機、遙控割草機與小小挖土機體驗。'
+          )
+          s = s.replace('五種免費玩法，<br>大人小孩都能找到樂趣。', '八種免費玩法，<br>大人小孩都能找到樂趣。')
+          s = s.replace(
+              '想玩水、打球、揮桿，或在室內玩 Switch 都可以。部分器材數量有限，建議入住時先向民宿確認。',
+              '想玩水、打球、揮桿、玩 Switch，還能體驗割草機、遙控割草機與小小挖土機。部分器材與機械體驗時段有限，建議入住時先向民宿確認。'
+          )
+
+          cards = '''
+<article class="activity-card free-card"><div class="free-photo"><img src="assets/images/free-lawn-mower-inline.svg?v=20261006-0145" alt="體驗割草機"></div><div class="body"><div class="kicker">LAWN MOWER EXPERIENCE</div><h3>體驗割草機</h3><p class="desc">在指定草地區域體驗推行式割草機，感受實際操作與整理草地的樂趣。活動依草地與天候狀況開放，兒童體驗須由成人及民宿人員陪同並依現場指示操作。</p><div class="free-meta"><span class="free-chip primary">免費活動</span><span class="free-chip">戶外・體驗</span></div><div class="free-price-row"><div><small>住宿旅客費用</small><strong>NT$0</strong></div><div class="free-label">免費</div></div></div></article>
+<article class="activity-card free-card"><div class="free-photo"><img src="assets/images/free-remote-mower-inline.svg?v=20261006-0145" alt="體驗遙控割草機"></div><div class="body"><div class="kicker">REMOTE MOWER EXPERIENCE</div><h3>體驗遙控割草機</h3><p class="desc">使用遙控器操控履帶式割草機，體驗前進、轉向與遠端控制的樂趣。需在指定安全距離與區域內進行，並由民宿人員說明後操作。</p><div class="free-meta"><span class="free-chip primary">免費活動</span><span class="free-chip">戶外・遙控體驗</span></div><div class="free-price-row"><div><small>住宿旅客費用</small><strong>NT$0</strong></div><div class="free-label">免費</div></div></div></article>
+<article class="activity-card free-card"><div class="free-photo"><img src="assets/images/free-mini-excavator-inline.svg?v=20261006-0145" alt="體驗小小挖土機"></div><div class="body"><div class="kicker">MINI EXCAVATOR EXPERIENCE</div><h3>體驗小小挖土機</h3><p class="desc">坐上小型挖土機體驗基本手柄控制與簡單操作，在指定體驗區感受工程機械的樂趣。須由成人及民宿人員全程陪同，未經同意不得自行啟動或操作。</p><div class="free-meta"><span class="free-chip primary">免費活動</span><span class="free-chip">親子・機械體驗</span></div><div class="free-price-row"><div><small>住宿旅客費用</small><strong>NT$0</strong></div><div class="free-label">免費</div></div></div></article>
+'''
+          marker = '</div>\n<div class="free-note">'
+          if '體驗遙控割草機' not in s:
+              if marker not in s:
+                  raise SystemExit('grid marker not found')
+              s = s.replace(marker, cards + '</div>\n<div class="free-note">', 1)
+
+          safety = '<li><strong>機械體驗安全：</strong>割草機、遙控割草機與小小挖土機須經現場說明並由成人／民宿人員陪同，未經允許不得自行啟動或操作。</li>'
+          if '機械體驗安全' not in s:
+              s = s.replace('</ul><div class="free-actions">', safety + '</ul><div class="free-actions">', 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add free-activities.html
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Add three free experience activities"
+            git push origin main
+          fi
