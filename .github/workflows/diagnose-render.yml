@@ -1,0 +1,38 @@
+name: Diagnose Render Static Site
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch live page and assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://hallelujah-bnb.onrender.com'
+          TS=$(date +%s)
+          echo '=== FETCH HTML ==='
+          curl -fsSL -D /tmp/html.headers "$BASE/activities.html?diag=$TS" -o /tmp/activities.html
+          head -n 30 /tmp/html.headers
+          echo '=== TAILTENT REFERENCES IN LIVE HTML ==='
+          grep -oE 'assets/images/[^" ]*tailtent[^" ]*|assets/(script|rental-correct)\.js[^" ]*' /tmp/activities.html || true
+          echo '=== LIVE HTML SHA256 ==='
+          sha256sum /tmp/activities.html
+          echo '=== STANDARD LIVE ASSET ==='
+          curl -fsSL -D /tmp/std.headers "$BASE/assets/images/tailtent-standard-live-20261005.jpeg?diag=$TS" -o /tmp/std.jpeg
+          head -n 30 /tmp/std.headers
+          wc -c /tmp/std.jpeg
+          sha256sum /tmp/std.jpeg
+          STD_SIZE=$(wc -c < /tmp/std.jpeg | tr -d ' ')
+          { printf 'blob %s\0' "$STD_SIZE"; cat /tmp/std.jpeg; } | sha1sum
+          echo 'Expected git blob SHA: 6cd04e60ca87693f9c64197eacadf7062be7aa30'
+          echo '=== ALADDIN LIVE ASSET ==='
+          curl -fsSL -D /tmp/ala.headers "$BASE/assets/images/tailtent-aladdin-live-20261005.jpeg?diag=$TS" -o /tmp/ala.jpeg
+          head -n 30 /tmp/ala.headers
+          wc -c /tmp/ala.jpeg
+          sha256sum /tmp/ala.jpeg
+          ALA_SIZE=$(wc -c < /tmp/ala.jpeg | tr -d ' ')
+          { printf 'blob %s\0' "$ALA_SIZE"; cat /tmp/ala.jpeg; } | sha1sum
+          echo 'Expected git blob SHA: bc47aaa1e59f6044c45608cdc2e5e95044492afd'
