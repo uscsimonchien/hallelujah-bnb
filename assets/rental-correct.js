@@ -50,12 +50,12 @@
 
     const items = [
       {
-        title:'克米特露營椅', image:`assets/images/rental-kermit-chair.svg?v=${VERSION}`, alt:'克米特露營椅',
+        title:'克米特露營椅', image:`assets/images/rental-kermit-chair.png?v=${VERSION}`, alt:'克米特露營椅',
         kicker:'KERMIT CAMPING CHAIR', desc:'仿木紋鋁合金骨架、高磅數牛津布，含椅腳防滑耐磨保護套。',
         rent:'100', deposit:'300', qty:'4'
       },
       {
-        title:'120cm 升降蛋捲桌', image:`assets/images/rental-roll-table.svg?v=${VERSION}`, alt:'120cm 升降蛋捲桌',
+        title:'120cm 升降蛋捲桌', image:`assets/images/rental-roll-table.png?v=${VERSION}`, alt:'120cm 升降蛋捲桌',
         kicker:'120CM ADJUSTABLE ROLL TABLE', desc:'20片木紋鋁合金面板，可調高度 55–80cm，附置物網兜與收納袋。',
         rent:'200', deposit:'500', qty:'1'
       }
@@ -73,8 +73,8 @@
         <article class="activity-card rental-product-card">
           <div class="rental-photo-window furniture-combo-window">
             <span class="furniture-combo-badge">1 桌＋4 椅</span>
-            <img class="combo-table" src="assets/images/rental-roll-table.svg?v=${VERSION}" alt="經典桌椅組蛋捲桌" loading="eager" decoding="async">
-            <img class="combo-chair" src="assets/images/rental-kermit-chair.svg?v=${VERSION}" alt="經典桌椅組克米特椅" loading="eager" decoding="async">
+            <img class="combo-table" src="assets/images/rental-roll-table.png?v=${VERSION}" alt="經典桌椅組蛋捲桌" loading="eager" decoding="async">
+            <img class="combo-chair" src="assets/images/rental-kermit-chair.png?v=${VERSION}" alt="經典桌椅組克米特椅" loading="eager" decoding="async">
           </div>
           <div class="body">
             <div class="kicker">CLASSIC TABLE & CHAIR SET</div><h3>${setTitle}</h3>
