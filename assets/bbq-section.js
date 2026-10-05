@@ -53,21 +53,21 @@
       <p class="bbq-lead">想輕鬆烤肉不用自己搬大型烤爐。現場提供美式帶蓋推車型大型烤肉爐租借，也可直接加購 2 公斤炭精。</p>
       <div class="rental-product-grid bbq-product-grid">
         ${card({
-          image:`assets/images/bbq-grill-520.webp?v=${VERSION}`,
+          image:`assets/images/bbq-grill-520.png?v=${VERSION}`,
           kicker:'LARGE BBQ GRILL RENTAL',
           title:'大型美式帶蓋烤肉爐',
           desc:'大型推車式帶蓋烤爐，寬約 113cm、烤面約 76cm。純烤爐租借，提供烤爐主體與固定炭槽，耗材自行準備。',
           price:'500',deposit:'1,000',type:'租借',qty:'單次／日'
         })}
         ${card({
-          image:`assets/images/bbq-bundle-520.webp?v=${VERSION}`,
+          image:`assets/images/bbq-bundle-520.png?v=${VERSION}`,
           kicker:'BBQ EASY PACKAGE',
           title:'BBQ 懶人套裝組',
           desc:'烤爐＋炭精 1 袋（2kg）＋烤肉夾 2 支＋噴槍／火種＋全新烤網 1～2 片，一組備齊直接開烤。',
           price:'1,000',deposit:'1,000',type:'租借',qty:'單次／日'
         })}
         ${card({
-          image:`assets/images/bbq-charcoal-420.webp?v=${VERSION}`,
+          image:`assets/images/bbq-charcoal-420.png?v=${VERSION}`,
           kicker:'CHARCOAL BRIQUETTES',
           title:'炭精 2 公斤',
           desc:'現場加購炭精，每袋 2 公斤。大型烤爐若連續使用超過約 3 小時，建議準備 2 袋。',
