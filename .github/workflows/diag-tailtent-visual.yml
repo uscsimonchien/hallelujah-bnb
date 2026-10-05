@@ -1,0 +1,31 @@
+name: Tailtent Visual Diagnostic
+on:
+  push:
+    branches: [diag-tailtent-visual]
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make tiny previews
+        shell: bash
+        run: |
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          from PIL import Image
+          paths = {
+            'STANDARD':'assets/images/tailtent-standard-live-20261005.jpeg',
+            'ALADDIN':'assets/images/tailtent-aladdin-live-20261005.jpeg',
+          }
+          for name,path in paths.items():
+              im=Image.open(path).convert('RGB')
+              print(name,'ORIGINAL_SIZE',im.size)
+              t=im.copy(); t.thumbnail((96,96))
+              out=f'/tmp/{name.lower()}.jpg'
+              t.save(out,'JPEG',quality=45,optimize=True)
+              import base64
+              b64=base64.b64encode(open(out,'rb').read()).decode()
+              print(f'{name}_B64_BEGIN')
+              print(b64)
+              print(f'{name}_B64_END')
+          PY
