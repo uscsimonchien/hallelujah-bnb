@@ -1,0 +1,1 @@
+/* Placeholder will be replaced by existing script.js blob in next commit. */
