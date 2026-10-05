@@ -1,0 +1,35 @@
+name: Apply Tailtent Text Swap
+on:
+  push:
+    branches: [diag-tailtent-visual]
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Swap tailtent card text only
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('activities.html')
+          s=p.read_text(encoding='utf-8')
+          old1='<article class="activity-card rental-product-card"><div class="rental-photo-window"><img src="assets/images/tailtent-standard-live-20261005.jpeg?v=2" alt="車尾帳（一般款）"></div><div class="body"><div class="kicker">STANDARD CAR TAIL TENT</div><h3>車尾帳（一般款）</h3><p class="desc">適合簡易車宿搭設，提供遮蔽與延伸休憩空間。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div></article>'
+          new1='<article class="activity-card rental-product-card"><div class="rental-photo-window"><img src="assets/images/tailtent-standard-live-20261005.jpeg?v=2" alt="阿拉丁車尾帳"></div><div class="body"><div class="kicker">ALADDIN CAR TAIL TENT</div><h3>阿拉丁車尾帳</h3><p class="desc">空間較大，適合多人休憩與車宿延伸使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,000</strong></div><div class="rental-deposit">押金<br>NT$2,000</div></div></div></article>'
+          old2='<article class="activity-card rental-product-card"><div class="rental-photo-window"><img src="assets/images/tailtent-aladdin-live-20261005.jpeg?v=2" alt="阿拉丁車尾帳"></div><div class="body"><div class="kicker">ALADDIN CAR TAIL TENT</div><h3>阿拉丁車尾帳</h3><p class="desc">空間較大，適合多人休憩與車宿延伸使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,000</strong></div><div class="rental-deposit">押金<br>NT$2,000</div></div></div></article>'
+          new2='<article class="activity-card rental-product-card"><div class="rental-photo-window"><img src="assets/images/tailtent-aladdin-live-20261005.jpeg?v=2" alt="車尾帳（一般款）"></div><div class="body"><div class="kicker">STANDARD CAR TAIL TENT</div><h3>車尾帳（一般款）</h3><p class="desc">適合簡易車宿搭設，提供遮蔽與延伸休憩空間。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div></article>'
+          if old1 not in s or old2 not in s:
+              raise SystemExit('Expected tailtent cards not found; aborting')
+          s=s.replace(old1,new1,1).replace(old2,new2,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add activities.html
+          git commit -m "Swap tailtent card text and pricing only"
+          git push origin HEAD:main
