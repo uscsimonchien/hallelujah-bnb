@@ -1,0 +1,45 @@
+name: Tailtent Card Screenshots
+on:
+  push:
+    branches: [diag-tailtent-visual]
+jobs:
+  cards:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Capture cards
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir /tmp/pup && cd /tmp/pup
+          npm init -y >/dev/null 2>&1
+          npm install --silent puppeteer-core
+          CHROME=$(command -v google-chrome || command -v chromium)
+          cat > shot.mjs <<'JS'
+          import puppeteer from 'puppeteer-core';
+          import fs from 'fs';
+          const browser = await puppeteer.launch({headless:true, executablePath:process.env.CHROME, args:['--no-sandbox','--disable-gpu']});
+          const page = await browser.newPage();
+          await page.setViewport({width:1440,height:1400,deviceScaleFactor:1});
+          const url='https://hallelujah-bnb.onrender.com/activities.html?carddiag='+Date.now()+'#camp-rentals';
+          await page.goto(url,{waitUntil:'networkidle2',timeout:60000});
+          await new Promise(r=>setTimeout(r,1800));
+          for (const [key,title] of [['STANDARD','車尾帳（一般款）'],['ALADDIN','阿拉丁車尾帳']]) {
+            const cards = await page.$$('.rental-product-card');
+            let target=null;
+            for (const c of cards) {
+              const txt=await c.$eval('h3',e=>e.textContent.trim()).catch(()=> '');
+              if (txt===title) { target=c; break; }
+            }
+            if (!target) { console.log(key+'_NOT_FOUND'); continue; }
+            const img=await target.$('img');
+            const src=img ? await img.evaluate(e=>e.currentSrc || e.src) : '';
+            console.log(key+'_SRC='+src);
+            const path='/tmp/'+key.toLowerCase()+'.png';
+            await target.screenshot({path});
+            console.log(key+'_B64_BEGIN');
+            console.log(fs.readFileSync(path).toString('base64'));
+            console.log(key+'_B64_END');
+          }
+          await browser.close();
+          JS
+          CHROME="$CHROME" node shot.mjs
