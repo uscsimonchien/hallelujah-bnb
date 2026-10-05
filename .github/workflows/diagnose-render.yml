@@ -36,3 +36,15 @@ jobs:
           ALA_SIZE=$(wc -c < /tmp/ala.jpeg | tr -d ' ')
           { printf 'blob %s\0' "$ALA_SIZE"; cat /tmp/ala.jpeg; } | sha1sum
           echo 'Expected git blob SHA: bc47aaa1e59f6044c45608cdc2e5e95044492afd'
+      - name: Check final DOM in Chrome
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://hallelujah-bnb.onrender.com/activities.html?browserdiag=$(date +%s)#camp-rentals"
+          CHROME=$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser)
+          echo "Chrome: $CHROME"
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --virtual-time-budget=5000 --dump-dom "$URL" > /tmp/dom.html
+          echo '=== FINAL DOM TAILTENT IMG TAGS ==='
+          grep -oE '<img[^>]+alt="(車尾帳（一般款）|阿拉丁車尾帳)"[^>]*>|<img[^>]+src="[^"]*tailtent[^"]*"[^>]*>' /tmp/dom.html || true
+          echo '=== FINAL DOM TAILTENT URLS ==='
+          grep -oE 'https://hallelujah-bnb\.onrender\.com/assets/images/[^" ]*tailtent[^" ]*|assets/images/[^" ]*tailtent[^" ]*' /tmp/dom.html | sort -u || true
