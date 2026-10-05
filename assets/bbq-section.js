@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261005-1835';
+  const VERSION = '20261005-2335';
 
   const ensureStyles = () => {
     if (document.getElementById('bbqSuppliesStyle')) return;
