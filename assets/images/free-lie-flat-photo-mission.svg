@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1600" viewBox="0 0 1600 1600">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3ff"/><stop offset="1" stop-color="#dff3ff"/></linearGradient>
+  <linearGradient id="hill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2f7f3e"/><stop offset="1" stop-color="#174f2c"/></linearGradient>
+  <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-opacity=".18"/></filter>
+  <style>
+    .tc{font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+    .serif{font-family:"Noto Serif TC","PMingLiU",serif}
+  </style>
+</defs>
+<rect width="1600" height="1600" fill="url(#sky)"/>
+<path d="M0 520L260 280l150 140 220-190 190 180 230-210 210 190 160-120 180 210v280H0z" fill="url(#hill)" opacity=".95"/>
+<path d="M0 610c280-150 490-70 720-140 250-76 450-10 880 150v260H0z" fill="#5f9f47"/>
+<g fill="#2f7f3e" opacity=".95">
+  <circle cx="70" cy="160" r="110"/><circle cx="160" cy="90" r="90"/><circle cx="1500" cy="230" r="110"/>
+  <circle cx="80" cy="1430" r="150"/><circle cx="1510" cy="1410" r="170"/>
+</g>
+<g filter="url(#shadow)">
+  <rect x="150" y="100" width="1300" height="430" rx="54" fill="#eeb96d" stroke="#7d4c1d" stroke-width="18"/>
+  <rect x="230" y="155" width="1140" height="86" rx="28" fill="#f7d28e" stroke="#7d4c1d" stroke-width="10"/>
+  <text x="800" y="216" text-anchor="middle" class="tc" font-size="58" font-weight="900" fill="#3e2616">哈雷露亞山景區</text>
+  <text x="800" y="355" text-anchor="middle" class="tc" font-size="112" font-weight="900" fill="#2d2018">尋找<tspan fill="#e13b1b">10張</tspan><tspan fill="#2a8a37">躺平</tspan><tspan fill="#5b351b">合照</tspan></text>
+  <rect x="335" y="395" width="930" height="82" rx="30" fill="#f8dca5" stroke="#7d4c1d" stroke-width="8"/>
+  <text x="800" y="448" text-anchor="middle" class="tc" font-size="40" font-weight="800" fill="#4a2f1b">探索園區・完成任務・獲得躺平資格！</text>
+</g>
+<g transform="translate(90 640)">
+  <rect width="430" height="610" rx="44" fill="#fffaf0" stroke="#e7d7b4" stroke-width="6"/>
+  <circle cx="72" cy="76" r="52" fill="#cc5a17"/><text x="72" y="95" text-anchor="middle" class="tc" font-size="62" font-weight="900" fill="#fff">1</text>
+  <text x="240" y="96" text-anchor="middle" class="tc" font-size="54" font-weight="900" fill="#3c281b">在園區尋找</text>
+  <text x="215" y="160" text-anchor="middle" class="tc" font-size="32" font-weight="700" fill="#5d4638">找到藏在各個角落的</text>
+  <text x="215" y="204" text-anchor="middle" class="tc" font-size="32" font-weight="700" fill="#5d4638">躺平拍照點</text>
+  <rect x="70" y="270" width="215" height="155" rx="20" fill="#dfb073" stroke="#7d4c1d" stroke-width="10"/>
+  <path d="M110 375q55-85 130 0" fill="none" stroke="#2d8c3d" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="302" cy="390" r="72" fill="#bfefff" stroke="#4a3526" stroke-width="18"/>
+  <line x1="350" y1="442" x2="405" y2="510" stroke="#7d4c1d" stroke-width="28" stroke-linecap="round"/>
+  <text x="215" y="560" text-anchor="middle" class="tc" font-size="30" font-weight="800" fill="#2d7c3b">找拍照點</text>
+</g>
+<g transform="translate(585 640)">
+  <rect width="430" height="610" rx="44" fill="#fffaf0" stroke="#e7d7b4" stroke-width="6"/>
+  <circle cx="72" cy="76" r="52" fill="#1f82b7"/><text x="72" y="95" text-anchor="middle" class="tc" font-size="62" font-weight="900" fill="#fff">2</text>
+  <text x="240" y="96" text-anchor="middle" class="tc" font-size="54" font-weight="900" fill="#3c281b">拍下合照</text>
+  <text x="215" y="160" text-anchor="middle" class="tc" font-size="32" font-weight="700" fill="#5d4638">在每個拍照點拍下</text>
+  <text x="215" y="204" text-anchor="middle" class="tc" font-size="32" font-weight="700" fill="#5d4638">你的躺平合照</text>
+  <rect x="78" y="268" width="230" height="210" rx="16" fill="#fff" stroke="#555" stroke-width="8" transform="rotate(-4 193 373)"/>
+  <rect x="100" y="292" width="186" height="130" rx="12" fill="#8bc7e8"/>
+  <path d="M105 405l60-55 45 38 55-60 20 77z" fill="#4c9945"/>
+  <rect x="250" y="388" width="135" height="95" rx="20" fill="#50372a"/>
+  <circle cx="318" cy="438" r="31" fill="#2fa9e0" stroke="#131313" stroke-width="8"/>
+  <text x="215" y="560" text-anchor="middle" class="tc" font-size="30" font-weight="800" fill="#2d7c3b">留下紀念</text>
+</g>
+<g transform="translate(1080 640)">
+  <rect width="430" height="610" rx="44" fill="#fffaf0" stroke="#e7d7b4" stroke-width="6"/>
+  <circle cx="72" cy="76" r="52" fill="#4f8a28"/><text x="72" y="95" text-anchor="middle" class="tc" font-size="62" font-weight="900" fill="#fff">3</text>
+  <text x="240" y="96" text-anchor="middle" class="tc" font-size="54" font-weight="900" fill="#3c281b">集滿10張</text>
+  <text x="215" y="160" text-anchor="middle" class="tc" font-size="32" font-weight="700" fill="#5d4638">集滿10張躺平合照</text>
+  <text x="215" y="204" text-anchor="middle" class="tc" font-size="32" font-weight="700" fill="#5d4638">完成認證！</text>
+  <g transform="translate(65 280)">
+    <rect x="0" y="25" width="145" height="180" rx="10" fill="#fff" stroke="#777" stroke-width="7" transform="rotate(-9 72 115)"/>
+    <rect x="55" y="0" width="145" height="180" rx="10" fill="#fff" stroke="#777" stroke-width="7" transform="rotate(5 128 90)"/>
+    <rect x="110" y="25" width="145" height="180" rx="10" fill="#fff" stroke="#777" stroke-width="7"/>
+  </g>
+  <circle cx="322" cy="420" r="78" fill="#e8b05c" stroke="#7d4c1d" stroke-width="12"/>
+  <text x="322" y="410" text-anchor="middle" class="tc" font-size="42" font-weight="900" fill="#352014">10/10</text>
+  <text x="322" y="460" text-anchor="middle" class="tc" font-size="36" font-weight="900" fill="#352014">完成</text>
+  <text x="215" y="560" text-anchor="middle" class="tc" font-size="30" font-weight="800" fill="#2d7c3b">完成任務</text>
+</g>
+<path d="M540 950h35" stroke="#b94913" stroke-width="20" stroke-linecap="round"/><path d="M560 925l32 25-32 25" fill="none" stroke="#b94913" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M1035 950h35" stroke="#b94913" stroke-width="20" stroke-linecap="round"/><path d="M1055 925l32 25-32 25" fill="none" stroke="#b94913" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="150" y="1320" width="1300" height="155" rx="45" fill="#eebb70" stroke="#7d4c1d" stroke-width="14" filter="url(#shadow)"/>
+<text x="800" y="1415" text-anchor="middle" class="tc" font-size="48" font-weight="900" fill="#3e2616">走進山林・放慢腳步・一起尋找屬於你的躺平時光！</text>
+</svg>
