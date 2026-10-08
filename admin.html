@@ -8,6 +8,7 @@
 body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}.admin-head{display:flex;justify-content:space-between;gap:20px;align-items:end;flex-wrap:wrap}.admin-login,.admin-card{background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:24px}.admin-login{display:flex;gap:10px;align-items:end;flex-wrap:wrap}.admin-login label{min-width:240px}.admin-login input{margin-top:6px}.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}.admin-stat{background:#fff;padding:20px;border-radius:18px;border:1px solid var(--line)}.admin-stat small{display:block;color:var(--muted)}.admin-stat strong{font-size:28px;color:var(--forest)}.admin-table-wrap{overflow:auto}.admin-table{width:100%;border-collapse:collapse;min-width:1000px}.admin-table th,.admin-table td{padding:12px;border-bottom:1px solid #ecefe9;text-align:left;vertical-align:top}.admin-table th{background:#f4f1e9;position:sticky;top:0}.admin-actions{display:flex;gap:6px;flex-wrap:wrap}.admin-actions button{border:0;border-radius:999px;padding:7px 10px;cursor:pointer}.ok{background:#dcecdf;color:#164d2e}.paid{background:#dbe7f8;color:#234f85}.cancel{background:#f5dddd;color:#7b2424}.pending{background:#eee6d5;color:#705427}.status-chip{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800}.admin-msg{margin:12px 0;color:#8a3b2f}.hidden{display:none}
 .manual-card{margin:22px 0}.manual-card h3{margin:0 0 6px}.manual-card p{margin:0 0 18px;color:var(--muted)}
 .manual-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.manual-grid label{font-size:13px;font-weight:800;color:#425149}.manual-grid input,.manual-grid select,.manual-grid textarea{width:100%;margin-top:6px}.manual-grid .wide{grid-column:span 2}.manual-grid .full{grid-column:1/-1}.manual-grid textarea{min-height:86px}.manual-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.manual-hint{font-size:12px;color:#6d766f}
+.line-card{margin:22px 0}.line-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.line-box{padding:16px;border:1px solid var(--line);border-radius:16px;background:#f8faf6}.line-box strong{display:block;margin-bottom:6px}.line-code{font:800 22px/1.2 monospace;letter-spacing:1px;color:#16843a;margin:8px 0}.line-url{word-break:break-all;font-size:12px;color:#64716a}.line-target{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #e7ebe5}.line-target:last-child{border-bottom:0}.line-good{color:#16843a;font-weight:800}.line-warn{color:#9d4d14;font-weight:800}
 @media(max-width:900px){.manual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:720px){.admin-stats{grid-template-columns:1fr 1fr}.manual-grid{grid-template-columns:1fr}.manual-grid .wide,.manual-grid .full{grid-column:auto}}
 </style>
 </head>
@@ -18,6 +19,25 @@ body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}
 <div class="admin-login" id="loginBox"><label>管理金鑰<input id="adminKey" type="password" autocomplete="current-password" placeholder="輸入管理金鑰"></label><button id="adminLogin" class="btn dark">登入後台</button><button id="adminLogout" class="btn hidden">登出</button></div>
 <div id="adminMessage" class="admin-msg"></div>
 <section id="dashboard" class="hidden">
+<div class="admin-card line-card">
+  <h3 style="margin:0 0 6px">LINE 訂房通知</h3>
+  <p style="margin:0 0 16px;color:var(--muted)">官網新訂單、人工訂房／封房與訂單狀態變更，可自動通知到你的 LINE 或 LINE 群組。</p>
+  <div class="line-grid">
+    <div class="line-box">
+      <strong>LINE API 狀態</strong>
+      <div id="lineConfigStatus">讀取中…</div>
+      <div class="line-url" id="lineWebhookUrl"></div>
+    </div>
+    <div class="line-box">
+      <strong>綁定通知對象</strong>
+      <div>按下產生綁定碼後，到「哈雷露亞民宿」官方 LINE 傳送該綁定碼。</div>
+      <div class="line-code" id="linePairCode">—</div>
+      <div class="manual-actions"><button class="btn" id="linePairBtn" type="button">產生 LINE 綁定碼</button><button class="btn" id="lineTestBtn" type="button">傳送測試通知</button></div>
+      <div class="manual-hint" id="linePairHint">綁定碼有效 10 分鐘。</div>
+    </div>
+  </div>
+  <div class="line-box" style="margin-top:14px"><strong>目前通知對象</strong><div id="lineTargets">尚未綁定</div></div>
+</div>
 <div class="admin-card manual-card">
   <h3>新增人工訂房／封房</h3>
   <p>LINE、電話、Facebook 私訊收到的訂房，或需要保留房間時，從這裡新增。建立後會直接占用中央房況；取消訂單後房間會自動釋出。</p>
@@ -39,5 +59,5 @@ body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}
 <div class="admin-card"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px"><h3 style="margin:0">訂單列表</h3><button id="adminRefresh" class="btn">重新整理</button></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>狀態</th><th>編號／建立時間</th><th>客人</th><th>住宿日期</th><th>房數／人數</th><th>金額</th><th>備註</th><th>操作</th></tr></thead><tbody id="bookingRows"></tbody></table></div></div>
 </section>
 </main>
-<script src="assets/admin.js?v=20261009-0050"></script>
+<script src="assets/admin.js?v=20261009-0115"></script>
 </body></html>
