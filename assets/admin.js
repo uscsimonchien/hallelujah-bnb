@@ -7,6 +7,7 @@ const statusName=s=>({pending:'待確認',confirmed:'已確認',paid:'已收款'
 const key=()=>sessionStorage.getItem('hallelujah_admin_key')||'';
 function setMsg(t=''){msg.textContent=t}
 async function api(action,opt={}){const r=await fetch(`${API}?action=${action}`,{...opt,headers:{'content-type':'application/json','x-admin-key':key(),...(opt.headers||{})}});let j={};try{j=await r.json()}catch{}if(!r.ok)throw Object.assign(new Error(j.error||'request_failed'),{status:r.status,data:j});return j}
+async function createPublicBooking(body){const r=await fetch(API+'?action=create',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});let j={};try{j=await r.json()}catch{}if(!r.ok)throw Object.assign(new Error(j.error||'request_failed'),{status:r.status,data:j});return j}
 function render(list){
  $('#statPending').textContent=list.filter(x=>x.status==='pending').length;
  $('#statConfirmed').textContent=list.filter(x=>x.status==='confirmed').length;
@@ -34,5 +35,38 @@ async function updateStatus(id,status){if(status==='cancelled'&&!confirm('確定
 $('#adminLogin').addEventListener('click',()=>{sessionStorage.setItem('hallelujah_admin_key',keyEl.value.trim());load()});
 $('#adminLogout').addEventListener('click',()=>{sessionStorage.removeItem('hallelujah_admin_key');keyEl.value='';dash.classList.add('hidden');$('#adminLogout').classList.add('hidden');setMsg('已登出。')});
 $('#adminRefresh').addEventListener('click',load);
+
+const manualForm=$('#manualBookingForm');
+if(manualForm){
+ const ci=$('#manualCheckin'),co=$('#manualCheckout'),rooms=$('#manualRooms'),guests=$('#manualGuests'),source=$('#manualSource'),btn=$('#manualSubmit');
+ const now=new Date(),today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+ ci.min=today;co.min=today;
+ ci.addEventListener('change',()=>{if(ci.value){const d=new Date(ci.value+'T12:00:00');d.setDate(d.getDate()+1);co.min=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;if(co.value&&co.value<=ci.value)co.value=''}});
+ rooms.addEventListener('change',()=>{const max=Number(rooms.value)*4;if(Number(guests.value)>max)guests.value=String(max)});
+ source.addEventListener('change',()=>{const block=source.value==='封房';$('#manualName').placeholder=block?'可留白，系統會填「人工封房」':'客人姓名';$('#manualPhone').placeholder=block?'可留白':'客人電話'});
+ manualForm.addEventListener('submit',async e=>{
+  e.preventDefault();if(!key()){setMsg('請先登入後台。');return}
+  const fd=new FormData(manualForm),src=String(fd.get('source')||'其他'),r=Number(fd.get('rooms')||1),block=src==='封房';
+  const checkin=String(fd.get('checkin')||''),checkout=String(fd.get('checkout')||''),g=block?Math.max(1,r):Number(fd.get('guests')||1);
+  const name=String(fd.get('name')||'').trim()||(block?'人工封房':'人工訂房');
+  const phone=String(fd.get('phone')||'').trim()||(block?'ADMIN':'未提供');
+  const noteRaw=String(fd.get('note')||'').trim(),note=`[${src}]${noteRaw?' '+noteRaw:''}`;
+  if(!checkin||!checkout||checkout<=checkin){setMsg('請確認入住與退房日期。');return}
+  if(!block&&g>r*4){setMsg(`${r} 間最多安排 ${r*4} 人，請調整入住人數。`);return}
+  btn.disabled=true;btn.textContent='新增中…';setMsg('正在同步中央房況…');
+  let createdId=0;
+  try{
+   const j=await createPublicBooking({name,phone,lineName:src==='LINE'?name:'',checkin,checkout,rooms:r,guests:g,note});
+   createdId=Number(j.booking?.id||0);if(!createdId)throw new Error('missing_booking_id');
+   try{await api('admin_update',{method:'POST',body:JSON.stringify({id:createdId,status:'confirmed'})})}
+   catch(err){try{await api('admin_update',{method:'POST',body:JSON.stringify({id:createdId,status:'cancelled'})})}catch{}throw err}
+   manualForm.reset();guests.value='1';rooms.value='1';source.value='LINE';await load();
+   setMsg(`已新增${block?'封房':'人工訂房'}，房況已立即同步。`);
+  }catch(err){
+   setMsg(err.status===409?'新增失敗：這段日期的剩餘房數不足。':'新增失敗，請稍後再試。');
+  }finally{btn.disabled=false;btn.textContent='新增並立即占房'}
+ });
+}
+
 if(key()){load()}
 })();
