@@ -9,7 +9,8 @@ const form=$('#bookingForm');if(!form)return;
 const checkinEl=$('#bookingCheckin'),checkoutEl=$('#bookingCheckout'),roomsEl=$('#bookingRooms'),guestsEl=$('#bookingGuests');
 const grid=$('#bookingCalendar'),title=$('#calendarMonthTitle'),prev=$('#calendarPrev'),next=$('#calendarNext'),alertBox=$('#availabilityAlert'),submit=$('#bookingSubmit'),result=$('#bookingResult');
 let shown=new Date(today.getFullYear(),today.getMonth(),1,12),checkin=null,checkout=null,availability=new Map(),apiOk=false,loading=false;
-const rate=d=>{const w=d.getDay();return(w===0||w===6)?WE:WD};
+const fallbackRate=d=>{const s=iso(d);if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 4000;const w=d.getDay();return(w===0||w===6)?WE:WD};
+const rate=d=>{const x=availability.get(iso(d));return x&&Number(x.rate)>0?Number(x.rate):fallbackRate(d)};
 const nights=(a,b)=>{const x=[];if(!a||!b||b<=a)return x;for(let d=new Date(a);d<b;d.setDate(d.getDate()+1))x.push(new Date(d));return x};
 const same=(a,b)=>a&&b&&iso(a)===iso(b),inRange=d=>checkin&&checkout&&d>checkin&&d<checkout;
 function monthRange(){const first=new Date(shown.getFullYear(),shown.getMonth(),1,12),start=new Date(first);start.setDate(first.getDate()-first.getDay());const end=new Date(start);end.setDate(start.getDate()+41);return{start,end}}
