@@ -53,7 +53,7 @@
 .booking-result .small-actions .btn{background:#fff;color:var(--deep);border-color:#fff}
 .booking-result .small-actions .btn.ghost-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.45)}
 
-.booking-rates{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.booking-rates{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
 .mini-rate{padding:16px;border-radius:18px;background:#fff;border:1px solid var(--line)}
 .mini-rate small{display:block;color:var(--muted)}
 .mini-rate strong{font-size:24px;color:var(--forest)}
