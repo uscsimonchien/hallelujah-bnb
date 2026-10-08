@@ -1,6 +1,6 @@
 (()=>{
 const API='https://hkrttulwietizshbfigq.supabase.co/functions/v1/booking-api';
-let totalRooms=4;const WD=1500,WE=2000;
+let totalRooms=4;const WD=1600,WE=2000;
 const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0'),fmt=n=>`NT$${Number(n||0).toLocaleString('zh-TW')}`;
 const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const fromIso=s=>{if(!s)return null;const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d,12)};
