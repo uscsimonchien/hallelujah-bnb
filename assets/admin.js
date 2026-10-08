@@ -30,11 +30,38 @@ function render(list){
  rowsEl.querySelectorAll('button[data-id]').forEach(btn=>btn.addEventListener('click',()=>updateStatus(btn.dataset.id,btn.dataset.status)));
 }
 function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-async function load(){setMsg('讀取中…');try{const j=await api('admin_list');render(j.bookings||[]);dash.classList.remove('hidden');$('#adminLogout').classList.remove('hidden');setMsg('')}catch(e){dash.classList.add('hidden');setMsg(e.status===401?'管理金鑰錯誤。':'後台目前無法連線。')}}
+async function load(){setMsg('讀取中…');try{const j=await api('admin_list');render(j.bookings||[]);dash.classList.remove('hidden');$('#adminLogout').classList.remove('hidden');await loadLineStatus();setMsg('')}catch(e){dash.classList.add('hidden');setMsg(e.status===401?'管理金鑰錯誤。':'後台目前無法連線。')}}
 async function updateStatus(id,status){if(status==='cancelled'&&!confirm('確定要取消這筆訂單嗎？'))return;setMsg('更新中…');try{await api('admin_update',{method:'POST',body:JSON.stringify({id:Number(id),status})});await load()}catch(e){setMsg(e.status===409?'無法確認：該日期房數已不足。':'更新失敗。')}}
 $('#adminLogin').addEventListener('click',()=>{sessionStorage.setItem('hallelujah_admin_key',keyEl.value.trim());load()});
 $('#adminLogout').addEventListener('click',()=>{sessionStorage.removeItem('hallelujah_admin_key');keyEl.value='';dash.classList.add('hidden');$('#adminLogout').classList.add('hidden');setMsg('已登出。')});
 $('#adminRefresh').addEventListener('click',load);
+
+async function loadLineStatus(){
+ const statusEl=$('#lineConfigStatus'),targetsEl=$('#lineTargets'),urlEl=$('#lineWebhookUrl'),pairBtn=$('#linePairBtn'),testBtn=$('#lineTestBtn');
+ if(!statusEl)return;
+ try{
+  const x=await api('line_status');
+  const configured=x.configured?.token&&x.configured?.secret;
+  statusEl.innerHTML=configured?'<span class="line-good">✅ Channel access token 與 Channel secret 已設定</span>':'<span class="line-warn">⚠️ 尚未完成 LINE API 金鑰設定</span>';
+  urlEl.textContent='Webhook URL：'+(x.webhookUrl||'');
+  const ts=x.targets||[];
+  targetsEl.innerHTML=ts.length?ts.map(t=>`<div class="line-target"><span>${escapeHtml(t.label||t.target_type||'LINE')}</span><span class="${t.enabled?'line-good':'line-warn'}">${t.enabled?'啟用':'停用'}</span></div>`).join(''):'尚未綁定任何 LINE 通知對象。';
+  pairBtn.disabled=!configured;testBtn.disabled=!configured||!ts.some(t=>t.enabled);
+ }catch{statusEl.textContent='LINE 設定讀取失敗。'}
+}
+const pairBtn=$('#linePairBtn');
+if(pairBtn)pairBtn.addEventListener('click',async()=>{
+ const codeEl=$('#linePairCode'),hint=$('#linePairHint');pairBtn.disabled=true;
+ try{const x=await api('line_pair_code',{method:'POST',body:'{}'});codeEl.textContent=x.code;hint.textContent='請在 10 分鐘內，到哈雷露亞民宿官方 LINE 傳送這組綁定碼。';}
+ catch{setMsg('無法產生 LINE 綁定碼。')}finally{pairBtn.disabled=false}
+});
+const testBtn=$('#lineTestBtn');
+if(testBtn)testBtn.addEventListener('click',async()=>{
+ testBtn.disabled=true;setMsg('傳送 LINE 測試通知中…');
+ try{await api('line_test',{method:'POST',body:'{}'});setMsg('LINE 測試通知已送出。')}
+ catch(e){setMsg(e.data?.error==='no_targets'?'尚未綁定 LINE 通知對象。':'LINE 測試通知傳送失敗。')}
+ finally{await loadLineStatus()}
+});
 
 const manualForm=$('#manualBookingForm');
 if(manualForm){
@@ -56,10 +83,8 @@ if(manualForm){
   btn.disabled=true;btn.textContent='新增中…';setMsg('正在同步中央房況…');
   let createdId=0;
   try{
-   const j=await createPublicBooking({name,phone,lineName:src==='LINE'?name:'',checkin,checkout,rooms:r,guests:g,note});
+   const j=await api('admin_create',{method:'POST',body:JSON.stringify({name,phone,lineName:src==='LINE'?name:'',checkin,checkout,rooms:r,guests:g,note})});
    createdId=Number(j.booking?.id||0);if(!createdId)throw new Error('missing_booking_id');
-   try{await api('admin_update',{method:'POST',body:JSON.stringify({id:createdId,status:'confirmed'})})}
-   catch(err){try{await api('admin_update',{method:'POST',body:JSON.stringify({id:createdId,status:'cancelled'})})}catch{}throw err}
    manualForm.reset();guests.value='1';rooms.value='1';source.value='LINE';await load();
    setMsg(`已新增${block?'封房':'人工訂房'}，房況已立即同步。`);
   }catch(err){
