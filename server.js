@@ -4,7 +4,7 @@ const {Pool}=require('pg');
 const app=express();
 const DB_READY=!!process.env.DATABASE_URL;
 const pool=DB_READY?new Pool({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:false}}):null;
-const TOTAL=4,WD=1600,WE=2000,HOLD_HOURS=2;
+const TOTAL=4,WD=1500,WE=2000,HOLD_HOURS=2;
 app.use(cors({origin:true}));
 app.use(express.json());
 app.use((req,res,next)=>{if(req.path==='/health')return next();if(!DB_READY)return res.status(503).json({error:'database_not_configured'});next()});
