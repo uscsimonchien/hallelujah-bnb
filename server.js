@@ -11,7 +11,9 @@ app.use(express.json());
 app.use((req,res,next)=>{if(req.path==='/health')return next();if(!DB_READY)return res.status(503).json({error:'database_not_configured'});next()});
 
 const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||''));
-const rate=s=>{if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 4000;if(HOLIDAYS.has(s))return WE;const d=new Date(s+'T12:00:00+08:00'),w=d.getDay();return (w===0||w===6)?WE:WD};
+const baseHoliday=s=>{const d=new Date(s+'T12:00:00+08:00'),w=d.getDay();return HOLIDAYS.has(s)||w===0||w===6};
+const nextIso=s=>{const d=new Date(s+'T12:00:00+08:00');d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)};
+const rate=s=>{if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 4000;if(baseHoliday(s))return baseHoliday(nextIso(s))?WE:WD;return WD};
 const nights=(a,b)=>{const out=[];for(let d=new Date(a+'T12:00:00+08:00'),e=new Date(b+'T12:00:00+08:00');d<e;d.setDate(d.getDate()+1))out.push(d.toISOString().slice(0,10));return out};
 const code=()=>`HL${new Date().toISOString().slice(2,10).replaceAll('-','')}${Math.floor(100000+Math.random()*900000)}`;
 
