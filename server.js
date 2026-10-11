@@ -5,12 +5,13 @@ const app=express();
 const DB_READY=!!process.env.DATABASE_URL;
 const pool=DB_READY?new Pool({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:false}}):null;
 const TOTAL=4,WD=1600,WE=2000,HOLD_HOURS=2;
+const HOLIDAYS=new Set(["2026-01-01","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-27","2026-04-03","2026-04-06","2026-05-01","2026-06-19","2026-09-25","2026-09-28","2026-10-09","2026-10-26","2026-12-25","2027-01-01","2027-02-04","2027-02-05","2027-02-08","2027-02-09","2027-02-10","2027-03-01","2027-04-05","2027-04-06","2027-04-30","2027-06-09","2027-09-15","2027-09-28","2027-10-11","2027-10-25","2027-12-24","2027-12-31"]);
 app.use(cors({origin:true}));
 app.use(express.json());
 app.use((req,res,next)=>{if(req.path==='/health')return next();if(!DB_READY)return res.status(503).json({error:'database_not_configured'});next()});
 
 const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||''));
-const rate=s=>{if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 4000;const d=new Date(s+'T12:00:00+08:00'),w=d.getDay();return (w===0||w===6)?WE:WD};
+const rate=s=>{if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 4000;if(HOLIDAYS.has(s))return WE;const d=new Date(s+'T12:00:00+08:00'),w=d.getDay();return (w===0||w===6)?WE:WD};
 const nights=(a,b)=>{const out=[];for(let d=new Date(a+'T12:00:00+08:00'),e=new Date(b+'T12:00:00+08:00');d<e;d.setDate(d.getDate()+1))out.push(d.toISOString().slice(0,10));return out};
 const code=()=>`HL${new Date().toISOString().slice(2,10).replaceAll('-','')}${Math.floor(100000+Math.random()*900000)}`;
 
