@@ -11,7 +11,7 @@ const checkinEl=$('#bookingCheckin'),checkoutEl=$('#bookingCheckout'),roomsEl=$(
 const grid=$('#bookingCalendar'),title=$('#calendarMonthTitle'),prev=$('#calendarPrev'),next=$('#calendarNext'),alertBox=$('#availabilityAlert'),submit=$('#bookingSubmit'),result=$('#bookingResult');
 let shown=new Date(today.getFullYear(),today.getMonth(),1,12),checkin=null,checkout=null,availability=new Map(),apiOk=false,loading=false;
 const baseHoliday=d=>{const s=iso(d),w=d.getDay();return HOLIDAYS.has(s)||w===0||w===6};
-const fallbackRate=d=>{const s=iso(d);if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 4000;if(s==='2026-09-25'||s==='2027-09-15')return 3200;const weekday=s>='2027-01-01'?WD2027:WD,holiday=s>='2027-01-01'?WE2027:WE;if(baseHoliday(d)){const n=new Date(d);n.setDate(n.getDate()+1);return baseHoliday(n)?holiday:weekday}return weekday};
+const fallbackRate=d=>{const s=iso(d);if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 3200;if(s==='2026-09-25'||s==='2027-09-15')return 3200;const weekday=s>='2027-01-01'?WD2027:WD,holiday=s>='2027-01-01'?WE2027:WE;if(baseHoliday(d)){const n=new Date(d);n.setDate(n.getDate()+1);return baseHoliday(n)?holiday:weekday}return weekday};
 const rate=d=>{const x=availability.get(iso(d));return x&&Number(x.rate)>0?Number(x.rate):fallbackRate(d)};
 const nights=(a,b)=>{const x=[];if(!a||!b||b<=a)return x;for(let d=new Date(a);d<b;d.setDate(d.getDate()+1))x.push(new Date(d));return x};
 const same=(a,b)=>a&&b&&iso(a)===iso(b),inRange=d=>checkin&&checkout&&d>checkin&&d<checkout;
