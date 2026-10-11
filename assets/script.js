@@ -4,14 +4,14 @@
   document.head.appendChild(s);
 })();
 
-// Keep the same logo/header and booking label on every page.
+// Keep the same logo/header and availability-booking label on every page.
 (() => {
   const applyHeader = () => {
     document.querySelectorAll('a.brand').forEach((brand) => {
       brand.innerHTML = '<img class="brand-logo" src="assets/logo.webp" alt="哈雷露亞民宿 Logo"><span class="brand-title">哈雷露亞民宿</span>';
     });
     document.querySelectorAll('a[href="inquiry.html"]').forEach((link) => {
-      if (link.closest('.nav-links') || link.closest('.mobile-menu')) link.textContent = '線上預訂';
+      if (link.closest('.nav-links') || link.closest('.mobile-menu')) link.textContent = '空房預定';
     });
     if (!document.getElementById('brandLogoStyle')) {
       const style = document.createElement('style');
