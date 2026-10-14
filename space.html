@@ -1,62 +1,99 @@
 <!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>園區與環境｜哈雷露亞民宿</title><meta name="description" content="哈雷露亞民宿園區實景：戶外烤肉區、公共洗手間、淋浴空間、山景環境與夜間外觀。"><link rel="stylesheet" href="assets/style.css"><style>
-.space-showcase{display:grid;gap:28px}
-.space-feature{background:#fff;border-radius:28px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(45,89,71,.08)}
-.space-feature-copy{padding:26px 28px 20px}
-.space-feature-copy h3,.space-night-copy h3{font-family:"Noto Serif TC",serif;font-size:30px;margin:6px 0 8px}
-.space-feature-copy p,.space-night-copy p{margin:0;color:var(--muted);line-height:1.75}
-.space-feature-photo{background:#e8e6de}
-.space-feature-photo img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
-.space-feature-photo.bath img{aspect-ratio:3/2}
-.space-night-card{display:grid;grid-template-columns:minmax(280px,420px) 1fr;align-items:stretch;background:var(--deep);color:#fff;border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}
-.space-night-card img{display:block;width:100%;height:100%;aspect-ratio:1/1;object-fit:cover}
-.space-night-copy{display:flex;flex-direction:column;justify-content:center;padding:34px}
-.space-night-copy .kicker{color:#dcc9aa}
-.space-night-copy p{color:rgba(255,255,255,.76)}
-@media(max-width:760px){
-  .space-feature-copy{padding:22px 20px 18px}
-  .space-feature-copy h3,.space-night-copy h3{font-size:25px}
-  .space-night-card{grid-template-columns:1fr}
-  .space-night-card img{aspect-ratio:16/10}
-  .space-night-copy{padding:22px 20px 26px}
+.facility-section{background:linear-gradient(180deg,transparent 0%,rgba(238,231,218,.38) 100%)}
+.facility-heading{margin-bottom:32px}
+.facility-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);background:#fff;border-radius:30px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(45,89,71,.08);margin-bottom:22px}
+.facility-hero-photo{min-height:520px;background:#e6e7e1;overflow:hidden}
+.facility-hero-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 55%}
+.facility-hero-copy{padding:46px 42px;display:flex;flex-direction:column;justify-content:center}
+.facility-hero-copy h3,.facility-card-copy h3,.facility-night h3{font-family:"Noto Serif TC",serif;margin:8px 0 12px;color:var(--ink)}
+.facility-hero-copy h3{font-size:38px}
+.facility-hero-copy p,.facility-card-copy p,.facility-night p{margin:0;color:var(--muted);line-height:1.85}
+.facility-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}
+.facility-tags span{background:#eef3ef;color:var(--forest);font-size:13px;font-weight:800;padding:8px 12px;border-radius:999px}
+.facility-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
+.facility-card{background:#fff;border-radius:26px;overflow:hidden;box-shadow:var(--shadow-soft);border:1px solid rgba(45,89,71,.08)}
+.facility-card>img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover;background:#e6e7e1}
+.facility-card-copy{padding:24px 26px 28px}
+.facility-card-copy h3{font-size:28px}
+.facility-night{display:grid;grid-template-columns:1fr minmax(300px,440px);background:var(--deep);border-radius:30px;overflow:hidden;box-shadow:var(--shadow);color:#fff}
+.facility-night-copy{padding:40px 44px;display:flex;flex-direction:column;justify-content:center}
+.facility-night .kicker{color:#dcc9aa}
+.facility-night h3{font-size:34px;color:#fff}
+.facility-night p{color:rgba(255,255,255,.76)}
+.facility-night img{width:100%;height:100%;min-height:360px;object-fit:cover;display:block}
+@media(max-width:900px){
+  .facility-hero{grid-template-columns:1fr}
+  .facility-hero-photo{min-height:0}
+  .facility-hero-photo img{height:auto;aspect-ratio:4/3}
+  .facility-hero-copy{padding:30px 28px 34px}
+  .facility-grid{grid-template-columns:1fr 1fr}
+  .facility-night{grid-template-columns:1fr}
+  .facility-night img{min-height:0;aspect-ratio:16/10;order:-1}
 }
-</style></head><body><header class="site-header"><div class="wrap"><div class="nav"><a class="brand" href="index.html"><span class="brand-mark">H</span><span>哈雷露亞民宿</span></a><nav class="nav-links"><a href="index.html">首頁</a><a href="rooms.html">房型</a><a href="space.html">園區</a><a href="rules.html">營區守則</a><a href="qa.html">Q&amp;A</a><a href="free-activities.html">免費活動項目</a><a href="activities.html">活動項目&amp;租借服務</a><a href="inquiry.html">空房預定</a><a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">官方粉專</a><a href="contact.html">聯絡我們</a></nav><a class="nav-cta" href="https://lin.ee/XsIMYvU" target="_blank" rel="noopener">LINE 預約</a><button class="menu-toggle" onclick="toggleMenu()">☰</button></div><div class="mobile-menu"><a href="index.html">首頁</a><a href="rooms.html">房型</a><a href="space.html">園區</a><a href="rules.html">營區守則</a><a href="qa.html">Q&amp;A</a><a href="free-activities.html">免費活動項目</a><a href="activities.html">活動項目&amp;租借服務</a><a href="inquiry.html">空房預定</a><a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">官方粉專</a><a href="contact.html">聯絡我們</a><a href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約</a></div></div></header><div class="header-space"></div><section class="page-hero"><div class="wrap"><div class="breadcrumb">首頁 / 園區</div><div class="kicker" style="color:#dcc9aa">SPACE</div><h1 class="title">園區與環境</h1><p class="lead">從山景環境到戶外烤肉區、公共洗手間、淋浴空間與夜間外觀，都以現場實景呈現。</p></div></section><section class="section"><div class="wrap"><div class="heading"><div><div class="kicker">GALLERY</div><h2 class="title">看見民宿真正的風景。</h2></div><p class="lead">晴天、山霧與綠意，每次來都有不同表情。適合慢慢看、慢慢住。</p></div><div class="carousel" data-carousel><div class="carousel-track"><div class="slide"><img src="assets/images/hero_aerial.jpg" alt="空拍外觀"><div class="slide-caption">空拍外觀｜被山林包圍的哈雷露亞民宿</div></div><div class="slide"><img src="assets/images/exterior_sunny.jpg" alt="民宿外觀"><div class="slide-caption">白天外觀｜山林與藍天</div></div><div class="slide"><img src="assets/images/deck_mist.jpg" alt="山景露台"><div class="slide-caption">山景露台｜在山霧與綠意之間放鬆</div></div><div class="slide"><img src="assets/images/view_window.jpg" alt="窗外山景"><div class="slide-caption">窗外山景｜坐著就能看見山巒</div></div><div class="slide"><img src="assets/images/yard1.jpg" alt="屋旁草地"><div class="slide-caption">屋旁草地｜保留自然感</div></div><div class="slide"><img src="assets/images/dining.jpg" alt="公共空間"><div class="slide-caption">公共空間｜聚會、用餐與聊天</div></div></div><div class="carousel-dots"></div><div class="carousel-controls"><button class="carousel-btn prev">‹</button><button class="carousel-btn next">›</button></div></div></div></section><section class="section space-showcase-section" style="padding-top:0">
+@media(max-width:620px){
+  .facility-heading{margin-bottom:24px}
+  .facility-hero,.facility-card,.facility-night{border-radius:22px}
+  .facility-hero-photo img{aspect-ratio:4/5;object-position:center}
+  .facility-hero-copy{padding:24px 20px 28px}
+  .facility-hero-copy h3{font-size:30px}
+  .facility-grid{grid-template-columns:1fr;gap:16px}
+  .facility-card-copy{padding:20px}
+  .facility-card-copy h3{font-size:25px}
+  .facility-night-copy{padding:26px 22px 30px}
+  .facility-night h3{font-size:28px}
+  .facility-night img{aspect-ratio:1/1}
+}
+</style></head><body><header class="site-header"><div class="wrap"><div class="nav"><a class="brand" href="index.html"><span class="brand-mark">H</span><span>哈雷露亞民宿</span></a><nav class="nav-links"><a href="index.html">首頁</a><a href="rooms.html">房型</a><a href="space.html">園區</a><a href="rules.html">營區守則</a><a href="qa.html">Q&amp;A</a><a href="free-activities.html">免費活動項目</a><a href="activities.html">活動項目&amp;租借服務</a><a href="inquiry.html">空房預定</a><a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">官方粉專</a><a href="contact.html">聯絡我們</a></nav><a class="nav-cta" href="https://lin.ee/XsIMYvU" target="_blank" rel="noopener">LINE 預約</a><button class="menu-toggle" onclick="toggleMenu()">☰</button></div><div class="mobile-menu"><a href="index.html">首頁</a><a href="rooms.html">房型</a><a href="space.html">園區</a><a href="rules.html">營區守則</a><a href="qa.html">Q&amp;A</a><a href="free-activities.html">免費活動項目</a><a href="activities.html">活動項目&amp;租借服務</a><a href="inquiry.html">空房預定</a><a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">官方粉專</a><a href="contact.html">聯絡我們</a><a href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約</a></div></div></header><div class="header-space"></div><section class="page-hero"><div class="wrap"><div class="breadcrumb">首頁 / 園區</div><div class="kicker" style="color:#dcc9aa">SPACE</div><h1 class="title">園區與環境</h1><p class="lead">從山景環境到戶外烤肉區、公共洗手間、淋浴空間與夜間外觀，都以現場實景呈現。</p></div></section><section class="section"><div class="wrap"><div class="heading"><div><div class="kicker">GALLERY</div><h2 class="title">看見民宿真正的風景。</h2></div><p class="lead">晴天、山霧與綠意，每次來都有不同表情。適合慢慢看、慢慢住。</p></div><div class="carousel" data-carousel><div class="carousel-track"><div class="slide"><img src="assets/images/hero_aerial.jpg" alt="空拍外觀"><div class="slide-caption">空拍外觀｜被山林包圍的哈雷露亞民宿</div></div><div class="slide"><img src="assets/images/exterior_sunny.jpg" alt="民宿外觀"><div class="slide-caption">白天外觀｜山林與藍天</div></div><div class="slide"><img src="assets/images/deck_mist.jpg" alt="山景露台"><div class="slide-caption">山景露台｜在山霧與綠意之間放鬆</div></div><div class="slide"><img src="assets/images/view_window.jpg" alt="窗外山景"><div class="slide-caption">窗外山景｜坐著就能看見山巒</div></div><div class="slide"><img src="assets/images/yard1.jpg" alt="屋旁草地"><div class="slide-caption">屋旁草地｜保留自然感</div></div><div class="slide"><img src="assets/images/dining.jpg" alt="公共空間"><div class="slide-caption">公共空間｜聚會、用餐與聊天</div></div></div><div class="carousel-dots"></div><div class="carousel-controls"><button class="carousel-btn prev">‹</button><button class="carousel-btn next">›</button></div></div></div></section><section class="section facility-section" style="padding-top:0">
 <div class="wrap">
-  <div class="heading">
-    <div><div class="kicker">OUTDOOR &amp; FACILITIES</div><h2 class="title">戶外烤肉區、衛浴與夜間環境</h2></div>
-    <p class="lead">以下皆為現場實景。把同類空間整理在一起，畫面更好看，也更容易看懂園區動線。</p>
+  <div class="heading facility-heading">
+    <div>
+      <div class="kicker">OUTDOOR &amp; FACILITIES</div>
+      <h2 class="title">戶外烤肉、衛浴與夜間環境</h2>
+    </div>
+    <p class="lead">以下皆為哈雷露亞民宿現場實景。這次改成分區呈現，不再把直式照片硬塞進同尺寸卡片。</p>
   </div>
 
-  <div class="space-showcase">
-    <article class="space-feature">
-      <div class="space-feature-copy">
-        <div class="kicker">BBQ AREA</div>
-        <h3>戶外烤肉區</h3>
-        <p>四個角度一次看清楚，包含山景側院、衛浴旁草地、竹林側空間與林蔭草地。</p>
+  <article class="facility-hero">
+    <div class="facility-hero-photo">
+      <img src="assets/images/space_bbq_03.webp?v=20261015-0240" alt="哈雷露亞民宿戶外烤肉區實景">
+    </div>
+    <div class="facility-hero-copy">
+      <div class="kicker">BBQ AREA</div>
+      <h3>戶外烤肉區</h3>
+      <p>位在民宿旁的戶外空間，周圍就是山林與綠意，適合住宿旅客一起烤肉、聊天、聚會。</p>
+      <div class="facility-tags">
+        <span>戶外空間</span><span>山林環境</span><span>住宿聚會</span>
       </div>
-      <div class="space-feature-photo">
-        <img src="assets/images/space_bbq_collage.webp?v=20261015-0215" alt="哈雷露亞民宿戶外烤肉區四個角度實景">
+    </div>
+  </article>
+
+  <div class="facility-grid">
+    <article class="facility-card">
+      <img src="assets/images/space_restroom_01.webp?v=20261015-0240" alt="哈雷露亞民宿公共洗手間">
+      <div class="facility-card-copy">
+        <div class="kicker">RESTROOM</div>
+        <h3>公共洗手間</h3>
+        <p>獨立如廁空間，位在戶外活動區旁，使用動線方便。</p>
       </div>
     </article>
 
-    <article class="space-feature">
-      <div class="space-feature-copy">
-        <div class="kicker">RESTROOM &amp; SHOWER</div>
-        <h3>公共洗手間與淋浴空間</h3>
-        <p>三間獨立洗手間與戶外公共淋浴區，照片皆為現場實際空間。</p>
-      </div>
-      <div class="space-feature-photo bath">
-        <img src="assets/images/space_bath_collage.webp?v=20261015-0215" alt="哈雷露亞民宿公共洗手間與淋浴空間實景">
-      </div>
-    </article>
-
-    <article class="space-night-card">
-      <img src="assets/images/space_night_01.webp?v=20261015-0215" alt="哈雷露亞民宿夜間外觀">
-      <div class="space-night-copy">
-        <div class="kicker">NIGHT VIEW</div>
-        <h3>夜間外觀</h3>
-        <p>夜晚點燈後的民宿外觀，山林環境在夜裡更安靜。</p>
+    <article class="facility-card">
+      <img src="assets/images/space_shower_01.webp?v=20261015-0240" alt="哈雷露亞民宿公共淋浴空間">
+      <div class="facility-card-copy">
+        <div class="kicker">SHOWER</div>
+        <h3>公共淋浴空間</h3>
+        <p>戶外公共浴室與淋浴區，照片為現場實際空間。</p>
       </div>
     </article>
   </div>
+
+  <article class="facility-night">
+    <div class="facility-night-copy">
+      <div class="kicker">NIGHT VIEW</div>
+      <h3>夜間外觀</h3>
+      <p>夜晚點燈後的民宿外觀。山林入夜後更安靜，也能看見與白天完全不同的氛圍。</p>
+    </div>
+    <img src="assets/images/space_night_01.webp?v=20261015-0240" alt="哈雷露亞民宿夜間外觀">
+  </article>
 </div>
 </section><footer class="footer"><div class="wrap footer-wrap"><div><strong>哈雷露亞民宿</strong><br>苗栗縣民宿 533 號<br>苗栗縣獅潭鄉新店村15鄰大東勢20之5號</div><div>電話：0910-541-814<br><a href="https://lin.ee/XsIMYvU" target="_blank" rel="noopener">官方 LINE</a></div></div></footer><script src="assets/script.js?v=20261011-2355"></script></body></html>
