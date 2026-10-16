@@ -2,8 +2,12 @@
 .facility-section{background:linear-gradient(180deg,transparent 0%,rgba(238,231,218,.38) 100%)}
 .facility-heading{margin-bottom:32px}
 .facility-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);background:#fff;border-radius:30px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(45,89,71,.08);margin-bottom:22px}
-.facility-hero-photo{min-height:520px;background:#e6e7e1;overflow:hidden}
-.facility-hero-photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 55%}
+.facility-bbq-carousel{min-height:520px;border-radius:0;box-shadow:none;background:#e6e7e1}
+.facility-bbq-carousel .slide img{height:520px;object-fit:cover;object-position:center 55%}
+.facility-bbq-carousel .carousel-controls{right:18px;bottom:18px}
+.facility-bbq-carousel .carousel-dots{left:18px;bottom:20px}
+.facility-bbq-carousel .carousel-btn{width:44px;height:44px;font-size:24px;background:rgba(17,33,26,.62)}
+.facility-bbq-carousel .carousel-dots button{width:10px;height:10px}
 .facility-hero-copy{padding:46px 42px;display:flex;flex-direction:column;justify-content:center}
 .facility-hero-copy h3,.facility-card-copy h3,.facility-night h3{font-family:"Noto Serif TC",serif;margin:8px 0 12px;color:var(--ink)}
 .facility-hero-copy h3{font-size:38px}
@@ -23,8 +27,8 @@
 .facility-night img{width:100%;height:100%;min-height:360px;object-fit:cover;display:block}
 @media(max-width:900px){
   .facility-hero{grid-template-columns:1fr}
-  .facility-hero-photo{min-height:0}
-  .facility-hero-photo img{height:auto;aspect-ratio:4/3}
+  .facility-bbq-carousel{min-height:0}
+  .facility-bbq-carousel .slide img{height:auto;aspect-ratio:4/3;object-position:center}
   .facility-hero-copy{padding:30px 28px 34px}
   .facility-grid{grid-template-columns:1fr 1fr}
   .facility-night{grid-template-columns:1fr}
@@ -33,7 +37,7 @@
 @media(max-width:620px){
   .facility-heading{margin-bottom:24px}
   .facility-hero,.facility-card,.facility-night{border-radius:22px}
-  .facility-hero-photo img{aspect-ratio:4/5;object-position:center}
+  .facility-bbq-carousel .slide img{height:auto;aspect-ratio:4/5;object-position:center}
   .facility-hero-copy{padding:24px 20px 28px}
   .facility-hero-copy h3{font-size:30px}
   .facility-grid{grid-template-columns:1fr;gap:16px}
@@ -54,15 +58,25 @@
   </div>
 
   <article class="facility-hero">
-    <div class="facility-hero-photo">
-      <img src="assets/images/space_bbq_03.webp?v=20261015-0240" alt="哈雷露亞民宿戶外烤肉區實景">
+    <div class="carousel facility-bbq-carousel" data-carousel aria-label="戶外烤肉區照片輪播">
+      <div class="carousel-track">
+        <div class="slide"><img src="assets/images/space_bbq_01.webp?v=20261016-1725" alt="戶外烤肉區實景 1"></div>
+        <div class="slide"><img src="assets/images/space_bbq_02.webp?v=20261016-1725" alt="戶外烤肉區實景 2"></div>
+        <div class="slide"><img src="assets/images/space_bbq_03.webp?v=20261016-1725" alt="戶外烤肉區實景 3"></div>
+        <div class="slide"><img src="assets/images/space_bbq_04.webp?v=20261016-1725" alt="戶外烤肉區實景 4"></div>
+      </div>
+      <div class="carousel-dots"></div>
+      <div class="carousel-controls">
+        <button class="carousel-btn prev" type="button" aria-label="上一張">‹</button>
+        <button class="carousel-btn next" type="button" aria-label="下一張">›</button>
+      </div>
     </div>
     <div class="facility-hero-copy">
       <div class="kicker">BBQ AREA</div>
       <h3>戶外烤肉區</h3>
-      <p>位在民宿旁的戶外空間，周圍就是山林與綠意，適合住宿旅客一起烤肉、聊天、聚會。</p>
+      <p>位在民宿旁的戶外空間，周圍就是山林與綠意。可使用左右箭頭或下方圓點查看 4 個不同角度。</p>
       <div class="facility-tags">
-        <span>戶外空間</span><span>山林環境</span><span>住宿聚會</span>
+        <span>4 張實景輪播</span><span>戶外空間</span><span>山林環境</span>
       </div>
     </div>
   </article>
