@@ -1,6 +1,6 @@
 (()=>{
 const API='https://hkrttulwietizshbfigq.supabase.co/functions/v1/booking-api';
-let totalRooms=4;const WD=1600,WE=2000,WD2027=2000,WE2027=2500;
+let totalRooms=4;const WD=1600,WE=2000,WD2027=2500,WE2027=3000;
 const HOLIDAYS=new Set(["2026-01-01","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-27","2026-04-03","2026-04-06","2026-05-01","2026-06-19","2026-09-25","2026-09-28","2026-10-09","2026-10-26","2026-12-25","2027-01-01","2027-02-04","2027-02-05","2027-02-08","2027-02-09","2027-02-10","2027-03-01","2027-04-05","2027-04-06","2027-04-30","2027-06-09","2027-09-15","2027-09-28","2027-10-11","2027-10-25","2027-12-24","2027-12-31"]);
 const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0'),fmt=n=>`NT$${Number(n||0).toLocaleString('zh-TW')}`;
 const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -11,7 +11,7 @@ const checkinEl=$('#bookingCheckin'),checkoutEl=$('#bookingCheckout'),roomsEl=$(
 const grid=$('#bookingCalendar'),title=$('#calendarMonthTitle'),prev=$('#calendarPrev'),next=$('#calendarNext'),alertBox=$('#availabilityAlert'),submit=$('#bookingSubmit'),result=$('#bookingResult');
 let shown=new Date(today.getFullYear(),today.getMonth(),1,12),checkin=null,checkout=null,availability=new Map(),apiOk=false,loading=false;
 const baseHoliday=d=>{const s=iso(d),w=d.getDay();return HOLIDAYS.has(s)||w===0||w===6};
-const fallbackRate=d=>{const s=iso(d);if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 3200;if(s==='2026-09-25'||s==='2027-09-15')return 3200;const dec2026=s>='2026-12-01'&&s<='2026-12-30';const weekday=dec2026?2000:s>='2027-01-01'?WD2027:WD,holiday=dec2026?2500:s>='2027-01-01'?WE2027:WE;if(baseHoliday(d)){const n=new Date(d);n.setDate(n.getDate()+1);return baseHoliday(n)?holiday:weekday}return weekday};
+const fallbackRate=d=>{const s=iso(d);if(s>='2026-12-31'&&s<='2027-01-03')return 3200;if(s>='2027-02-04'&&s<='2027-02-10')return 3500;if(s==='2026-09-25'||s==='2027-09-15')return 3200;const dec2026=s>='2026-12-01'&&s<='2026-12-30';const weekday=dec2026?2000:s>='2027-01-01'?WD2027:WD,holiday=dec2026?2500:s>='2027-01-01'?WE2027:WE;if(baseHoliday(d)){const n=new Date(d);n.setDate(n.getDate()+1);return baseHoliday(n)?holiday:weekday}return weekday};
 const rate=d=>{const x=availability.get(iso(d));return x&&Number(x.rate)>0?Number(x.rate):fallbackRate(d)};
 const nights=(a,b)=>{const x=[];if(!a||!b||b<=a)return x;for(let d=new Date(a);d<b;d.setDate(d.getDate()+1))x.push(new Date(d));return x};
 const same=(a,b)=>a&&b&&iso(a)===iso(b),inRange=d=>checkin&&checkout&&d>checkin&&d<checkout;
