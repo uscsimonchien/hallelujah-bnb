@@ -4,7 +4,7 @@ const {Pool}=require('pg');
 const app=express();
 const DB_READY=!!process.env.DATABASE_URL;
 const pool=DB_READY?new Pool({connectionString:process.env.DATABASE_URL,ssl:{rejectUnauthorized:false}}):null;
-const TOTAL=4,WD=1600,WE=2000,WD2027=2000,WE2027=2500,HOLD_HOURS=2;
+const TOTAL=4,WD=1600,WE=2000,WD2027=2500,WE2027=3000,HOLD_HOURS=2;
 const HOLIDAYS=new Set(["2026-01-01","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-27","2026-04-03","2026-04-06","2026-05-01","2026-06-19","2026-09-25","2026-09-28","2026-10-09","2026-10-26","2026-12-25","2027-01-01","2027-02-04","2027-02-05","2027-02-08","2027-02-09","2027-02-10","2027-03-01","2027-04-05","2027-04-06","2027-04-30","2027-06-09","2027-09-15","2027-09-28","2027-10-11","2027-10-25","2027-12-24","2027-12-31"]);
 app.use(cors({origin:true}));
 app.use(express.json());
@@ -13,7 +13,7 @@ app.use((req,res,next)=>{if(req.path==='/health')return next();if(!DB_READY)retu
 const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||''));
 const baseHoliday=s=>{const d=new Date(s+'T12:00:00+08:00'),w=d.getDay();return HOLIDAYS.has(s)||w===0||w===6};
 const nextIso=s=>{const d=new Date(s+'T12:00:00+08:00');d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)};
-const rate=s=>{if((s>='2026-12-31'&&s<='2027-01-03')||(s>='2027-02-04'&&s<='2027-02-10'))return 3200;if(s==='2026-09-25'||s==='2027-09-15')return 3200;const dec2026=s>='2026-12-01'&&s<='2026-12-30';const weekday=dec2026?2000:s>='2027-01-01'?WD2027:WD,holiday=dec2026?2500:s>='2027-01-01'?WE2027:WE;if(baseHoliday(s))return baseHoliday(nextIso(s))?holiday:weekday;return weekday};
+const rate=s=>{if(s>='2026-12-31'&&s<='2027-01-03')return 3200;if(s>='2027-02-04'&&s<='2027-02-10')return 3500;if(s==='2026-09-25'||s==='2027-09-15')return 3200;const dec2026=s>='2026-12-01'&&s<='2026-12-30';const weekday=dec2026?2000:s>='2027-01-01'?WD2027:WD,holiday=dec2026?2500:s>='2027-01-01'?WE2027:WE;if(baseHoliday(s))return baseHoliday(nextIso(s))?holiday:weekday;return weekday};
 const nights=(a,b)=>{const out=[];for(let d=new Date(a+'T12:00:00+08:00'),e=new Date(b+'T12:00:00+08:00');d<e;d.setDate(d.getDate()+1))out.push(d.toISOString().slice(0,10));return out};
 const code=()=>`HL${new Date().toISOString().slice(2,10).replaceAll('-','')}${Math.floor(100000+Math.random()*900000)}`;
 
