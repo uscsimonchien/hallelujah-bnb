@@ -1,0 +1,60 @@
+name: Decode bath carousel photos
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  decode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decode staged bath photos and update carousel
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f .upload/ready ]; then
+            echo "No staged bath-photo update."
+            exit 0
+          fi
+
+          mkdir -p assets/images
+          cat .upload/bath_outdoor_*.b64 | tr -d '\n\r ' | base64 -d > assets/images/outdoor_bath_new.webp
+          cat .upload/bath_japanese_*.b64 | tr -d '\n\r ' | base64 -d > assets/images/japanese_bathhouse_new.webp
+
+          echo "62f88b42ae286f30722232d8b8ac5b9e14fa328f84735e1b95926c3b4c27a105  assets/images/outdoor_bath_new.webp" | sha256sum -c -
+          echo "612fd342e2b4007cf5fb61fea0697ca1ae842ba91846214c42cae991b82ea529  assets/images/japanese_bathhouse_new.webp" | sha256sum -c -
+
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("activities.html")
+          s = p.read_text(encoding="utf-8")
+          old1 = 'assets/images/outdoor_bath.jpg" alt="私人戶外湯屋"'
+          old2 = 'assets/images/outdoor_bath.jpg" alt="日式澡堂"'
+          if old1 not in s or old2 not in s:
+              raise SystemExit("Expected old bath carousel references were not found.")
+          s = s.replace(old1, 'assets/images/outdoor_bath_new.webp?v=20261023-0715" alt="私人戶外湯屋"', 1)
+          s = s.replace(old2, 'assets/images/japanese_bathhouse_new.webp?v=20261023-0715" alt="日式澡堂"', 1)
+          p.write_text(s, encoding="utf-8")
+          PY
+
+          rm -rf .upload
+
+      - name: Commit updated bath carousel
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add activities.html assets/images/outdoor_bath_new.webp assets/images/japanese_bathhouse_new.webp
+          git add -A .upload
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Update bath carousel photos"
+          git push
