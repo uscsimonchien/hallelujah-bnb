@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><title>Image diagnostic</title></head><body><main><h1>Image diagnostic</h1><div id="result">Loading</div></main><script>
+(async()=>{
+const names=["assets/images/bath-kids-20261023.png","assets/images/japanese-bathhouse-carousel.png"];
+const arr=[];
+for(const src of names){
+ const img=new Image();img.src=src+"?audit=1948";
+ try{await img.decode();const c=document.createElement("canvas");c.width=c.height=8;const x=c.getContext("2d");x.drawImage(img,0,0,8,8);const d=x.getImageData(0,0,8,8).data;const gray=[];for(let i=0;i<d.length;i+=4)gray.push(Math.round((d[i]+d[i+1]+d[i+2])/3));arr.push({src,width:img.naturalWidth,height:img.naturalHeight,gray});}
+ catch(e){arr.push({src,error:String(e)})}
+}
+document.querySelector("#result").textContent=JSON.stringify(arr);
+})();
+</script></body></html>
