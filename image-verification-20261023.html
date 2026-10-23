@@ -1,0 +1,10 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Image check</title></head><body><main><h1>Bath image test</h1><pre id="result">Loading</pre></main><script>
+(async()=>{
+const names=["assets/images/outdoor_bath_new.jpg","assets/images/outdoor-bath-carousel.png","assets/images/bath-kids-final-20261023.jpg","assets/images/japanese-room-final-20261023.jpg"];
+let arr=[];
+for(const src of names){
+ let i=new Image();i.src=src+"?audit=20261023-2012";try{await i.decode();arr.push({src,ok:true,width:i.naturalWidth,height:i.naturalHeight});}catch(e){arr.push({src,ok:false,error:String(e)})}
+}
+document.getElementById("result").textContent=JSON.stringify(arr);
+})();
+</script></body></html>
