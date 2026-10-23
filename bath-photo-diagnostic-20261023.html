@@ -1,0 +1,8 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Photo check</title></head><body><h1>4-image decode check</h1><pre id="out">Checking</pre><script>(async()=>{
+const names=["outdoor_bath_new.jpg","outdoor-bath-real-20261023.jpg","bath-kids-final-20261023.jpg","japanese-room-final-20261023.jpg"];
+const result=[];for(const name of names){
+ const img=new Image();img.src="assets/images/"+name+"?v=final20261023";
+ try{await img.decode();result.push({name,loaded:true,width:img.naturalWidth,height:img.naturalHeight})}
+ catch(err){result.push({name,loaded:false,error:String(err)})}
+}document.getElementById("out").textContent=JSON.stringify(result);
+})();</script></body></html>
