@@ -1,9 +1,3 @@
-(() => {
-  const s = document.createElement('script');
-  s.src = 'assets/bathhouse-photo.js?v=20261001-2344';
-  document.head.appendChild(s);
-})();
-
 // Keep the same logo/header and availability-booking label on every page.
 (() => {
   const applyHeader = () => {
