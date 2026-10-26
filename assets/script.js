@@ -227,3 +227,21 @@ document.querySelectorAll('.faq-q').forEach((btn)=>{
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyGlobalNavPills);
   else applyGlobalNavPills();
 })();
+
+
+// LINE booking: navigate in the current tab on mobile/in-app browsers.
+// Opening a new tab can be blocked by iOS embedded browsers.
+(() => {
+  const prepareLineLinks = () => {
+    document.querySelectorAll('a[href]').forEach((link) => {
+      let url;
+      try { url = new URL(link.getAttribute('href'), location.href); } catch (_) { return; }
+      if (url.hostname !== 'lin.ee' || url.pathname !== '/XsIMYvU') return;
+      link.href = 'https://lin.ee/XsIMYvU';
+      link.removeAttribute('target');
+      link.setAttribute('rel', 'noopener noreferrer');
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', prepareLineLinks);
+  else prepareLineLinks();
+})();
