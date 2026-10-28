@@ -7,14 +7,15 @@ create table if not exists public.camping_sites (
  width_m numeric(4,1) not null,
  depth_m numeric(4,1) not null,
  active boolean not null default true,
- nightly_price integer check (nightly_price >= 0),
+ nightly_price integer not null default 1000 check (nightly_price >= 0),
  created_at timestamptz not null default now()
 );
 insert into public.camping_sites(id,area,width_m,depth_m) values
  ('3F-1','3F',3,5),('3F-2','3F',3,5),
  ('4F-A-1','4F-A',4,6),('4F-A-2','4F-A',4,6),
  ('4F-B-1','4F-B',4,6),('4F-B-2','4F-B',4,6),
- ('6F-B-1','6F-B',4,6),('6F-B-2','6F-B',4,6)
+ ('5F-1','5F',4,6),('5F-2','5F',4,6),
+ ('6F-A-1','6F-A',3,5),('6F-A-2','6F-A',4,4)
 on conflict (id) do nothing;
 create table if not exists public.camping_reservations (
  id bigint generated always as identity primary key,
