@@ -86,4 +86,6 @@ app.patch('/api/admin/bookings/:id',admin,async(req,res)=>{
  }catch(e){try{await c.query('ROLLBACK')}catch{}res.status(500).json({error:'server_error'})}finally{c.release()}
 });
 
+app.use('/api/camping',require('./camping-api')(pool,admin));
+
 app.listen(process.env.PORT||10000,()=>init().then(()=>console.log(DB_READY?'booking api ready':'booking api waiting for database')).catch(e=>console.error('database init failed',e)));
