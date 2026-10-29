@@ -19,7 +19,7 @@ function render(list){
  <td><strong>${escapeHtml(b.name)}</strong><div>${escapeHtml(b.phone)}</div>${b.line_name?`<div style="font-size:12px;color:#777">LINE：${escapeHtml(b.line_name)}</div>`:''}</td>
  <td>${String(b.checkin).slice(0,10)} → ${String(b.checkout).slice(0,10)}<div style="font-size:12px;color:#777">${b.nights} 晚</div></td>
  <td>${b.rooms} 間／${b.guests} 人</td>
- <td><strong>${fmt(b.total)}</strong>${Number(b.bath_90min_qty||0)>0?`<div style="font-size:12px;color:#35694c">♨️ 湯屋 90 分鐘 × ${Number(b.bath_90min_qty)} 次（${fmt(b.bath_total)}）</div>`:''}<div style="font-size:12px;color:#777">訂金 ${fmt(b.deposit)}／尾款 ${fmt(b.balance)}</div></td>
+ <td><strong>${fmt(b.total)}</strong>${Number(b.bath_90min_qty||0)>0?`<div style="font-size:12px;color:#35694c">♨️ 湯屋 90 分鐘 × ${Number(b.bath_90min_qty)} 次（${fmt(b.bath_total)}）</div>`:''}${Array.isArray(b.extras)?b.extras.map(item=>`<div style="font-size:12px;color:#35694c">${escapeHtml(item.name)} × ${Number(item.qty)} ${escapeHtml(item.unit)}（${fmt(item.rent_total)}）</div>`).join(''):''}${Number(b.equipment_deposit_due||0)>0?`<div style="font-size:12px;color:#86602d">器材押金另收（可退）${fmt(b.equipment_deposit_due)}</div>`:''}<div style="font-size:12px;color:#777">訂金 ${fmt(b.deposit)}／尾款 ${fmt(b.balance)}</div></td>
  <td style="max-width:220px">${escapeHtml(b.note||'')}</td>
  <td><div class="admin-actions">
    <button class="ok" data-id="${b.id}" data-status="confirmed">確認</button>
