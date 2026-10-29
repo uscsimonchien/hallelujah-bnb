@@ -113,7 +113,7 @@
     const grid = document.querySelector('#rentalCardGridV2 .rental-product-grid');
     if (!grid) return;
     const items = [
-      { title:'G40 LED 氣氛燈串', image:`assets/images/g40_string_lights.png?v=${VERSION}`, alt:'G40 LED 氣氛燈串', kicker:'G40 LED STRING LIGHTS', desc:'總長約 7.6 米、25 顆暖黃光 LED 燈泡，附防撞收納袋。適合露營、車宿與戶外聚會營造溫暖氣氛。', rent:'50', deposit:'200' },
+      { title:'G40 LED 氣氛燈串', image:`assets/images/g40_string_lights.png?v=${VERSION}`, alt:'G40 LED 氣氛燈串', kicker:'G40 LED STRING LIGHTS', desc:'總長約 7.6 米、25 顆暖黃光 LED 燈泡，附防撞收納袋。適合露營、車宿與戶外聚會營造溫暖氣氛。', rent:'50', deposit:'200', qty:'最多 10 組' },
       { title:'燈串加購動力延長線組', image:`assets/images/g40_extension_cable.png?v=${VERSION}`, alt:'燈串加購動力延長線組', kicker:'G40 POWER EXTENSION SET', desc:'G40 7.6 米燈串 ×1＋5米／10米動力延長線 ×1，依現場使用需求提供規格。', rent:'100', deposit:'300' }
     ];
     items.forEach((item) => {
@@ -122,6 +122,7 @@
       const img = existing.querySelector('.rental-photo-window img');
       if (img) { img.src=item.image; img.alt=item.alt; img.loading='eager'; img.decoding='async'; }
       existing.querySelector('.desc') && (existing.querySelector('.desc').textContent=item.desc);
+      if(item.title==='G40 LED 氣氛燈串'){const chip=existing.querySelector('.rental-product-meta .rental-chip');if(chip)chip.textContent='可預約最多 10 組';}
       existing.querySelector('.rental-price-row strong') && (existing.querySelector('.rental-price-row strong').textContent=`NT$${item.rent}`);
       existing.querySelector('.rental-deposit') && (existing.querySelector('.rental-deposit').innerHTML=`押金<br>NT$${item.deposit}`);
     });
