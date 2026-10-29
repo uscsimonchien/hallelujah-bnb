@@ -36,6 +36,7 @@
         <div class="form-field full"><label for="bookingBathQty">♨️ 加購湯屋 90 分鐘｜每次 NT$1,000（選填）</label><select id="bookingBathQty" name="bath90minQty"><option value="0">不加購</option><option value="1">1 次（NT$1,000）</option><option value="2">2 次（NT$2,000）</option><option value="3">3 次（NT$3,000）</option><option value="4">4 次（NT$4,000）</option></select><small style="display:block;color:#66786a;line-height:1.6;margin-top:6px">以選擇次數計費，不依住宿晚數重複加價；實際使用時段由民宿確認。</small></div>
         <div class="form-field full"><label for="bookingNote">其他需求</label><textarea id="bookingNote" name="note" placeholder="例如：預計抵達時間、孩童年齡、活動租借需求等"></textarea></div>
       </div>
+      <div id="roomExtras"></div>
       <div class="booking-summary">
         <h4>費用試算</h4>
         <div class="summary-row"><span>入住期間</span><strong id="sumDates">請選擇日期</strong></div>
@@ -44,6 +45,8 @@
         <div class="summary-row"><span>入住人數</span><strong id="sumGuests">—</strong></div>
         <div class="summary-row"><span>住宿費用</span><strong id="sumRoomTotal">—</strong></div>
         <div class="summary-row"><span>湯屋加購</span><strong id="sumBathTotal">未加購</strong></div>
+        <div class="summary-row"><span>其他用品／活動加購</span><strong id="sumExtrasTotal">未加購</strong></div>
+        <div class="summary-row"><span>器材押金（現場另收，可退）</span><strong id="sumGearDeposit">NT$0</strong></div>
         <div class="summary-row total"><span>預估總額（含加購）</span><strong id="sumTotal">—</strong></div>
         <div class="summary-row deposit"><span>預估訂金</span><strong id="sumDeposit">—</strong></div>
         <div class="summary-row"><span>現場尾款</span><strong id="sumBalance">—</strong></div>
@@ -61,5 +64,6 @@
 <div class="float-links"><a class="float fb" href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">f</a><a class="float line" href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE</a></div>
 <footer class="footer"><div class="wrap footer-wrap"><div><strong>哈雷露亞民宿</strong><br>苗栗縣民宿 533 號<br>苗栗縣獅潭鄉新店村15鄰大東勢20之5號</div><div>電話：0910-541-814<br><a href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">官方 LINE</a> ｜ <a href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">Facebook 粉專</a></div><div>© 2026 Hallelujah Homestay.<br>靜靜住進山裡。</div></div></footer>
 <script src="assets/script.js?v=20261026-linefix"></script>
-<script src="assets/booking-v2.js?v=20261029-bath"></script>
+<script src="assets/booking-extras.js?v=20261029-all"></script>
+<script src="assets/booking-v2.js?v=20261029-all"></script>
 </body></html>
