@@ -33,6 +33,16 @@
 .rental-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
 @media(max-width:900px){.rental-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.rental-product-grid{grid-template-columns:1fr;gap:18px}.rental-price-row strong{font-size:22px}.rental-policy,.damage-box{padding:20px}.fee-alert{border-radius:14px}.rental-table th,.rental-table td{padding:12px}}
+
+/* 充氣帳篷雙圖輪播：正方形圖片顯示完整尺寸，不裁切標示文字 */
+.rental-photo-carousel{position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;background:#fff}
+.rental-photo-carousel .carousel-track{display:flex;height:100%;transition:transform .45s ease}
+.rental-photo-carousel .slide{flex:0 0 100%;min-width:100%;height:100%;position:relative}
+.rental-photo-carousel .slide img{width:100%;height:100%;aspect-ratio:1/1;object-fit:contain;display:block;background:#fff}
+.rental-photo-carousel .slide-caption{position:absolute;left:10px;bottom:14px;max-width:calc(100% - 112px);padding:6px 9px;border-radius:8px;background:rgba(20,45,35,.8);color:#fff;font-size:12px;font-weight:700}
+.rental-photo-carousel .carousel-dots{left:12px;bottom:48px}
+.rental-photo-carousel .carousel-controls{right:10px;bottom:10px}
+.rental-photo-carousel .carousel-btn{width:36px;height:36px;background:rgba(18,45,34,.75)}
 </style>
 </head>
 <body>
@@ -59,7 +69,7 @@
 <article class="activity-card rental-product-card"><div class="rental-photo-window"><img src="assets/images/rental_cheese_double.webp?v=20261003-1615" alt="雙人奶酪床墊"></div><div class="body"><div class="kicker">DOUBLE CHEESE MATTRESS</div><h3>雙人奶酪床墊</h3><p class="desc">雙人加大尺寸，適合家庭或雙人使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$400</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div></article>
 <article class="activity-card rental-product-card"><div class="rental-photo-window"><img src="assets/images/tailtent-aladdin-live-20261005.jpeg?v=2" alt="阿拉丁車尾帳"></div><div class="body"><div class="kicker">ALADDIN CAR TAIL TENT</div><h3>車尾帳（一般款）</h3><p class="desc">適合簡易車宿搭設，提供遮蔽與延伸休憩空間。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div></article>
 <article class="activity-card rental-product-card"><div class="rental-photo-window"><img src="assets/images/tailtent-standard-live-20261005.jpeg?v=2" alt="車尾帳（一般款）"></div><div class="body"><div class="kicker">STANDARD CAR TAIL TENT</div><h3>阿拉丁車尾帳</h3><p class="desc">空間較大，適合多人休憩與車宿延伸使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,000</strong></div><div class="rental-deposit">押金<br>NT$2,000</div></div></div></article>
-<article class="activity-card rental-product-card"><div class="rental-photo-window"><img src="assets/images/rental_inflatable_tent.webp?v=20261003-1615" alt="充氣帳篷"></div><div class="body"><div class="kicker">INFLATABLE TENT</div><h3>充氣帳篷</h3><p class="desc">搭設快速、空間寬敞，適合家庭露營使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,500</strong></div><div class="rental-deposit">押金<br>NT$3,000</div></div></div></article>
+<article class="activity-card rental-product-card"><div class="carousel activity-card-carousel rental-photo-carousel" data-carousel aria-label="充氣帳篷照片與尺寸圖輪播"><div class="carousel-track"><div class="slide"><img src="assets/images/rental_inflatable_tent_hd.png?v=20261029" alt="充氣帳篷照片" loading="eager" decoding="async"><div class="slide-caption">充氣帳篷</div></div><div class="slide"><img src="assets/images/inflatable-tent-size.webp?v=20261029" alt="充氣帳篷尺寸圖，長395公分、寬250公分、高205公分" loading="lazy" decoding="async"><div class="slide-caption">尺寸：395 × 250 × 205 公分</div></div></div><div class="carousel-dots"></div><div class="carousel-controls"><button class="carousel-btn prev" type="button" aria-label="上一張照片">‹</button><button class="carousel-btn next" type="button" aria-label="下一張照片">›</button></div></div><div class="body"><div class="kicker">INFLATABLE TENT</div><h3>充氣帳篷</h3><p class="desc">搭設快速、空間寬敞，適合家庭露營使用。</p><div class="rental-product-meta"><span class="rental-chip">數量：1</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$1,500</strong></div><div class="rental-deposit">押金<br>NT$3,000</div></div></div></article>
 </div></div>
 <div class="rental-policy"><div class="kicker">RENTAL POLICY</div><h3>乾收無污不加收，特殊清潔自押金扣除。</h3><p>所有裝備於取件及退還時進行點交。一般使用後的日常清潔與消毒已包含在租金內，不另收費。</p><div class="rental-note"><strong>特別提醒：</strong>若帳篷潮濕收折、重度泥濘／細沙、床墊有液體滲透，或帳內烤肉造成重度異味，將依下方固定標準收取特殊清潔與乾燥費，並自押金中扣除。</div><div class="rental-actions"><a class="btn dark" href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE 預約租借</a><a class="btn" href="inquiry.html">空房預定住宿</a></div></div>
 <div class="fee-title"><div><div class="kicker">SPECIAL CLEANING & DRYING</div><h2 class="title" style="font-size:34px">特殊清潔與乾燥費</h2></div><span class="fee-alert">自押金扣除</span></div>
@@ -70,4 +80,25 @@
 <div class="floating-social"><a class="fb" href="https://www.facebook.com/profile.php?id=61591411270505" target="_blank" rel="noopener" aria-label="Facebook">f</a><a class="line" href="https://lin.ee/XsIMYvU" target="_blank" rel="noopener" aria-label="LINE">LINE</a></div>
 <script src="assets/script.js?v=20261026-linefix"></script>
 <script src="assets/rental-correct.js?v=20261005-1128"></script>
+<script>
+/* 手機左右滑動充氣帳篷照片，保留頁面上下捲動 */
+(() => {
+  const carousel = document.querySelector('.rental-photo-carousel');
+  if (!carousel) return;
+  let touchX = 0, touchY = 0;
+  carousel.addEventListener('touchstart', e => {
+    if (!e.touches.length) return;
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, {passive:true});
+  carousel.addEventListener('touchend', e => {
+    if (!e.changedTouches.length) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    const dy = e.changedTouches[0].clientY - touchY;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.35) {
+      carousel.querySelector(dx < 0 ? '.carousel-btn.next' : '.carousel-btn.prev')?.click();
+    }
+  }, {passive:true});
+})();
+</script>
 </body></html>
