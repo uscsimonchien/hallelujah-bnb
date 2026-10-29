@@ -33,6 +33,7 @@
         <div class="form-field"><label for="bookingName">姓名</label><input id="bookingName" name="name" placeholder="訂房人姓名" required></div>
         <div class="form-field"><label for="bookingPhone">聯絡電話</label><input id="bookingPhone" name="phone" type="tel" placeholder="09xx-xxx-xxx" required></div>
         <div class="form-field full"><label for="bookingLine">LINE 名稱（選填）</label><input id="bookingLine" name="lineName" placeholder="方便核對聯絡人"></div>
+        <div class="form-field full"><label for="bookingBathQty">♨️ 加購湯屋 90 分鐘｜每次 NT$1,000（選填）</label><select id="bookingBathQty" name="bath90minQty"><option value="0">不加購</option><option value="1">1 次（NT$1,000）</option><option value="2">2 次（NT$2,000）</option><option value="3">3 次（NT$3,000）</option><option value="4">4 次（NT$4,000）</option></select><small style="display:block;color:#66786a;line-height:1.6;margin-top:6px">以選擇次數計費，不依住宿晚數重複加價；實際使用時段由民宿確認。</small></div>
         <div class="form-field full"><label for="bookingNote">其他需求</label><textarea id="bookingNote" name="note" placeholder="例如：預計抵達時間、孩童年齡、活動租借需求等"></textarea></div>
       </div>
       <div class="booking-summary">
@@ -41,7 +42,9 @@
         <div class="summary-row"><span>住宿晚數</span><strong id="sumNights">—</strong></div>
         <div class="summary-row"><span>房間數</span><strong id="sumRooms">1 間</strong></div>
         <div class="summary-row"><span>入住人數</span><strong id="sumGuests">—</strong></div>
-        <div class="summary-row total"><span>預估總額</span><strong id="sumTotal">—</strong></div>
+        <div class="summary-row"><span>住宿費用</span><strong id="sumRoomTotal">—</strong></div>
+        <div class="summary-row"><span>湯屋加購</span><strong id="sumBathTotal">未加購</strong></div>
+        <div class="summary-row total"><span>預估總額（含加購）</span><strong id="sumTotal">—</strong></div>
         <div class="summary-row deposit"><span>預估訂金</span><strong id="sumDeposit">—</strong></div>
         <div class="summary-row"><span>現場尾款</span><strong id="sumBalance">—</strong></div>
         <div class="availability-alert" id="availabilityAlert">請先選擇入住與退房日期。</div>
@@ -52,7 +55,7 @@
   </div></div>
 </div>
 <div class="booking-rates"><div class="mini-rate"><small>2026 1–11月 平日每房／晚</small><strong>NT$1,600</strong></div><div class="mini-rate"><small>2026 1–11月 假日每房／晚</small><strong>NT$2,000</strong></div><div class="mini-rate"><small>2026 12月 平日每房／晚</small><strong>NT$2,000</strong></div><div class="mini-rate"><small>2026 12月 假日每房／晚</small><strong>NT$2,500</strong></div><div class="mini-rate"><small>2027 平日每房／晚</small><strong>NT$2,500</strong></div><div class="mini-rate"><small>2027 假日每房／晚</small><strong>NT$3,000</strong></div><div class="mini-rate"><small>中秋節特別價 每房／晚</small><strong>NT$3,200</strong></div><div class="mini-rate"><small>2026 跨年特別價 每房／晚</small><strong>NT$3,000</strong></div><div class="mini-rate"><small>2027 其他 3 日以上連假 每房／晚</small><strong>NT$3,500</strong></div></div>
-<div class="booking-policy"><div>🕐 入住 15:00／退房 12:00；18:00 後抵達請提前告知。</div><div>💰 訂金為總住宿費 30%，請於 <strong>預訂建立後 2 小時內</strong> 完成匯款；匯款資訊由民宿私下提供。逾時未付款且未提前聯繫，房間將釋出。</div><div>🏡 全區共 4 間房，住宿上限 16 人。每房實際入住安排仍以民宿確認為準。</div><div>📅 自動試算：2026 年 1～11 月平日 NT$1,600、假日 NT$2,000；2026 年 12 月平日 NT$2,000、假日 NT$2,500；2027 平日 NT$2,500、假日 NT$3,000。一般連假最後一天依當年度平日價計算；但 2027 政府公告 3 日以上連假全期間均為每房／晚 NT$3,500，不適用最後一天平日價規則。中秋節每房／晚 NT$3,200；2026/12/31～2027/1/3 跨年假期每房／晚 NT$3,000。</div></div>
+<div class="booking-policy"><div>🕐 入住 15:00／退房 12:00；18:00 後抵達請提前告知。</div><div>💰 訂金為訂單總額（含湯屋加購）30%，請於 <strong>預訂建立後 2 小時內</strong> 完成匯款；匯款資訊由民宿私下提供。逾時未付款且未提前聯繫，房間將釋出。</div><div>🏡 全區共 4 間房，住宿上限 16 人。每房實際入住安排仍以民宿確認為準。</div><div>📅 自動試算：2026 年 1～11 月平日 NT$1,600、假日 NT$2,000；2026 年 12 月平日 NT$2,000、假日 NT$2,500；2027 平日 NT$2,500、假日 NT$3,000。一般連假最後一天依當年度平日價計算；但 2027 政府公告 3 日以上連假全期間均為每房／晚 NT$3,500，不適用最後一天平日價規則。中秋節每房／晚 NT$3,200；2026/12/31～2027/1/3 跨年假期每房／晚 NT$3,000。</div></div>
 </div></section>
 <section class="section" style="padding-top:0"><div class="wrap"><div class="quick-links"><a class="quick-link" href="rules.html"><div class="kicker">BOOKING RULES</div><h4>訂金與取消規則</h4><p>查看訂金、尾款與取消退款比例。</p></a><a class="quick-link" href="qa.html"><div class="kicker">Q&amp;A</div><h4>常見問題</h4><p>入住時間、停車、寵物與住宿問題。</p></a><a class="quick-link" href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank"><div class="kicker">LINE</div><h4>訂房確認</h4><p>建立預訂後，可直接透過官方 LINE 確認及取得付款資訊。</p></a></div></div></section>
 <div class="float-links"><a class="float fb" href="https://www.facebook.com/profile.php?id=61591411270505" rel="noopener" target="_blank">f</a><a class="float line" href="https://lin.ee/XsIMYvU" rel="noopener" target="_blank">LINE</a></div>
