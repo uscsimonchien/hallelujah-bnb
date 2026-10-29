@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261005-2335';
+  const VERSION = '20261029-g40-10';
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
