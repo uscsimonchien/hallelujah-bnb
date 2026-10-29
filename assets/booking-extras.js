@@ -80,7 +80,7 @@ const CATALOG=[
     "name": "G40 LED 氣氛燈串",
     "price": 50,
     "deposit": 200,
-    "max": 1,
+    "max": 10,
     "mode": "night",
     "category": "桌椅與燈串",
     "unit": "組",
