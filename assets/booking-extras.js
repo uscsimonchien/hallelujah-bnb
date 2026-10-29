@@ -177,6 +177,30 @@ const escape=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 const CONFLICTS=[["bbq_grill","bbq_bundle"],["table_chair_set","kermit_chair"],["table_chair_set","roll_table"],["g40_lights","g40_extension"]];
 const styles=`
 .hb-extra-wrap{margin:18px 0 8px}.hb-extra-wrap h3{color:#234937;margin:0 0 10px;font-size:21px}.hb-extra-section{margin:18px 0}.hb-extra-section h4{font-size:16px;color:#254b3d;margin:10px 0}.hb-extra-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hb-extra-item{display:flex;gap:10px;border:1px solid #e4e9e2;border-radius:12px;padding:10px;background:#fff;min-width:0;align-items:center}.hb-extra-item:has(select:not([value="0"])){} .hb-extra-thumb{width:78px;height:86px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#faf9f4;border-radius:9px}.hb-extra-thumb img{max-width:100%;width:100%;height:100%;object-fit:contain}.hb-extra-thumb img.hb-second{position:absolute;width:48%;height:58%;left:0;bottom:0}.hb-extra-info{min-width:0;flex:1}.hb-extra-name{font-weight:800;font-size:14px;color:#1d3e32;line-height:1.4}.hb-extra-desc{font-size:12px;color:#66776b;line-height:1.45;margin-top:3px}.hb-extra-price{color:#1c684c;font-weight:800;font-size:14px;margin:3px 0}.hb-extra-deposit{font-size:12px;color:#846433}.hb-extra-item select{display:block;width:100%;max-width:140px;min-height:34px;margin-top:6px;padding:5px 7px;border:1px solid #b9cdbd;border-radius:8px;background:#fff;font:inherit;font-size:13px;color:#294e3c}.hb-extra-note{font-size:12px;color:#6d746d;line-height:1.75;margin:12px 0}.hb-extra-warning{font-size:13px;font-weight:700;color:#8c4d16;min-height:1.5em;margin:5px 0}.hb-extra-deposit-due{font-size:13px;color:#86602d;line-height:1.6;white-space:pre-line}
+/* 住宿／露營共用加購實景卡片 */
+.hb-feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0}
+.hb-feature-grid.hb-feature-one{grid-template-columns:1fr}
+.hb-photo-product{background:#fff;border:1px solid #dce6dc;border-radius:16px;box-shadow:0 6px 20px rgba(25,63,42,.06);overflow:hidden;min-width:0}
+.hb-photo-product-media{position:relative;overflow:hidden;aspect-ratio:16/10;background:#f2f1ec}
+.hb-photo-product-media img{display:none;width:100%;height:100%;object-fit:cover;object-position:center}
+.hb-photo-product-media img[data-active="true"]{display:block}
+.hb-photo-product-media img[data-fit="contain"]{object-fit:contain;background:#f6f5f0}
+.hb-photo-product-media .hb-photo-caption{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 102px);padding:7px 10px;color:white;background:rgba(20,47,35,.82);border-radius:9px;font-size:12px;font-weight:700;line-height:1.4}
+.hb-photo-product-media .hb-gallery-controls{position:absolute;bottom:11px;right:10px;display:flex;gap:5px}
+.hb-photo-product-media .hb-gallery-controls button{width:34px;height:34px;min-height:0;min-width:0;border:1px solid rgba(255,255,255,.65);border-radius:50%;display:grid;place-items:center;background:rgba(18,54,39,.85);color:#fff;font-size:21px;line-height:1;padding:0;cursor:pointer}
+.hb-photo-product-media .hb-gallery-controls button:hover{background:#235a40}
+.hb-photo-product-details{padding:16px 17px 18px}
+.hb-photo-product-details h4{font-size:18px;font-weight:800;color:#1c4434;line-height:1.45;margin:0 0 5px}
+.hb-photo-product-details .hb-feature-price{font-size:19px;font-weight:800;color:#226446;margin:7px 0}
+.hb-photo-product-details .hb-feature-desc{color:#64756b;font-size:13px;line-height:1.65;margin:0 0 12px}
+.hb-photo-product-details label{display:block;font-size:14px;font-weight:700;color:#264d38;margin:10px 0 7px}
+.hb-photo-product-details select{display:block;width:100%;max-width:100%;min-height:44px;border-radius:9px;border:1px solid #b7cbbd;background:white;padding:8px 11px;font:inherit;color:#214332}
+.hb-photo-product-details .hb-feature-note{font-size:12px;line-height:1.7;margin:10px 0 0;color:#6b786e}
+.hb-photo-product-details .hb-feature-deposit{font-size:12px;color:#86602d;font-weight:700;margin:5px 0}
+.hb-feature-one .hb-photo-product{display:grid;grid-template-columns:minmax(0,40%) minmax(0,60%)}
+.hb-feature-one .hb-photo-product-media{height:100%;min-height:250px;aspect-ratio:auto}
+@media(max-width:760px){.hb-feature-grid{grid-template-columns:1fr}.hb-feature-one .hb-photo-product{grid-template-columns:1fr}.hb-feature-one .hb-photo-product-media{min-height:0;aspect-ratio:16/10}.hb-photo-product-details{padding:13px 14px 16px}.hb-photo-product-details h4{font-size:17px}}
+
 @media(max-width:700px){.hb-extra-grid{grid-template-columns:1fr}.hb-extra-thumb{width:78px;height:80px}.hb-extra-wrap{margin:12px 0}.hb-extra-item{padding:9px}}
 `;
 function calculate(qty={},nights=1){
@@ -185,9 +209,28 @@ function calculate(qty={},nights=1){
  for(const [a,b] of CONFLICTS){if(qty[a]>0&&qty[b]>0)throw Error("「"+CATALOG.find(x=>x.id===a).name+"」與「"+CATALOG.find(x=>x.id===b).name+"」使用同一組設備，請擇一")}
  return {total,securityDeposit,items};
 }
+function initPhotoGalleries(){
+ document.querySelectorAll('[data-hb-photo-gallery]').forEach(gallery=>{
+  if(gallery.dataset.galleryReady==='true')return;
+  gallery.dataset.galleryReady='true';
+  const slides=[...gallery.querySelectorAll('img[data-hb-slide]')];
+  const caption=gallery.querySelector('.hb-photo-caption');
+  const buttons=[...gallery.querySelectorAll('.hb-gallery-controls button')];
+  if(!slides.length)return;
+  let active=Math.max(0,slides.findIndex(x=>x.dataset.active==='true'));
+  const render=()=>{
+   slides.forEach((img,i)=>{img.dataset.active=String(i===active);img.setAttribute('aria-hidden',String(i!==active))});
+   if(caption)caption.textContent=(slides[active].dataset.caption||slides[active].alt||'實景照片')+' · '+(active+1)+'／'+slides.length;
+   buttons.forEach(button=>button.disabled=slides.length<2);
+  };
+  buttons.forEach(button=>button.addEventListener('click',()=>{active=(active+(button.dataset.direction==='prev'?-1:1)+slides.length)%slides.length;render()}));
+  render();
+ });
+}
 function mount(el,change){
  if(!el)throw Error("加購容器不存在");
  if(!document.getElementById("hbExtrasStyles")){const st=document.createElement("style");st.id="hbExtrasStyles";st.textContent=styles;document.head.appendChild(st)}
+ initPhotoGalleries();
  const cats=[...new Set(CATALOG.map(x=>x.category))];
  el.innerHTML='<div class="hb-extra-wrap"><h3>其他用品與活動加購（選填）</h3>'+cats.map(cat=>'<section class="hb-extra-section"><h4>'+escape(cat)+'</h4><div class="hb-extra-grid">'+CATALOG.filter(x=>x.category===cat).map(it=>{
  const thumb='<img src="'+escape(it.image)+'" alt="'+escape(it.name)+'" loading="lazy">'+(it.image2?'<img class="hb-second" src="'+escape(it.image2)+'" alt="" loading="lazy">':'');
