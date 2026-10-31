@@ -245,3 +245,26 @@ document.querySelectorAll('.faq-q').forEach((btn)=>{
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', prepareLineLinks);
   else prepareLineLinks();
 })();
+
+/* Messenger floating contact icon: replace the old 私訊 text badge site-wide. */
+(function(){
+  function upgradeMessengerBadge(){
+    document.querySelectorAll('a,button').forEach(function(el){
+      const label=(el.textContent||'').trim();
+      if(label!=='私訊' && label!=='私讯') return;
+      const href=(el.getAttribute('href')||'').toLowerCase();
+      if(!el.closest('.float-links') && !/messenger|m\.me|facebook\.com\/messages/.test(href)) return;
+      el.setAttribute('aria-label','Messenger 私訊');
+      el.setAttribute('title','Messenger 私訊');
+      el.innerHTML='<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hallelujah-msg-blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00B2FF"/><stop offset="1" stop-color="#006AFF"/></linearGradient></defs><path fill="url(#hallelujah-msg-blue)" d="M24 3C11.8 3 2 11.9 2 23c0 6.3 3.2 11.9 8.2 15.6V46l7.5-4.1c2 .6 4.1.9 6.3.9 12.2 0 22-8.9 22-19.9S36.2 3 24 3Z"/><path fill="#fff" d="m8.7 30.1 12.1-12.8 7.5 6.4 11-6.4-12.1 12.8-7.5-6.4z"/></svg>';
+      el.style.setProperty('background','#fff','important');
+      el.style.setProperty('color','#006aff','important');
+      el.style.setProperty('padding','0','important');
+      el.style.setProperty('display','inline-flex','important');
+      el.style.setProperty('align-items','center','important');
+      el.style.setProperty('justify-content','center','important');
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',upgradeMessengerBadge);
+  else upgradeMessengerBadge();
+})();
