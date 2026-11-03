@@ -154,7 +154,7 @@ function sorted(kind){
  const arr=state[kind].filter(b=>fil==='all'||actualStatus(kind,b)===fil).slice();
  const now=today();
  arr.sort((a,b)=>{
-  const priority=o=>o.status==='pending'?0:o.status==='cancelled'||o.status==='expired'?2:1;
+  const priority=o=>{const display=actualStatus(kind,o);return display==='pending'?0:display==='cancelled'||display==='expired'?2:1};
   const order=priority(a)-priority(b);if(order)return order;
   if(srt==='created')return stamp(b.created_at)-stamp(a.created_at);
   const group=o=>day(o.checkin)<now?1:0;
