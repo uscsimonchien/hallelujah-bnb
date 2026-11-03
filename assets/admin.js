@@ -8,12 +8,34 @@ const key=()=>sessionStorage.getItem('hallelujah_admin_key')||'';
 function setMsg(t=''){msg.textContent=t}
 async function api(action,opt={}){const r=await fetch(`${API}?action=${action}`,{...opt,headers:{'content-type':'application/json','x-admin-key':key(),...(opt.headers||{})}});let j={};try{j=await r.json()}catch{}if(!r.ok)throw Object.assign(new Error(j.error||'request_failed'),{status:r.status,data:j});return j}
 async function createPublicBooking(body){const r=await fetch(API+'?action=create',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});let j={};try{j=await r.json()}catch{}if(!r.ok)throw Object.assign(new Error(j.error||'request_failed'),{status:r.status,data:j});return j}
+let latestBookings=[];
+const listFilter=$('#listFilter'),listSort=$('#listSort'),listHint=$('#listHint');
+const dateOnly=v=>String(v||'').slice(0,10);
+function displayedBookings(list,statusOf){
+ const filter=listFilter?.value||'all',sort=listSort?.value||'checkin';
+ const today=new Date(Date.now()+8*3600000).toISOString().slice(0,10);
+ const filtered=filter==='paid'?list.filter(b=>statusOf(b)==='paid'):list.slice();
+ filtered.sort((a,b)=>{
+  if(sort==='created')return (Date.parse(b.created_at||0)||0)-(Date.parse(a.created_at||0)||0);
+  const ad=dateOnly(a.checkin),bd=dateOnly(b.checkin);
+  const bucket=x=>x.status==='cancelled'?2:dateOnly(x.checkin)<today?1:0;
+  const diff=bucket(a)-bucket(b);if(diff)return diff;
+  const byDate=bucket(a)===1?bd.localeCompare(ad):ad.localeCompare(bd);
+  return byDate||(Date.parse(b.created_at||0)||0)-(Date.parse(a.created_at||0)||0);
+ });
+ if(listHint)listHint.textContent=(sort==='checkin'?'依入住日期排序：未入住由近到遠、已入住由近到遠，已取消排最後。':'依建立時間由新到舊排序。')+'目前顯示 '+filtered.length+'／'+list.length+' 筆'+(filter==='paid'?'已收款訂單。':'訂單。');
+ return filtered;
+}
+listFilter?.addEventListener('change',()=>render(latestBookings));
+listSort?.addEventListener('change',()=>render(latestBookings));
 function render(list){
+ latestBookings=list;
+ const visible=displayedBookings(list,b=>b.status);
  $('#statPending').textContent=list.filter(x=>x.status==='pending').length;
  $('#statConfirmed').textContent=list.filter(x=>x.status==='confirmed').length;
  $('#statPaid').textContent=list.filter(x=>x.status==='paid').length;
  $('#statTotal').textContent=list.length;
- rowsEl.innerHTML=list.map(b=>`<tr>
+ rowsEl.innerHTML=visible.map(b=>`<tr>
  <td><span class="status-chip ${b.status}">${statusName(b.status)}</span>${b.status==='pending'&&b.hold_expires_at?`<div style="font-size:11px;color:#777;margin-top:5px">保留至 ${dt(b.hold_expires_at)}</div>`:''}</td>
  <td><strong>${b.code}</strong><div style="font-size:12px;color:#777">${dt(b.created_at)}</div></td>
  <td><strong>${escapeHtml(b.name)}</strong><div>${escapeHtml(b.phone)}</div>${b.line_name?`<div style="font-size:12px;color:#777">LINE：${escapeHtml(b.line_name)}</div>`:''}</td>
