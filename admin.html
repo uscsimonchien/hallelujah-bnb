@@ -15,7 +15,7 @@ body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}
 </style>
 </head>
 <body>
-<header class="site-header"><div class="wrap"><div class="nav"><a class="brand" href="index.html"><img class="brand-logo" src="assets/logo.webp" alt="哈雷露亞民宿 Logo"><span class="brand-title">哈雷露亞民宿</span></a><a class="nav-cta" href="inquiry.html">前往空房預定</a></div></div></header><div class="header-space"></div>
+<header class="site-header"><div class="wrap"><div class="nav"><a class="brand" href="index.html"><img class="brand-logo" src="assets/logo.webp" alt="哈雷露亞民宿 Logo"><span class="brand-title">哈雷露亞民宿</span></a><a href="admin-dashboard.html" style="display:inline-flex;align-items:center;margin-left:auto;padding:10px 15px;border-radius:999px;border:1px solid #fff9;background:#fff;color:#234537;font-weight:900;font-size:13px;text-decoration:none;white-space:nowrap">整合管理後台</a><a class="nav-cta" href="inquiry.html">前往空房預定</a></div></div></header><div class="header-space"></div>
 <main class="admin-wrap">
 <div class="admin-head"><div><div class="kicker">BOOKING ADMIN</div><h1 class="title">訂房管理後台</h1><p class="lead">中央房況、待確認訂單、已確認與已取消訂單。</p></div></div>
 <div class="admin-login" id="loginBox"><label>管理金鑰<input id="adminKey" type="password" autocomplete="current-password" placeholder="輸入管理金鑰"></label><button id="adminLogin" class="btn dark">登入後台</button><button id="adminLogout" class="btn hidden">登出</button></div>
@@ -40,7 +40,7 @@ body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}
   </div>
   <div class="line-box" style="margin-top:14px"><strong>目前通知對象</strong><div id="lineTargets">尚未綁定</div></div>
 </div>
-<div class="admin-card manual-card">
+<div class="admin-card manual-card" id="manualBooking">
   <h3>新增人工訂房／封房</h3>
   <p>LINE、電話、Facebook 私訊收到的訂房，或需要保留房間時，從這裡新增。建立後會直接占用中央房況；取消訂單後房間會自動釋出。</p>
   <form id="manualBookingForm">
