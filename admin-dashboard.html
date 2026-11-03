@@ -154,8 +154,10 @@ function sorted(kind){
  const arr=state[kind].filter(b=>fil==='all'||actualStatus(kind,b)===fil).slice();
  const now=today();
  arr.sort((a,b)=>{
+  const priority=o=>o.status==='pending'?0:o.status==='cancelled'||o.status==='expired'?2:1;
+  const order=priority(a)-priority(b);if(order)return order;
   if(srt==='created')return stamp(b.created_at)-stamp(a.created_at);
-  const group=o=>o.status==='cancelled'?2:day(o.checkin)<now?1:0;
+  const group=o=>day(o.checkin)<now?1:0;
   const diff=group(a)-group(b);if(diff)return diff;
   const dates=group(a)===1?day(b.checkin).localeCompare(day(a.checkin)):day(a.checkin).localeCompare(day(b.checkin));
   return dates||stamp(b.created_at)-stamp(a.created_at);
@@ -168,7 +170,7 @@ function render(kind){
  $(id+'Pending').textContent=count('pending');$(id+'Confirmed').textContent=count('confirmed');
  $(id+'Paid').textContent=count('paid');$(id+'Total').textContent=all.length;
  const list=sorted(kind),box=$(id+'Orders');box.replaceChildren();
- $(id+'Count').textContent='顯示 '+list.length+'／'+all.length+' 筆｜'+($(id+'Sort').value==='checkin'?'未入住依日期由近到遠；已入住及取消在後。':'依建立時間由新到舊。');
+ $(id+'Count').textContent='顯示 '+list.length+'／'+all.length+' 筆｜'+($(id+'Sort').value==='checkin'?'待確認置頂；其餘未入住依日期由近到遠，已取消在後。':'待確認置頂；同狀態依建立時間由新到舊。');
  if(!list.length){box.append(make('div','empty','目前沒有符合篩選條件的訂單。'));return}
  const fragment=document.createDocumentFragment();
  for(const b of list)fragment.append(orderCard(kind,b));
