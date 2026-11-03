@@ -27,14 +27,16 @@ function displayedBookings(list){
  const today=new Date(Date.now()+8*3600000).toISOString().slice(0,10);
  const filtered=(filter==='paid'?list.filter(b=>effectiveStatus(b)==='paid'):list.slice());
  filtered.sort((a,b)=>{
+  const priority=x=>x.status==='pending'?0:x.status==='cancelled'||x.status==='expired'?2:1;
+  const order=priority(a)-priority(b);if(order)return order;
   if(sort==='created')return (Date.parse(b.created_at||0)||0)-(Date.parse(a.created_at||0)||0);
   const ad=dateOnly(a.checkin),bd=dateOnly(b.checkin);
-  const bucket=x=>x.status==='cancelled'?2:dateOnly(x.checkin)<today?1:0;
+  const bucket=x=>dateOnly(x.checkin)<today?1:0;
   const diff=bucket(a)-bucket(b);if(diff)return diff;
   const byDate=bucket(a)===1?bd.localeCompare(ad):ad.localeCompare(bd);
   return byDate||(Date.parse(b.created_at||0)||0)-(Date.parse(a.created_at||0)||0);
  });
- if(listHint)listHint.textContent=(sort==='checkin'?'依入住日期排序：未入住由近到遠、已入住由近到遠，已取消排最後。':'依建立時間由新到舊排序。')+'目前顯示 '+filtered.length+'／'+list.length+' 筆'+(filter==='paid'?'已收款訂單。':'訂單。');
+ if(listHint)listHint.textContent=(sort==='checkin'?'待確認訂單優先；其餘依入住日期排列，已取消排最後。':'待確認訂單優先；同狀態依建立時間由新到舊排列。')+'目前顯示 '+filtered.length+'／'+list.length+' 筆'+(filter==='paid'?'已收款訂單。':'訂單。');
  return filtered;
 }
 listFilter?.addEventListener('change',()=>renderRows(latestBookings));
