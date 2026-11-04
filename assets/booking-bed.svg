@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-label="床鋪">
+<g fill="none" stroke="#2b210f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 26V11M28 26V11M4 20h24M7 20v-8a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8"/>
+<path d="M7 15h18M10 15v-3M22 15v-3M4 26v2M28 26v2"/>
+</g><path d="M9.5 15v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m1 0v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" stroke="#2b210f" stroke-width="1.3" fill="#2b210f" fill-opacity=".18"/>
+</svg>
