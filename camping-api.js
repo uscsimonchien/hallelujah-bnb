@@ -9,7 +9,7 @@ module.exports = (pool, admin) => {
  const days = (a,b) => Math.round((Date.parse(b+'T00:00:00Z')-Date.parse(a+'T00:00:00Z'))/86400000);
  const fail = (res,e) => { console.error('camping',e); res.status(500).json({error:'server_error'}); };
  const siteIds = ['3F-1','3F-2','4F-A-1','4F-A-2','4F-B-1','4F-B-2','5F-1','5F-2','6F-A-1','6F-A-2'];
- const activeOverlap = `SELECT DISTINCT rs.site_id FROM camping_reservation_sites rs JOIN camping_reservations r ON r.id=rs.reservation_id WHERE rs.site_id=ANY($1::text[]) AND rs.checkin<$3::date AND rs.checkout>$2::date AND (r.status='confirmed' OR (r.status='pending' AND r.hold_expires_at>now()))`;
+ const activeOverlap = `SELECT DISTINCT rs.site_id FROM camping_reservation_sites rs JOIN camping_reservations r ON r.id=rs.reservation_id WHERE rs.site_id=ANY($1::text[]) AND rs.checkin<$3::date AND rs.checkout>$2::date AND r.status IN ('pending','confirmed')`;
  router.get('/availability', async(req,res)=>{
   const {checkin,checkout}=req.query;
   if(!date(checkin)||!date(checkout)||days(checkin,checkout)<1||days(checkin,checkout)>30)return res.status(400).json({error:'invalid_dates'});
@@ -33,7 +33,7 @@ module.exports = (pool, admin) => {
    const total=sites.rows.reduce((n,s)=>n+s.nightly_price,0)*days(b.checkin,b.checkout);
    const deposit=Math.round(total*0.3);
    const code='HC'+crypto.randomBytes(6).toString('hex').toUpperCase();
-   const r=await c.query(`INSERT INTO camping_reservations(code,guest_name,guest_phone,checkin,checkout,guests,status,hold_expires_at,total,deposit_due,note) VALUES($1,$2,$3,$4,$5,$6,'pending',now()+interval '2 hours',$7,$8,$9) RETURNING id,code,status,hold_expires_at,total,deposit_due`,[code,b.name.trim(),b.phone.trim(),b.checkin,b.checkout,Number(b.guests),total,deposit,String(b.note||'').slice(0,1000)]);
+   const r=await c.query(`INSERT INTO camping_reservations(code,guest_name,guest_phone,checkin,checkout,guests,status,hold_expires_at,total,deposit_due,note) VALUES($1,$2,$3,$4,$5,$6,'pending',null,$7,$8,$9) RETURNING id,code,status,hold_expires_at,total,deposit_due`,[code,b.name.trim(),b.phone.trim(),b.checkin,b.checkout,Number(b.guests),total,deposit,String(b.note||'').slice(0,1000)]);
    for(const id of ids)await c.query('INSERT INTO camping_reservation_sites(reservation_id,site_id,checkin,checkout,status) VALUES($1,$2,$3,$4,$5)',[r.rows[0].id,id,b.checkin,b.checkout,'pending']);
    await c.query('COMMIT');
    res.status(201).json({booking:{...r.rows[0],sites:ids,balance:total-deposit}});
