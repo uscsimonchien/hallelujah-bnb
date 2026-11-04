@@ -63,6 +63,10 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 .order-actions button{border:0;border-radius:999px;padding:7px 9px;cursor:pointer;font-size:12px;font-weight:800}
 .order-actions button.confirmed{background:#dcecdf;color:#174d2c}.order-actions button.paid{background:#dbe7f8;color:#234f85}.order-actions button.pending{background:#eee6d5;color:#705427}.order-actions button.cancelled{background:#f5dddd;color:#7b2424}
 .order-actions button:disabled{opacity:.42;cursor:not-allowed}
+.cancel-confirm{margin-top:10px;padding:12px;border:1px solid #e8b9b9;border-radius:12px;background:#fff8f8;font-size:13px;color:#713131;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.cancel-confirm div{flex-basis:100%;font-weight:750}
+.cancel-confirm button{border:0;border-radius:10px;padding:11px 14px;font-weight:800;font-size:14px;cursor:pointer;touch-action:manipulation}
+.cancel-confirm-yes{background:#a42c2c;color:white}.cancel-confirm-no{background:#e8e8e8;color:#333}
 .empty{padding:28px;text-align:center;border:1px dashed #d7e1d8;border-radius:15px;color:#728477;font-size:14px}
 .panel-message{font-size:13px;color:#8f512d;min-height:15px;margin-top:12px;white-space:pre-wrap}
 .page-note{margin-top:20px;color:#79857d;font-size:13px;line-height:1.7}
@@ -202,17 +206,33 @@ function orderCard(kind,b){
   let allow=kind==='lodging'?(!cancelled&&b.status!==next):(!cancelled&&(next==='paid'?due>0:b.status!==next));
   const button=make('button',className,label);button.type='button';button.disabled=!allow;
   if(!allow)button.title=cancelled?'訂單已取消':'目前已是此狀態或已全額收款';
-  button.addEventListener('click',()=>changeStatus(kind,b,next));
+  button.addEventListener('click',()=>{if(next==='cancelled'){showCancelConfirm(kind,b,card,bar);return}changeStatus(kind,b,next)});
   bar.append(button);
  }
  card.append(bar);return card;
 }
-async function changeStatus(kind,b,next){
+function showCancelConfirm(kind,b,card,bar){
+ if(busy)return;
+ const existing=card.querySelector('.cancel-confirm');
+ if(existing){existing.remove();return}
+ const panel=make('div','cancel-confirm');
+ panel.setAttribute('role','group');
+ panel.setAttribute('aria-label','確認取消訂單');
+ const detail=make('div','','確定取消 '+(b.code||'')+'？取消後會立即釋放營位／房間，此操作不可直接復原。');
+ const yes=make('button','cancel-confirm-yes','確定取消訂單');
+ const no=make('button','cancel-confirm-no','返回');
+ yes.type='button';no.type='button';
+ yes.addEventListener('click',()=>changeStatus(kind,b,'cancelled',true));
+ no.addEventListener('click',()=>panel.remove());
+ panel.append(detail,yes,no);bar.after(panel);
+ panel.scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+async function changeStatus(kind,b,next,approved=false){
  if(busy)return;
  const label=names[next]||next;
  const remaining=Math.max(0,Number(b.total||0)-Number(b.deposit_paid||0)-Number(b.balance_paid||0));
  const wording=next==='cancelled'?'取消後會立即釋出房間／營位。確定取消這筆訂單？':next==='paid'&&kind==='camping'?'請確認已實際收到剩餘款項 '+money(remaining)+'。系統會登記收款，確定嗎？':'確定將訂單 '+(b.code||'')+' 改為「'+label+'」？';
- if(!window.confirm(wording))return;
+ if(!approved&&!window.confirm(wording))return;
  busy=true;const msg=$(kind+'Message');msg.textContent='正在更新 '+(b.code||'')+'…';
  try{
   if(kind==='lodging')await api(kind,'admin_update',{method:'POST',body:{id:Number(b.id),status:next}});
