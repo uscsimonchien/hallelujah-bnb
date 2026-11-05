@@ -4,9 +4,9 @@
     document.querySelectorAll('a.brand').forEach((brand) => {
       brand.innerHTML = '<img class="brand-logo" src="assets/logo.webp" alt="哈雷露亞民宿 Logo"><span class="brand-title">哈雷露亞民宿</span>';
     });
-    document.querySelectorAll('a[href="inquiry.html"]').forEach((link) => {
-      if (link.closest('.nav-links') || link.closest('.mobile-menu')) link.textContent = '空房預定';
-    });
+    // Booking navigation labels and bed icons belong to each page's HTML.
+    // Do not assign link.textContent here: that destroys the embedded icon
+    // and reverts the correct label 「空房預訂」 to 「空房預定」.
     if (!document.getElementById('brandLogoStyle')) {
       const style = document.createElement('style');
       style.id = 'brandLogoStyle';
