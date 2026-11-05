@@ -211,6 +211,20 @@ document.querySelectorAll('.faq-q').forEach((btn)=>{
         .site-header .mobile-menu{padding:8px 0 18px}
         .site-header .mobile-menu a{margin:6px 0;padding:10px 14px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.07)}
         .site-header .mobile-menu a.nav-current{background:#efe4d3;color:#244537;border-color:#efe4d3}
+
+        /* Keep the two orange booking buttons identical in desktop and mobile nav. */
+        .site-header .nav-links a.booking-nav-room,.site-header .nav-links a.booking-nav-camp{
+          box-sizing:border-box!important;width:126px!important;min-width:126px!important;max-width:126px!important;
+          height:48px!important;min-height:48px!important;flex:0 0 126px!important;
+          display:inline-flex!important;align-items:center!important;justify-content:center!important;
+          gap:7px!important;padding:8px 9px!important;white-space:nowrap!important;
+        }
+        .site-header .mobile-menu a.booking-nav-room,.site-header .mobile-menu a.booking-nav-camp{
+          box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:none!important;
+          height:55px!important;min-height:55px!important;
+          display:flex!important;align-items:center!important;justify-content:flex-start!important;
+          gap:8px!important;padding:10px 15px!important;white-space:nowrap!important;
+        }
         @media(min-width:1121px) and (max-width:1260px){.site-header .nav-links{gap:5px!important}.site-header .nav-links a{padding:6px 8px;font-size:12.5px}}
       `;
       document.head.appendChild(style);
