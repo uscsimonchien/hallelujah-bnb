@@ -17,5 +17,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/activities.html",
+      "destination": "/activities-updated.html",
+      "permanent": false
+    }
   ]
 }
