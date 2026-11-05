@@ -216,12 +216,14 @@ document.querySelectorAll('.faq-q').forEach((btn)=>{
         .site-header .nav-links a.booking-nav-room,.site-header .nav-links a.booking-nav-camp{
           box-sizing:border-box!important;width:126px!important;min-width:126px!important;max-width:126px!important;
           height:48px!important;min-height:48px!important;flex:0 0 126px!important;
+          background:#e7a84b!important;color:#271c0e!important;border-color:#e7a84b!important;
           display:inline-flex!important;align-items:center!important;justify-content:center!important;
           gap:7px!important;padding:8px 9px!important;white-space:nowrap!important;
         }
         .site-header .mobile-menu a.booking-nav-room,.site-header .mobile-menu a.booking-nav-camp{
           box-sizing:border-box!important;width:100%!important;min-width:0!important;max-width:none!important;
           height:55px!important;min-height:55px!important;
+          background:#e7a84b!important;color:#271c0e!important;border-color:#e7a84b!important;
           display:flex!important;align-items:center!important;justify-content:flex-start!important;
           gap:8px!important;padding:10px 15px!important;white-space:nowrap!important;
         }
