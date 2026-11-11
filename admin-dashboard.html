@@ -67,7 +67,10 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 .order-extra-unit-price{font-weight:700;color:#617669}
 .order-extra-subtotal{font-weight:900;color:#27543d;margin-left:8px}
 .order-extra-summary{margin-top:6px;padding-top:6px;border-top:1px dashed #d9e4da;display:flex;justify-content:space-between;gap:12px;font-weight:900;color:#27543d}
-.order-extra-deposit{margin-top:4px;color:#8a6534;font-weight:800}
+.order-price-breakdown{margin-top:8px;padding-top:8px;border-top:1px solid #cfded2;display:grid;gap:5px}
+.order-price-row{display:flex;justify-content:space-between;gap:12px;font-weight:800;color:#476454}
+.order-price-row.total{font-size:13px;color:#173f2d;font-weight:950}
+.order-extra-deposit{margin-top:5px;color:#8a6534;font-weight:800}
 .order-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid #edf0ed}
 .order-actions button{border:0;border-radius:999px;padding:7px 9px;cursor:pointer;font-size:12px;font-weight:800}
 .order-actions button.confirmed{background:#dcecdf;color:#174d2c}.order-actions button.paid{background:#dbe7f8;color:#234f85}.order-actions button.pending{background:#eee6d5;color:#705427}.order-actions button.cancelled{background:#f5dddd;color:#7b2424}
@@ -221,7 +224,8 @@ function addonDetails(kind,b){
   if(Array.isArray(b.extras))for(const item of b.extras)extraLine(item);
   total=Number(b.addons_total||0);
  }
- return {lines,total,deposit:Number(b.equipment_deposit_due||0)};
+ const base=Math.max(0,Number(b.total||0)-total);
+ return {lines,total,base,grand:Number(b.total||0),deposit:Number(b.equipment_deposit_due||0)};
 }
 function appendAddons(kind,b,card){
  const info=addonDetails(kind,b);
@@ -241,6 +245,16 @@ function appendAddons(kind,b,card){
  if(info.total>0){
   const summary=make('div','order-extra-summary');
   summary.append(make('span','','加購合計'),make('span','',money(info.total)));box.append(summary);
+
+  const breakdown=make('div','order-price-breakdown');
+  const baseRow=make('div','order-price-row');
+  baseRow.append(make('span','',kind==='lodging'?'原本房價':'原本營位價格'),make('span','',money(info.base)));
+  const addonRow=make('div','order-price-row');
+  addonRow.append(make('span','','＋ 加購'),make('span','',money(info.total)));
+  const totalRow=make('div','order-price-row total');
+  totalRow.append(make('span','',kind==='lodging'?'住宿＋加購總額':'營位＋加購總額'),make('span','',money(info.grand)));
+  breakdown.append(baseRow,addonRow,totalRow);
+  box.append(breakdown);
  }
  if(info.deposit>0)box.append(make('div','order-extra-deposit','器材押金（另收、可退） '+money(info.deposit)));
  card.append(box);
