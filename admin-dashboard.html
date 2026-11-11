@@ -275,7 +275,11 @@ function orderCard(kind,b){
  person.append(make('div','order-small unit',unit));
  amount.append(make('div','money',money(b.total)));
  if(kind==='lodging')amount.append(make('div','order-small','訂金 '+money(b.deposit)+'｜尾款 '+money(b.balance)));
- else amount.append(make('div','order-small','已收訂金 '+money(b.deposit_paid)+'｜已收尾款 '+money(b.balance_paid)));
+ else {
+  const depositDue=Number(b.deposit_due||0);
+  const balanceDue=Math.max(0,Number(b.total||0)-depositDue);
+  amount.append(make('div','order-small','訂金 '+money(depositDue)+'｜尾款 '+money(balanceDue)));
+ }
  amount.append(make('div','order-small',b.code||''));
  grid.append(person,amount);card.append(grid);
  appendAddons(kind,b,card);
