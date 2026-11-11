@@ -61,9 +61,11 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 .order-note{margin:10px 0 0;padding-top:9px;border-top:1px dashed #e4eae5;font-size:12px;color:#637466;white-space:pre-wrap;overflow-wrap:anywhere;max-height:90px;overflow-y:auto}
 .order-extras{margin:10px 0 0;padding:10px 12px;border:1px solid #dfe9e1;border-radius:13px;background:#f7faf7;font-size:12px;color:#40594b}
 .order-extras-title{font-weight:900;color:#24533c;margin-bottom:5px}
-.order-extra-line{display:flex;justify-content:space-between;gap:12px;line-height:1.65}
-.order-extra-line span:first-child{min-width:0;overflow-wrap:anywhere}
-.order-extra-line span:last-child{white-space:nowrap;font-weight:800;color:#41634f}
+.order-extra-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;line-height:1.55;padding:3px 0}
+.order-extra-name{min-width:0;overflow-wrap:anywhere;font-weight:750}
+.order-extra-prices{white-space:nowrap;text-align:right;color:#41634f}
+.order-extra-unit-price{font-weight:700;color:#617669}
+.order-extra-subtotal{font-weight:900;color:#27543d;margin-left:8px}
 .order-extra-summary{margin-top:6px;padding-top:6px;border-top:1px dashed #d9e4da;display:flex;justify-content:space-between;gap:12px;font-weight:900;color:#27543d}
 .order-extra-deposit{margin-top:4px;color:#8a6534;font-weight:800}
 .order-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid #edf0ed}
@@ -190,23 +192,33 @@ function render(kind){
 function addonDetails(kind,b){
  const lines=[];
  let total=0;
+ const nights=Math.max(1,Math.round((Date.parse(day(b.checkout)+'T00:00:00Z')-Date.parse(day(b.checkin)+'T00:00:00Z'))/86400000)||1);
+ const extraLine=item=>{
+  const qty=Number(item?.qty||0);if(qty<=0)return;
+  const unit=String(item?.unit||'');
+  const mode=String(item?.mode||'');
+  const subtotal=Number(item?.rent_total||0);
+  let unitPrice=Number(item?.unit_price||0);
+  if(!unitPrice&&subtotal>0)unitPrice=Math.round(subtotal/(qty*(mode==='night'?nights:1)));
+  const priceUnit=mode==='night'?'／'+unit+'／晚':'／'+unit;
+  lines.push({
+   label:String(item?.name||item?.id||'加購品項')+' × '+qty+unit,
+   unitPrice,
+   priceUnit,
+   subtotal
+  });
+ };
  if(kind==='lodging'){
   const bathQty=Number(b.bath_90min_qty||0);
-  if(bathQty>0)lines.push({label:'湯屋 90 分鐘 × '+bathQty+' 次',amount:Number(b.bath_total||0)});
-  if(Array.isArray(b.extras))for(const item of b.extras){
-   const qty=Number(item?.qty||0);if(qty<=0)continue;
-   lines.push({label:String(item?.name||item?.id||'加購品項')+' × '+qty+String(item?.unit||''),amount:Number(item?.rent_total||0)});
-  }
+  if(bathQty>0)lines.push({label:'湯屋 90 分鐘 × '+bathQty+' 次',unitPrice:1000,priceUnit:'／次',subtotal:Number(b.bath_total||bathQty*1000)});
+  if(Array.isArray(b.extras))for(const item of b.extras)extraLine(item);
   total=Number(b.bath_total||0)+Number(b.extras_total||0);
  }else{
   const addons=b.addons&&typeof b.addons==='object'?b.addons:{};
   const tentQty=Number(addons.inflatable_tent||0),bathQty=Number(addons.bath_90min||0);
-  if(tentQty>0)lines.push({label:'充氣帳篷 × '+tentQty+' 組',amount:null});
-  if(bathQty>0)lines.push({label:'湯屋 90 分鐘 × '+bathQty+' 次',amount:null});
-  if(Array.isArray(b.extras))for(const item of b.extras){
-   const qty=Number(item?.qty||0);if(qty<=0)continue;
-   lines.push({label:String(item?.name||item?.id||'加購品項')+' × '+qty+String(item?.unit||''),amount:Number(item?.rent_total||0)});
-  }
+  if(tentQty>0)lines.push({label:'充氣帳篷 × '+tentQty+' 組',unitPrice:1500,priceUnit:'／組',subtotal:tentQty*1500});
+  if(bathQty>0)lines.push({label:'湯屋 90 分鐘 × '+bathQty+' 次',unitPrice:1000,priceUnit:'／次',subtotal:bathQty*1000});
+  if(Array.isArray(b.extras))for(const item of b.extras)extraLine(item);
   total=Number(b.addons_total||0);
  }
  return {lines,total,deposit:Number(b.equipment_deposit_due||0)};
@@ -217,8 +229,14 @@ function appendAddons(kind,b,card){
  const box=make('div','order-extras'),title=make('div','order-extras-title','🛒 客人加購');
  box.append(title);
  for(const item of info.lines){
-  const row=make('div','order-extra-line'),label=make('span','',item.label),amount=make('span','',item.amount===null?'':money(item.amount));
-  row.append(label,amount);box.append(row);
+  const row=make('div','order-extra-line');
+  const label=make('span','order-extra-name',item.label);
+  const prices=make('span','order-extra-prices');
+  prices.append(
+   make('span','order-extra-unit-price','單價 '+money(item.unitPrice)+item.priceUnit),
+   make('span','order-extra-subtotal','小計 '+money(item.subtotal))
+  );
+  row.append(label,prices);box.append(row);
  }
  if(info.total>0){
   const summary=make('div','order-extra-summary');
