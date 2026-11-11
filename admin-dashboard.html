@@ -59,6 +59,13 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 .money{font-size:16px;font-weight:900;color:#214c35}
 .unit{font-size:13px;font-weight:700;color:#445d50;overflow-wrap:anywhere}
 .order-note{margin:10px 0 0;padding-top:9px;border-top:1px dashed #e4eae5;font-size:12px;color:#637466;white-space:pre-wrap;overflow-wrap:anywhere;max-height:90px;overflow-y:auto}
+.order-extras{margin:10px 0 0;padding:10px 12px;border:1px solid #dfe9e1;border-radius:13px;background:#f7faf7;font-size:12px;color:#40594b}
+.order-extras-title{font-weight:900;color:#24533c;margin-bottom:5px}
+.order-extra-line{display:flex;justify-content:space-between;gap:12px;line-height:1.65}
+.order-extra-line span:first-child{min-width:0;overflow-wrap:anywhere}
+.order-extra-line span:last-child{white-space:nowrap;font-weight:800;color:#41634f}
+.order-extra-summary{margin-top:6px;padding-top:6px;border-top:1px dashed #d9e4da;display:flex;justify-content:space-between;gap:12px;font-weight:900;color:#27543d}
+.order-extra-deposit{margin-top:4px;color:#8a6534;font-weight:800}
 .order-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid #edf0ed}
 .order-actions button{border:0;border-radius:999px;padding:7px 9px;cursor:pointer;font-size:12px;font-weight:800}
 .order-actions button.confirmed{background:#dcecdf;color:#174d2c}.order-actions button.paid{background:#dbe7f8;color:#234f85}.order-actions button.pending{background:#eee6d5;color:#705427}.order-actions button.cancelled{background:#f5dddd;color:#7b2424}
@@ -180,6 +187,46 @@ function render(kind){
  for(const b of list)fragment.append(orderCard(kind,b));
  box.append(fragment);
 }
+function addonDetails(kind,b){
+ const lines=[];
+ let total=0;
+ if(kind==='lodging'){
+  const bathQty=Number(b.bath_90min_qty||0);
+  if(bathQty>0)lines.push({label:'湯屋 90 分鐘 × '+bathQty+' 次',amount:Number(b.bath_total||0)});
+  if(Array.isArray(b.extras))for(const item of b.extras){
+   const qty=Number(item?.qty||0);if(qty<=0)continue;
+   lines.push({label:String(item?.name||item?.id||'加購品項')+' × '+qty+String(item?.unit||''),amount:Number(item?.rent_total||0)});
+  }
+  total=Number(b.bath_total||0)+Number(b.extras_total||0);
+ }else{
+  const addons=b.addons&&typeof b.addons==='object'?b.addons:{};
+  const tentQty=Number(addons.inflatable_tent||0),bathQty=Number(addons.bath_90min||0);
+  if(tentQty>0)lines.push({label:'充氣帳篷 × '+tentQty+' 組',amount:null});
+  if(bathQty>0)lines.push({label:'湯屋 90 分鐘 × '+bathQty+' 次',amount:null});
+  if(Array.isArray(b.extras))for(const item of b.extras){
+   const qty=Number(item?.qty||0);if(qty<=0)continue;
+   lines.push({label:String(item?.name||item?.id||'加購品項')+' × '+qty+String(item?.unit||''),amount:Number(item?.rent_total||0)});
+  }
+  total=Number(b.addons_total||0);
+ }
+ return {lines,total,deposit:Number(b.equipment_deposit_due||0)};
+}
+function appendAddons(kind,b,card){
+ const info=addonDetails(kind,b);
+ if(!info.lines.length&&!info.total&&!info.deposit)return;
+ const box=make('div','order-extras'),title=make('div','order-extras-title','🛒 客人加購');
+ box.append(title);
+ for(const item of info.lines){
+  const row=make('div','order-extra-line'),label=make('span','',item.label),amount=make('span','',item.amount===null?'':money(item.amount));
+  row.append(label,amount);box.append(row);
+ }
+ if(info.total>0){
+  const summary=make('div','order-extra-summary');
+  summary.append(make('span','','加購合計'),make('span','',money(info.total)));box.append(summary);
+ }
+ if(info.deposit>0)box.append(make('div','order-extra-deposit','器材押金（另收、可退） '+money(info.deposit)));
+ card.append(box);
+}
 function orderCard(kind,b){
  const status=actualStatus(kind,b),cancelled=b.status==='cancelled';
  const card=make('article','order'),head=make('div','order-head'),dates=make('div','');
@@ -199,6 +246,7 @@ function orderCard(kind,b){
  else amount.append(make('div','order-small','已收訂金 '+money(b.deposit_paid)+'｜已收尾款 '+money(b.balance_paid)));
  amount.append(make('div','order-small',b.code||''));
  grid.append(person,amount);card.append(grid);
+ appendAddons(kind,b,card);
  if(b.note||b.notes)card.append(make('div','order-note',b.note||b.notes));
  const bar=make('div','order-actions');
  const due=Math.max(0,Number(b.total||0)-Number(b.deposit_paid||0)-Number(b.balance_paid||0));
