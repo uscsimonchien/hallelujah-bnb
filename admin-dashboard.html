@@ -182,6 +182,27 @@ function sorted(kind){
  });
  return arr;
 }
+// 以完整民宿訂單清單計算同一客人、同一入住區間的訂房總間數，避免篩選後漏算。
+function wholeHouseBookingCodes(){
+ const groups=new Map();
+ for(const b of state.lodging){
+  const status=actualStatus('lodging',b);
+  if(status==='cancelled'||status==='expired')continue;
+  const name=String(b.name||'').replace(/\\s+/g,'').trim();
+  const phone=String(b.phone||'').replace(/\\D/g,'');
+  const identity=phone.length>=8?'phone:'+phone:(name?'name:'+name:'');
+  const rooms=Number(b.rooms||0);
+  if(!identity||!Number.isFinite(rooms)||rooms<=0)continue;
+  const key=[identity,day(b.checkin),day(b.checkout)].join('|');
+  if(!groups.has(key))groups.set(key,{rooms:0,bookings:[]});
+  const group=groups.get(key);group.rooms+=rooms;group.bookings.push(b);
+ }
+ const marked=new Set();
+ for(const group of groups.values()){
+  if(group.rooms===4)for(const b of group.bookings)marked.add(b);
+ }
+ return marked;
+}
 function render(kind){
  const all=state[kind],id=kind==='lodging'?'lodging':'camping';
  const count=s=>all.filter(b=>actualStatus(kind,b)===s).length;
@@ -191,7 +212,8 @@ function render(kind){
  $(id+'Count').textContent='顯示 '+list.length+'／'+all.length+' 筆｜'+($(id+'Sort').value==='checkin'?'待確認置頂；其餘未入住依日期由近到遠，已取消在後。':'待確認置頂；同狀態依建立時間由新到舊。');
  if(!list.length){box.append(make('div','empty','目前沒有符合篩選條件的訂單。'));return}
  const fragment=document.createDocumentFragment();
- for(const b of list)fragment.append(orderCard(kind,b));
+ const wholeHouse=kind==='lodging'?wholeHouseBookingCodes():null;
+ for(const b of list)fragment.append(orderCard(kind,b,wholeHouse));
  box.append(fragment);
 }
 function addonDetails(kind,b){
@@ -261,11 +283,11 @@ function appendAddons(kind,b,card){
  if(info.deposit>0)box.append(make('div','order-extra-deposit','器材押金（另收、可退） '+money(info.deposit)));
  card.append(box);
 }
-function orderCard(kind,b){
+function orderCard(kind,b,wholeHouse){
  const status=actualStatus(kind,b),cancelled=b.status==='cancelled';
  const card=make('article','order'),head=make('div','order-head'),dates=make('div','');
   // 四間民宿由同一筆訂單預訂時，整張訂單卡以淡粉色區分；取消訂單不標示。
-  if(kind==='lodging'&&Number(b.rooms)===4&&!cancelled)card.classList.add('lodging-whole-house');
+  if(kind==='lodging'&&wholeHouse?.has(b))card.classList.add('lodging-whole-house');
  dates.append(make('span','order-date',day(b.checkin)+' → '+day(b.checkout)));
  const night=Math.round((Date.parse(day(b.checkout)+'T00:00:00Z')-Date.parse(day(b.checkin)+'T00:00:00Z'))/86400000);
  if(night>0)dates.append(make('span','order-subdate',' · '+night+' 晚'));
