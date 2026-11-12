@@ -188,8 +188,8 @@ function wholeHouseBookingCodes(){
  for(const b of state.lodging){
   const status=actualStatus('lodging',b);
   if(status==='cancelled'||status==='expired')continue;
-  const name=String(b.name||'').replace(/\\s+/g,'').trim();
-  const phone=String(b.phone||'').replace(/\\D/g,'');
+  const name=String(b.name||'').replace(/\s+/g,'').trim();
+  const phone=String(b.phone||'').replace(/\D/g,'');
   const identity=phone.length>=8?'phone:'+phone:(name?'name:'+name:'');
   const rooms=Number(b.rooms||0);
   if(!identity||!Number.isFinite(rooms)||rooms<=0)continue;
