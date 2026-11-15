@@ -243,13 +243,15 @@ function addonDetails(kind,b){
  }else{
   const addons=b.addons&&typeof b.addons==='object'?b.addons:{};
   const tentQty=Number(addons.inflatable_tent||0),bathQty=Number(addons.bath_90min||0);
-  if(tentQty>0)lines.push({label:'充氣帳篷 × '+tentQty+' 組',unitPrice:1500,priceUnit:'／組',subtotal:tentQty*1500});
+  if(tentQty>0)lines.push({label:'充氣帳篷 × '+tentQty+' 組',unitPrice:1500,priceUnit:'／組／晚',subtotal:tentQty*1500*nights});
   if(bathQty>0)lines.push({label:'湯屋 90 分鐘 × '+bathQty+' 次',unitPrice:1000,priceUnit:'／次',subtotal:bathQty*1000});
   if(Array.isArray(b.extras))for(const item of b.extras)extraLine(item);
   total=Number(b.addons_total||0);
  }
+ const expectedAddons=lines.reduce((sum,item)=>sum+Number(item.subtotal||0),0);
+ const discrepancy=kind==='camping'&&expectedAddons!==total?expectedAddons-total:0;
  const base=Math.max(0,Number(b.total||0)-total);
- return {lines,total,base,grand:Number(b.total||0),deposit:Number(b.equipment_deposit_due||0)};
+ return {lines,total,base,grand:Number(b.total||0),deposit:Number(b.equipment_deposit_due||0),discrepancy};
 }
 function appendAddons(kind,b,card){
  const info=addonDetails(kind,b);
@@ -280,6 +282,7 @@ function appendAddons(kind,b,card){
   breakdown.append(baseRow,addonRow,totalRow);
   box.append(breakdown);
  }
+ if(info.discrepancy>0)box.append(make('div','order-extra-deposit','⚠️ 舊訂單加購計價差額 '+money(info.discrepancy)+'；原訂單與收款紀錄尚未調整，請人工核對。'));
  if(info.deposit>0)box.append(make('div','order-extra-deposit','器材押金（另收、可退） '+money(info.deposit)));
  card.append(box);
 }
