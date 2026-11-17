@@ -243,7 +243,7 @@ function addonDetails(kind,b){
  }else{
   const addons=b.addons&&typeof b.addons==='object'?b.addons:{};
   const tentQty=Number(addons.inflatable_tent||0),bathQty=Number(addons.bath_90min||0);
-  if(tentQty>0)lines.push({label:'充氣帳篷 × '+tentQty+' 組',unitPrice:(String(b.created_at||'')<'2026-11-17T00:00:00'?1500:2000),priceUnit:'／組／晚',subtotal:tentQty*(String(b.created_at||'')<'2026-11-17T00:00:00'?1500:2000)*nights});
+  if(tentQty>0)lines.push({label:'充氣帳篷 × '+tentQty+' 組',unitPrice:(String(b.created_at||'')<'2026-11-17T09:36:00'?1500:2000),priceUnit:'／組／晚',subtotal:tentQty*(String(b.created_at||'')<'2026-11-17T09:36:00'?1500:2000)*nights});
   if(bathQty>0)lines.push({label:'湯屋 90 分鐘 × '+bathQty+' 次',unitPrice:1000,priceUnit:'／次',subtotal:bathQty*1000});
   if(Array.isArray(b.extras))for(const item of b.extras)extraLine(item);
   total=Number(b.addons_total||0);
