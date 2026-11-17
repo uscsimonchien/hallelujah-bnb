@@ -5,7 +5,7 @@ const CATALOG=[
   {
     "id": "bbq_grill",
     "name": "大型美式帶蓋烤肉爐",
-    "price": 500,
+    "price": 1000,
     "deposit": 1000,
     "max": 1,
     "mode": "night",
@@ -17,14 +17,14 @@ const CATALOG=[
   {
     "id": "bbq_bundle",
     "name": "BBQ 懶人套裝組",
-    "price": 1000,
+    "price": 1500,
     "deposit": 1000,
     "max": 1,
     "mode": "night",
     "category": "烤肉用品",
     "unit": "組",
     "image": "assets/images/bbq-bundle-520.png",
-    "desc": "烤爐、炭精 2kg、烤肉夾、火種及全新烤網"
+    "desc": "烤爐、炭精 2kg、烤肉夾、火種、全新烤網，並協助生火"
   },
   {
     "id": "charcoal_2kg",
