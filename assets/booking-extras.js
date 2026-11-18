@@ -3,6 +3,18 @@
 "use strict";
 const CATALOG=[
   {
+    "id": "living_tent_3x3",
+    "name": "3×3公尺客廳帳",
+    "price": 500,
+    "deposit": 0,
+    "max": 1,
+    "mode": "night",
+    "category": "天幕設備",
+    "unit": "組",
+    "image": "assets/images/living-tent-3x3.svg",
+    "desc": "尺寸3×3公尺，高約2.7公尺；租金每組每晚NT$500，押金另行確認"
+  },
+  {
     "id": "tarp_complete_3x6",
     "name": "3×6公尺天幕完整套組",
     "price": 600,
