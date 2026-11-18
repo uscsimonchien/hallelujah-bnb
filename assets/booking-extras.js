@@ -11,6 +11,7 @@ const CATALOG=[
     "mode": "night",
     "category": "天幕設備",
     "unit": "組",
+    "image": "assets/images/tarp-complete-3x6.svg",
     "desc": "3×6公尺天幕布1張、280公分天幕桿2根、4公尺營繩6條、地釘10根、天幕桿固定器2個"
   },
   {
