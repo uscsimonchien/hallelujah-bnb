@@ -294,6 +294,7 @@ function orderCard(kind,b,wholeHouse){
  dates.append(make('span','order-date',day(b.checkin)+' → '+day(b.checkout)));
  const night=Math.round((Date.parse(day(b.checkout)+'T00:00:00Z')-Date.parse(day(b.checkin)+'T00:00:00Z'))/86400000);
  if(night>0)dates.append(make('span','order-subdate',' · '+night+' 晚'));
+ if(b.created_at){const booked=new Date(b.created_at);if(!Number.isNaN(booked.getTime())){const bookedText=new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(booked);dates.append(make('div','order-small booking-created-at','🕒 預訂時間：'+bookedText));}}
  head.append(dates,make('span','status '+status,names[status]||status));card.append(head);
  const grid=make('div','order-body'),person=make('div',''),amount=make('div','');
  person.append(make('div','order-name',kind==='lodging'?b.name:b.guest_name));
