@@ -7,7 +7,7 @@ const CATALOG=[
     "name": "3×6公尺天幕完整套組",
     "price": 600,
     "deposit": 1000,
-    "max": 1,
+    "max": 4,
     "mode": "night",
     "category": "天幕設備",
     "unit": "組",
