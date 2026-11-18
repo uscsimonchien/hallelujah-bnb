@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261005-2335';
+  const VERSION = '20261118-bbq-prices';
 
   const ensureStyles = () => {
     if (document.getElementById('bbqSuppliesStyle')) return;
@@ -57,14 +57,14 @@
           kicker:'LARGE BBQ GRILL RENTAL',
           title:'大型美式帶蓋烤肉爐',
           desc:'大型推車式帶蓋烤爐，寬約 113cm、烤面約 76cm。純烤爐租借，提供烤爐主體與固定炭槽，耗材自行準備。',
-          price:'500',deposit:'1,000',type:'租借',qty:'單次／日'
+          price:'1,000',deposit:'1,000',type:'租借',qty:'每晚'
         })}
         ${card({
           image:`assets/images/bbq-bundle-520.png?v=${VERSION}`,
           kicker:'BBQ EASY PACKAGE',
           title:'BBQ 懶人套裝組',
-          desc:'烤爐＋炭精 1 袋（2kg）＋烤肉夾 2 支＋噴槍／火種＋全新烤網 1～2 片，一組備齊直接開烤。',
-          price:'1,000',deposit:'1,000',type:'租借',qty:'單次／日'
+          desc:'烤爐＋炭精 1 袋（2kg）＋烤肉夾 2 支＋噴槍／火種＋全新烤網 1～2 片，一組備齊，並由民宿協助生火，輕鬆開烤。',
+          price:'1,500',deposit:'1,000',type:'租借',qty:'每晚'
         })}
         ${card({
           image:`assets/images/bbq-charcoal-420.png?v=${VERSION}`,
