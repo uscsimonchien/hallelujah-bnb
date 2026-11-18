@@ -109,6 +109,14 @@
       </div>`);
   };
 
+  const ensureFireBlanketCard = () => {
+    const grid=document.querySelector('#rentalCardGridV2 .rental-product-grid');
+    if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('防火布')))return;
+    const card=document.createElement('article');
+    card.className='activity-card rental-product-card';
+    card.innerHTML='<div class="rental-photo-window" style="display:grid;place-items:center;background:#eee6d1;min-height:180px"><div style="text-align:center;color:#4a4a38"><div style="font-size:52px">🧯</div><strong>防火布 M號<br>80 × 80 cm</strong></div></div><div class="body"><div class="kicker">FIRE BLANKET RENTAL</div><h3>防火布（M號 80×80cm）</h3><p class="desc">80 × 80 公分防火布，附收納袋。</p><div class="rental-product-meta"><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$100</strong></div><div class="rental-deposit">押金<br>NT$200</div></div></div>';
+    grid.appendChild(card);
+  };
   const ensureG40Cards = () => {
     const grid = document.querySelector('#rentalCardGridV2 .rental-product-grid');
     if (!grid) return;
@@ -165,7 +173,7 @@
 
   const applyAll = () => {
     applyCorrectRentalPhotos();
-    ensureG40Cards();
+    ensureG40Cards(); ensureFireBlanketCard();
     ensureFurnitureCards();
     ensureFurnitureDamageRules();
     ensureG40DamageRules();
