@@ -109,6 +109,14 @@
       </div>`);
   };
 
+  const ensureTarpCard = () => {
+    const grid=document.querySelector('#rentalCardGridV2 .rental-product-grid');
+    if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('天幕完整套組')))return;
+    const card=document.createElement('article');
+    card.className='activity-card rental-product-card';
+    card.innerHTML='<div class="rental-photo-window" style="display:grid;place-items:center;background:#f0eddf;min-height:190px"><div style="text-align:center;color:#31533c"><div style="font-size:52px">⛺</div><strong>3 × 6 公尺天幕完整套組</strong></div></div><div class="body"><div class="kicker">TARP COMPLETE KIT</div><h3>3×6公尺天幕完整套組</h3><p class="desc">天幕布1張、280公分天幕桿2根、4公尺營繩6條、地釘10根、天幕桿固定器2個。</p><div class="rental-product-meta"><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$600</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div>';
+    grid.appendChild(card);
+  };
   const ensureFireBlanketCard = () => {
     const grid=document.querySelector('#rentalCardGridV2 .rental-product-grid');
     if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('防火布')))return;
@@ -173,7 +181,7 @@
 
   const applyAll = () => {
     applyCorrectRentalPhotos();
-    ensureG40Cards(); ensureFireBlanketCard();
+    ensureG40Cards(); ensureFireBlanketCard(); ensureTarpCard();
     ensureFurnitureCards();
     ensureFurnitureDamageRules();
     ensureG40DamageRules();
