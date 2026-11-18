@@ -117,14 +117,6 @@
     card.innerHTML='<div class="rental-photo-window"><img src="assets/images/tarp-complete-3x6.svg?v=20261118" alt="3×6公尺天幕完整套組實品圖及配件圖" loading="lazy"></div><div class="body"><div class="kicker">TARP COMPLETE KIT</div><h3>3×6公尺天幕完整套組（含地釘、固定器）</h3><p class="desc">天幕布1張、280公分天幕桿2根、4公尺營繩6條、地釘10根、天幕桿固定器2個。</p><div class="rental-product-meta"><span class="rental-chip">可出租 4 組</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$600</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div></div>';
     grid.appendChild(card);
   };
-  const ensureFireBlanketCard = () => {
-    const grid=document.querySelector('#rentalCardGridV2 .rental-product-grid');
-    if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('防火布')))return;
-    const card=document.createElement('article');
-    card.className='activity-card rental-product-card';
-    card.innerHTML='<div class="rental-photo-window"><img src="assets/images/fire-blanket-m.svg" alt="防火布 M號 80×80 公分實品照片" loading="lazy"></div><div class="body"><div class="kicker">FIRE BLANKET RENTAL</div><h3>防火布（M號 80×80cm）</h3><p class="desc">80 × 80 公分防火布，附收納袋。</p><div class="rental-product-meta"><span class="rental-chip">數量：4 張</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>固定租金</small><strong>NT$100</strong></div><div class="rental-deposit">押金<br>NT$200</div></div></div>';
-    grid.appendChild(card);
-  };
   const ensureG40Cards = () => {
     const grid = document.querySelector('#rentalCardGridV2 .rental-product-grid');
     if (!grid) return;
@@ -181,7 +173,7 @@
 
   const applyAll = () => {
     applyCorrectRentalPhotos();
-    ensureG40Cards(); ensureFireBlanketCard(); ensureTarpCard();
+    ensureG40Cards(); ensureTarpCard();
     ensureFurnitureCards();
     ensureFurnitureDamageRules();
     ensureG40DamageRules();
