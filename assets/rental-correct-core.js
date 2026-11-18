@@ -109,6 +109,14 @@
       </div>`);
   };
 
+  const ensureLivingTentCard = () => {
+    const grid=document.querySelector('#rentalCardGridV2 .rental-product-grid');
+    if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('3×3公尺客廳帳')))return;
+    const card=document.createElement('article');
+    card.className='activity-card rental-product-card';
+    card.innerHTML='<div class="rental-photo-window"><img src="assets/images/living-tent-3x3.svg?v=20261118" alt="3×3公尺客廳帳尺寸示意圖" loading="lazy" decoding="async"></div><div class="body"><div class="kicker">LIVING TENT RENTAL</div><h3>3×3公尺客廳帳</h3><p class="desc">長3公尺、寬3公尺、高約2.7公尺；適合露營休憩使用。</p><div class="rental-product-meta"><span class="rental-chip">每晚租借</span><span class="rental-chip">數量以現場確認</span></div><div class="rental-price-row"><div><small>每組每晚租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>待確認</div></div></div>';
+    grid.appendChild(card);
+  };
   const ensureTarpCard = () => {
     const grid=document.querySelector('#rentalCardGridV2 .rental-product-grid');
     if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('天幕完整套組')))return;
@@ -173,7 +181,7 @@
 
   const applyAll = () => {
     applyCorrectRentalPhotos();
-    ensureG40Cards(); ensureTarpCard();
+    ensureG40Cards(); ensureTarpCard(); ensureLivingTentCard();
     ensureFurnitureCards();
     ensureFurnitureDamageRules();
     ensureG40DamageRules();
