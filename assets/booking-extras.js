@@ -3,6 +3,17 @@
 "use strict";
 const CATALOG=[
   {
+    "id": "tarp_complete_3x6",
+    "name": "3×6公尺天幕完整套組",
+    "price": 600,
+    "deposit": 1000,
+    "max": 1,
+    "mode": "night",
+    "category": "天幕設備",
+    "unit": "組",
+    "desc": "3×6公尺天幕布1張、280公分天幕桿2根、4公尺營繩6條、地釘10根、天幕桿固定器2個"
+  },
+  {
     "id": "bbq_grill",
     "name": "大型美式帶蓋烤肉爐",
     "price": 1000,
