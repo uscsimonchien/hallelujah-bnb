@@ -78,7 +78,7 @@ const CATALOG=[
   {
     "id": "g40_lights",
     "name": "G40 LED 氣氛燈串",
-    "price": 50,
+    "price": 100,
     "deposit": 200,
     "max": 10,
     "mode": "night",
