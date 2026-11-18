@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261118-living-tent-3x3-1';
+  const VERSION = '20261118-cassette-stove-200';
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
