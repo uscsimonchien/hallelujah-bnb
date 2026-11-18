@@ -32,7 +32,7 @@
         </div>
         <div class="rental-price-row">
           <div><small>${type === '購買' ? '售價' : '固定租金'}</small><strong>NT$${price}</strong></div>
-          ${deposit ? `<div class="rental-deposit">押金<br>NT$${deposit}</div>` : '<div class="rental-deposit">耗材商品<br>售出不退</div>'}
+          ${deposit ? `<div class="rental-deposit">押金<br>NT${deposit}</div>` : type === '購買' ? '<div class="rental-deposit">耗材商品<br>售出不退</div>' : '<div class="rental-deposit">押金<br>待確認</div>'}
         </div>
       </div>
     </article>`;
@@ -48,9 +48,9 @@
     section.innerHTML = `
       <div class="bbq-head">
         <div><div class="kicker">BBQ SUPPLIES</div><h2>烤肉用品專區</h2></div>
-        <span class="rental-badge">烤爐租借・防火布・炭精加購</span>
+        <span class="rental-badge">卡式爐・烤爐・防火布・炭精</span>
       </div>
-      <p class="bbq-lead">想輕鬆烤肉不用自己搬大型烤爐。現場提供美式帶蓋推車型大型烤肉爐、防火布租借，也可直接加購 2 公斤炭精。</p>
+      <p class="bbq-lead">想輕鬆烤肉不用自己搬大型烤爐。現場提供卡式爐、美式帶蓋推車型大型烤肉爐及防火布租借，也可加購 2 公斤炭精。</p>
       <div class="rental-product-grid bbq-product-grid">
         ${card({
           image:`assets/images/bbq-grill-520.png?v=${VERSION}`,
@@ -65,6 +65,13 @@
           title:'BBQ 懶人套裝組',
           desc:'烤爐＋炭精 1 袋（2kg）＋烤肉夾 2 支＋噴槍／火種＋全新烤網 1～2 片，一組備齊，並由民宿協助生火，輕鬆開烤。',
           price:'1,500',deposit:'1,000',type:'租借',qty:'每晚'
+        })}
+        ${card({
+          image:`assets/images/cassette-stove.svg?v=20261118-stove-200`,
+          kicker:'PORTABLE CASSETTE GAS STOVE',
+          title:'卡式爐',
+          desc:'方便戶外簡易料理；租借卡式爐本體，瓦斯罐是否提供請先與民宿確認。',
+          price:'200',deposit:'',type:'租借',qty:'每晚'
         })}
         ${card({
           image:`assets/images/fire-blanket-m.svg?v=20261118-bbq-move`,
