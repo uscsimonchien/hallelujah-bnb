@@ -84,6 +84,7 @@ const CATALOG=[
     "mode": "night",
     "category": "烤肉用品",
     "unit": "張",
+    "image": "assets/images/fire-blanket-m.svg",
     "desc": "80×80公分防火布，附收納袋；租金每晚100元，押金200元"
   },
   {
