@@ -3,6 +3,18 @@
 "use strict";
 const CATALOG=[
   {
+    "id": "cassette_stove",
+    "name": "卡式爐",
+    "price": 200,
+    "deposit": 0,
+    "max": 1,
+    "mode": "night",
+    "category": "烤肉用品",
+    "unit": "台",
+    "image": "assets/images/cassette-stove.svg",
+    "desc": "卡式爐本體；瓦斯罐是否提供請先與民宿確認，押金待確認"
+  },
+  {
     "id": "living_tent_3x3",
     "name": "3×3公尺客廳帳",
     "price": 500,
