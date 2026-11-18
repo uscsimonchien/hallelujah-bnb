@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261118-cassette-stove-200';
+  const VERSION = '20261118-electric-heater-200-v1';
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
