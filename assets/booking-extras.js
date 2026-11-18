@@ -76,6 +76,17 @@ const CATALOG=[
     "desc": "含升降蛋捲桌 1 張＋露營椅 4 張"
   },
   {
+    "id": "fire_blanket_m",
+    "name": "防火布（M號 80×80cm）",
+    "price": 100,
+    "deposit": 200,
+    "max": 1,
+    "mode": "night",
+    "category": "烤肉用品",
+    "unit": "張",
+    "desc": "80×80公分防火布，附收納袋；租金每晚100元，押金200元"
+  },
+  {
     "id": "g40_lights",
     "name": "G40 LED 氣氛燈串",
     "price": 100,
