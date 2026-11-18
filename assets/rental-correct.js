@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261118-bbq-price-fix';
+  const VERSION = '20261118-g40-100';
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
