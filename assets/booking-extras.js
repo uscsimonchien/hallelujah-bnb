@@ -80,7 +80,7 @@ const CATALOG=[
     "name": "防火布（M號 80×80cm）",
     "price": 100,
     "deposit": 200,
-    "max": 1,
+    "max": 4,
     "mode": "night",
     "category": "烤肉用品",
     "unit": "張",
