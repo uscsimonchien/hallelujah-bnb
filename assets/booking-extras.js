@@ -3,6 +3,18 @@
 "use strict";
 const CATALOG=[
   {
+    "id": "electric_heater",
+    "name": "露營電暖爐",
+    "price": 200,
+    "deposit": 0,
+    "max": 1,
+    "mode": "night",
+    "category": "保暖設備",
+    "unit": "台",
+    "image": "assets/images/electric-heater.svg",
+    "desc": "輕巧便攜電暖爐，附收納包；租金每台每晚NT$200，押金及實際庫存待確認；使用須確認供電並遵守安全規範"
+  },
+  {
     "id": "cassette_stove",
     "name": "卡式爐",
     "price": 200,
