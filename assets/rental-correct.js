@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261118-tarp-photo-1';
+  const VERSION = '20261118-fire-blanket-bbq-1';
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
