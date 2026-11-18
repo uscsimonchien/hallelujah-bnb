@@ -109,6 +109,14 @@
       </div>`);
   };
 
+  const ensureElectricHeaterCard = () => {
+    const grid = document.querySelector('#rentalCardGridV2 .rental-product-grid');
+    if (!grid || [...grid.querySelectorAll('h3')].some(h => h.textContent.includes('露營電暖爐'))) return;
+    const article = document.createElement('article');
+    article.className = 'activity-card rental-product-card';
+    article.innerHTML = '<div class="rental-photo-window"><img src="assets/images/electric-heater.svg?v=20261118" alt="露營電暖爐與攜帶收納包" loading="lazy" decoding="async"></div><div class="body"><div class="kicker">PORTABLE ELECTRIC HEATER</div><h3>露營電暖爐</h3><p class="desc">輕巧便攜，附收納包。須確認營位電力與安全使用條件；使用時保持通風及遠離易燃物。</p><div class="rental-product-meta"><span class="rental-chip">每台每晚</span><span class="rental-chip">數量以現場確認</span></div><div class="rental-price-row"><div><small>租借費</small><strong>NT$200</strong></div><div class="rental-deposit">押金<br>待確認</div></div></div>';
+    grid.appendChild(article);
+  };
   const ensureLivingTentCard = () => {
     const grid=document.querySelector('#rentalCardGridV2 .rental-product-grid');
     if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('3×3公尺客廳帳')))return;
@@ -181,7 +189,7 @@
 
   const applyAll = () => {
     applyCorrectRentalPhotos();
-    ensureG40Cards(); ensureTarpCard(); ensureLivingTentCard();
+    ensureG40Cards(); ensureTarpCard(); ensureLivingTentCard(); ensureElectricHeaterCard();
     ensureFurnitureCards();
     ensureFurnitureDamageRules();
     ensureG40DamageRules();
