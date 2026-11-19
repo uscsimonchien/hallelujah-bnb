@@ -173,7 +173,7 @@ const CATALOG=[
   },
   {
     "id": "hispeed_single",
-    "name": "Hispeed 單人床墊",
+    "name": "Hispeed 單人床墊－含打氣",
     "price": 150,
     "deposit": 300,
     "max": 10,
@@ -185,7 +185,7 @@ const CATALOG=[
   },
   {
     "id": "hispeed_double",
-    "name": "Hispeed 雙人床墊",
+    "name": "Hispeed 雙人床墊－含打氣",
     "price": 200,
     "deposit": 500,
     "max": 10,
@@ -197,7 +197,7 @@ const CATALOG=[
   },
   {
     "id": "cheese_single",
-    "name": "單人奶酪床墊",
+    "name": "單人奶酪床墊－含打氣",
     "price": 300,
     "deposit": 500,
     "max": 10,
@@ -209,7 +209,7 @@ const CATALOG=[
   },
   {
     "id": "cheese_double",
-    "name": "雙人奶酪床墊",
+    "name": "雙人奶酪床墊－含打氣",
     "price": 450,
     "deposit": 1000,
     "max": 10,
