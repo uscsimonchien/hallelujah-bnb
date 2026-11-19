@@ -48,9 +48,9 @@
     section.innerHTML = `
       <div class="bbq-head">
         <div><div class="kicker">BBQ SUPPLIES</div><h2>烤肉用品專區</h2></div>
-        <span class="rental-badge">卡式爐・烤爐・防火布・炭精</span>
+        <span class="rental-badge">卡式爐・瓦斯罐・烤爐・防火布・炭精</span>
       </div>
-      <p class="bbq-lead">想輕鬆烤肉不用自己搬大型烤爐。現場提供卡式爐、美式帶蓋推車型大型烤肉爐及防火布租借，也可加購 2 公斤炭精。</p>
+      <p class="bbq-lead">想輕鬆烤肉不用自己搬大型烤爐。現場提供卡式爐、美式帶蓋推車型大型烤肉爐及防火布租借，也可另購瓦斯罐與 2 公斤炭精。</p>
       <div class="rental-product-grid bbq-product-grid">
         ${card({
           image:`assets/images/bbq-grill-520.png?v=${VERSION}`,
@@ -70,8 +70,15 @@
           image:`assets/images/cassette-stove.svg?v=20261118-stove-200`,
           kicker:'PORTABLE CASSETTE GAS STOVE',
           title:'卡式爐',
-          desc:'方便戶外簡易料理；租借卡式爐本體，瓦斯罐是否提供請先與民宿確認。',
+          desc:'方便戶外簡易料理；租借卡式爐本體每晚 NT$200，瓦斯罐另購每瓶 NT$80。',
           price:'200',deposit:'',type:'租借',qty:'每晚'
+        })}
+        ${card({
+          image:`assets/images/butane-canister.svg?v=20261119-gas80`,
+          kicker:'BUTANE GAS CANISTER',
+          title:'瓦斯罐（丁烷）',
+          desc:'戶外卡式爐適用瓦斯罐，單瓶售價 NT$80。瓦斯罐為消耗品，另行購買，售出不退。',
+          price:'80',deposit:'',type:'購買',qty:'1 瓶'
         })}
         ${card({
           image:`assets/images/fire-blanket-m.svg?v=20261118-bbq-move`,
