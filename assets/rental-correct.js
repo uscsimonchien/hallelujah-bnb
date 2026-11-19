@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261119-tarp-setup-1';
+  const VERSION = '20261119-mattress-inflation-names-v1';
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
