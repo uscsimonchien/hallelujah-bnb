@@ -162,50 +162,50 @@ const CATALOG=[
   {
     "id": "hispeed_single",
     "name": "Hispeed 單人床墊",
-    "price": 100,
+    "price": 150,
     "deposit": 300,
     "max": 10,
     "mode": "night",
     "category": "床墊",
     "unit": "張",
     "image": "assets/images/rental_hispeed_single_hd.png",
-    "desc": "輕便好收納"
+    "desc": "輕便好收納；租金包含打氣及洩氣服務"
   },
   {
     "id": "hispeed_double",
     "name": "Hispeed 雙人床墊",
-    "price": 150,
+    "price": 200,
     "deposit": 500,
     "max": 10,
     "mode": "night",
     "category": "床墊",
     "unit": "張",
     "image": "assets/images/rental_hispeed_double_hd.png",
-    "desc": "雙人用、快速充氣"
+    "desc": "雙人用、快速充氣；租金包含打氣及洩氣服務"
   },
   {
     "id": "cheese_single",
     "name": "單人奶酪床墊",
-    "price": 250,
+    "price": 300,
     "deposit": 500,
     "max": 10,
     "mode": "night",
     "category": "床墊",
     "unit": "張",
     "image": "assets/images/rental_cheese_single_hd.png",
-    "desc": "厚實舒適"
+    "desc": "厚實舒適；租金包含打氣及洩氣服務"
   },
   {
     "id": "cheese_double",
     "name": "雙人奶酪床墊",
-    "price": 400,
+    "price": 450,
     "deposit": 1000,
     "max": 10,
     "mode": "night",
     "category": "床墊",
     "unit": "張",
     "image": "assets/images/rental_cheese_double_hd.png",
-    "desc": "雙人加大"
+    "desc": "雙人加大；租金包含打氣及洩氣服務"
   },
   {
     "id": "projector_4k",
