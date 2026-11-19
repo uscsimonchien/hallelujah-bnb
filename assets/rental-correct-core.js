@@ -114,7 +114,7 @@
     if (!grid || [...grid.querySelectorAll('h3')].some(h => h.textContent.includes('露營電暖爐'))) return;
     const article = document.createElement('article');
     article.className = 'activity-card rental-product-card';
-    article.innerHTML = '<div class="rental-photo-window"><img src="assets/images/electric-heater.svg?v=20261118" alt="露營電暖爐與攜帶收納包" loading="lazy" decoding="async"></div><div class="body"><div class="kicker">PORTABLE ELECTRIC HEATER</div><h3>露營電暖爐</h3><p class="desc">輕巧便攜，附收納包。須確認營位電力與安全使用條件；使用時保持通風及遠離易燃物。</p><div class="rental-product-meta"><span class="rental-chip">每台每晚</span><span class="rental-chip">數量以現場確認</span></div><div class="rental-price-row"><div><small>租借費</small><strong>NT$200</strong></div><div class="rental-deposit">押金<br>待確認</div></div></div>';
+    article.innerHTML = '<div class="rental-photo-window"><img src="assets/images/electric-heater.png?v=20261118" alt="露營電暖爐與攜帶收納包" loading="lazy" decoding="async"></div><div class="body"><div class="kicker">PORTABLE ELECTRIC HEATER</div><h3>露營電暖爐</h3><p class="desc">輕巧便攜，附收納包。須確認營位電力與安全使用條件；使用時保持通風及遠離易燃物。</p><div class="rental-product-meta"><span class="rental-chip">每台每晚</span><span class="rental-chip">數量以現場確認</span></div><div class="rental-price-row"><div><small>租借費</small><strong>NT$200</strong></div><div class="rental-deposit">押金<br>待確認</div></div></div>';
     grid.appendChild(article);
   };
   const ensureLivingTentCard = () => {
@@ -122,7 +122,7 @@
     if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('3×3公尺客廳帳')))return;
     const card=document.createElement('article');
     card.className='activity-card rental-product-card';
-    card.innerHTML='<div class="rental-photo-window"><img src="assets/images/living-tent-3x3.svg?v=20261118" alt="3×3公尺客廳帳尺寸示意圖" loading="lazy" decoding="async"></div><div class="body"><div class="kicker">LIVING TENT RENTAL</div><h3>3×3公尺客廳帳</h3><p class="desc">長3公尺、寬3公尺、高約2.7公尺；適合露營休憩使用。</p><div class="rental-product-meta"><span class="rental-chip">每晚租借</span><span class="rental-chip">數量以現場確認</span></div><div class="rental-price-row"><div><small>每組每晚租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>待確認</div></div></div>';
+    card.innerHTML='<div class="rental-photo-window"><img src="assets/images/living-tent-3x3.png?v=20261118" alt="3×3公尺客廳帳尺寸示意圖" loading="lazy" decoding="async"></div><div class="body"><div class="kicker">LIVING TENT RENTAL</div><h3>3×3公尺客廳帳</h3><p class="desc">長3公尺、寬3公尺、高約2.7公尺；適合露營休憩使用。</p><div class="rental-product-meta"><span class="rental-chip">每晚租借</span><span class="rental-chip">數量以現場確認</span></div><div class="rental-price-row"><div><small>每組每晚租金</small><strong>NT$500</strong></div><div class="rental-deposit">押金<br>待確認</div></div></div>';
     grid.appendChild(card);
   };
   const ensureTarpCard = () => {
@@ -130,7 +130,7 @@
     if(!grid||[...grid.querySelectorAll('h3')].some(h=>h.textContent.includes('天幕完整套組')))return;
     const card=document.createElement('article');
     card.className='activity-card rental-product-card';
-    card.innerHTML='<div class="rental-photo-window"><img src="assets/images/tarp-complete-3x6.svg?v=20261118" alt="3×6公尺天幕完整套組實品圖及配件圖" loading="lazy"></div><div class="body"><div class="kicker">TARP COMPLETE KIT</div><h3>3×6公尺天幕完整套組（含地釘、固定器）</h3><p class="desc">天幕布1張、280公分天幕桿2根、4公尺營繩6條、地釘10根、天幕桿固定器2個。</p><div class="rental-product-meta"><span class="rental-chip">可出租 4 組</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>每組每晚租金</small><strong>NT$600</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div><div style="margin-top:10px;padding:13px;border-radius:12px;border:1px solid #c9dfcb;background:#f4faf2"><div style="font-size:14px;font-weight:800;color:#24533c">🛠️ 加購幫忙搭設</div><div style="margin-top:5px;color:#234937;font-weight:800;font-size:20px">NT$1,000 <span style="font-size:12px">／組／次</span></div><p style="margin:6px 0 0;font-size:12px;line-height:1.7">非必選；每組搭設一次收費，租幾晚都不重複計費。預訂時可選擇，最多4組。</p></div></div>';
+    card.innerHTML='<div class="rental-photo-window"><img src="assets/images/tarp-complete-3x6.png?v=20261118" alt="3×6公尺天幕完整套組實品圖及配件圖" loading="lazy"></div><div class="body"><div class="kicker">TARP COMPLETE KIT</div><h3>3×6公尺天幕完整套組（含地釘、固定器）</h3><p class="desc">天幕布1張、280公分天幕桿2根、4公尺營繩6條、地釘10根、天幕桿固定器2個。</p><div class="rental-product-meta"><span class="rental-chip">可出租 4 組</span><span class="rental-chip">單日／每晚</span></div><div class="rental-price-row"><div><small>每組每晚租金</small><strong>NT$600</strong></div><div class="rental-deposit">押金<br>NT$1,000</div></div><div style="margin-top:10px;padding:13px;border-radius:12px;border:1px solid #c9dfcb;background:#f4faf2"><div style="font-size:14px;font-weight:800;color:#24533c">🛠️ 加購幫忙搭設</div><div style="margin-top:5px;color:#234937;font-weight:800;font-size:20px">NT$1,000 <span style="font-size:12px">／組／次</span></div><p style="margin:6px 0 0;font-size:12px;line-height:1.7">非必選；每組搭設一次收費，租幾晚都不重複計費。預訂時可選擇，最多4組。</p></div></div>';
     grid.appendChild(card);
   };
   const ensureG40Cards = () => {
