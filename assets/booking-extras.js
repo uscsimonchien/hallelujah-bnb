@@ -24,7 +24,19 @@ const CATALOG=[
     "category": "烤肉用品",
     "unit": "台",
     "image": "assets/images/cassette-stove.svg",
-    "desc": "卡式爐本體；瓦斯罐是否提供請先與民宿確認，押金待確認"
+    "desc": "卡式爐本體租借每晚NT$200，瓦斯罐另購每瓶NT$80；押金待確認"
+  },
+  {
+    "id": "butane_can_1pc",
+    "name": "卡式瓦斯罐（丁烷）",
+    "price": 80,
+    "deposit": 0,
+    "max": 10,
+    "mode": "once",
+    "category": "烤肉用品",
+    "unit": "瓶",
+    "image": "assets/images/butane-canister.svg",
+    "desc": "瓦斯罐每瓶NT$80，屬耗材商品，售出不退；卡式爐租金不含瓦斯罐"
   },
   {
     "id": "living_tent_3x3",
