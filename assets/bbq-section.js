@@ -67,21 +67,21 @@
           price:'1,500',deposit:'1,000',type:'租借',qty:'每晚'
         })}
         ${card({
-          image:`assets/images/cassette-stove.svg?v=20261118-stove-200`,
+          image:`assets/images/cassette-stove.png?v=20261118-stove-200`,
           kicker:'PORTABLE CASSETTE GAS STOVE',
           title:'卡式爐',
           desc:'方便戶外簡易料理；租借卡式爐本體每晚 NT$200，瓦斯罐另購每瓶 NT$80。',
           price:'200',deposit:'',type:'租借',qty:'每晚'
         })}
         ${card({
-          image:`assets/images/butane-canister.svg?v=20261119-gas80`,
+          image:`assets/images/butane-canister.png?v=20261119-gas80`,
           kicker:'BUTANE GAS CANISTER',
           title:'瓦斯罐（丁烷）',
           desc:'戶外卡式爐適用瓦斯罐，單瓶售價 NT$80。瓦斯罐為消耗品，另行購買，售出不退。',
           price:'80',deposit:'',type:'購買',qty:'1 瓶'
         })}
         ${card({
-          image:`assets/images/fire-blanket-m.svg?v=20261118-bbq-move`,
+          image:`assets/images/fire-blanket-m.png?v=20261118-bbq-move`,
           kicker:'FIRE BLANKET RENTAL',
           title:'防火布（M號 80×80cm）',
           desc:'80 × 80 公分防火布，附收納袋；使用時請依產品說明及安全規範操作。',
