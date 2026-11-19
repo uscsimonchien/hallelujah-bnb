@@ -2,10 +2,10 @@
   const VERSION = '20261005-0245';
 
   const photoMap = {
-    'Hispeed 單人床墊': `assets/images/rental_hispeed_single_hd.png?v=${VERSION}`,
-    'Hispeed 雙人床墊': `assets/images/rental_hispeed_double_hd.png?v=${VERSION}`,
-    '單人奶酪床墊': `assets/images/rental_cheese_single_hd.png?v=${VERSION}`,
-    '雙人奶酪床墊': `assets/images/rental_cheese_double_hd.png?v=${VERSION}`,
+    'Hispeed 單人床墊－含打氣': `assets/images/rental_hispeed_single_hd.png?v=${VERSION}`,
+    'Hispeed 雙人床墊－含打氣': `assets/images/rental_hispeed_double_hd.png?v=${VERSION}`,
+    '單人奶酪床墊－含打氣': `assets/images/rental_cheese_single_hd.png?v=${VERSION}`,
+    '雙人奶酪床墊－含打氣': `assets/images/rental_cheese_double_hd.png?v=${VERSION}`,
     '充氣帳篷': `assets/images/rental_inflatable_tent_hd.png?v=${VERSION}`
   };
 
