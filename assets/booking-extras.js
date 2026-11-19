@@ -63,6 +63,18 @@ const CATALOG=[
     "desc": "3×6公尺天幕布1張、280公分天幕桿2根、4公尺營繩6條、地釘10根、天幕桿固定器2個"
   },
   {
+    "id": "tarp_setup_3x6",
+    "name": "3×6公尺天幕完整套組－幫忙搭設",
+    "price": 1000,
+    "deposit": 0,
+    "max": 4,
+    "mode": "once",
+    "category": "天幕設備",
+    "unit": "組",
+    "image": "assets/images/tarp-complete-3x6.svg",
+    "desc": "限租借3×6公尺天幕完整套組者加購；每組代搭設一次NT$1,000，不隨入住晚數重複計價"
+  },
+  {
     "id": "bbq_grill",
     "name": "大型美式帶蓋烤肉爐",
     "price": 1000,
@@ -279,6 +291,7 @@ function calculate(qty={},nights=1){
  const n=Number(nights)>0?Number(nights):1;let total=0,securityDeposit=0;const items=[];
  for(const it of CATALOG){const q=Number(qty[it.id]||0);if(!Number.isInteger(q)||q<0||q>it.max)throw Error("加購數量錯誤："+it.name);if(!q)continue;const rentTotal=q*it.price*(it.mode==="night"?n:1),deposit=q*it.deposit;total+=rentTotal;securityDeposit+=deposit;items.push({...it,qty:q,rentTotal,depositTotal:deposit})}
  for(const [a,b] of CONFLICTS){if(qty[a]>0&&qty[b]>0)throw Error("「"+CATALOG.find(x=>x.id===a).name+"」與「"+CATALOG.find(x=>x.id===b).name+"」使用同一組設備，請擇一")}
+ if(Number(qty.tarp_setup_3x6||0)>Number(qty.tarp_complete_3x6||0))throw Error("天幕幫忙搭設組數不可超過已租借的3×6公尺天幕完整套組數量");
  return {total,securityDeposit,items};
 }
 function initPhotoGalleries(){
@@ -306,17 +319,28 @@ function mount(el,change){
  const cats=[...new Set(CATALOG.map(x=>x.category))];
  el.innerHTML='<div class="hb-extra-wrap"><h3>其他用品與活動加購（選填）</h3>'+cats.map(cat=>'<section class="hb-extra-section"><h4>'+escape(cat)+'</h4><div class="hb-extra-grid">'+CATALOG.filter(x=>x.category===cat).map(it=>{
  const thumb='<img src="'+escape(it.image)+'" alt="'+escape(it.name)+'" loading="lazy">'+(it.image2?'<img class="hb-second" src="'+escape(it.image2)+'" alt="" loading="lazy">':'');
- return '<div class="hb-extra-item"><div class="hb-extra-thumb">'+thumb+'</div><div class="hb-extra-info"><div class="hb-extra-name">'+escape(it.name)+'</div><div class="hb-extra-price">'+money(it.price)+(it.id==='tent_setup_service'?'／帳／次':it.mode==="night"?'／晚':'／次或份')+'</div><div class="hb-extra-deposit">'+(it.deposit?'器材押金 '+money(it.deposit)+'／'+it.unit:'免器材押金')+'</div><div class="hb-extra-desc">'+escape(it.desc)+'</div><select data-extra-id="'+it.id+'" aria-label="'+escape(it.name)+'數量">'+Array.from({length:it.max+1},(_,i)=>'<option value="'+i+'">'+(i===0?'不加購':i+' '+it.unit)+'</option>').join('')+'</select></div></div>'
- }).join('')+'</div></section>').join('')+'<p class="hb-extra-note">設備租金以住宿晚數／露營晚數計算；炭精、泳池、投影機與代客搭設依次計費。器材押金為可退押金，<strong>不計入訂單租金或 30% 預訂訂金</strong>，由現場另外收取，點交後依規定退還。數量、時段、天候與實際庫存以營主確認為準。</p><p class="hb-extra-warning" role="status"></p></div>';
+ return '<div class="hb-extra-item"><div class="hb-extra-thumb">'+thumb+'</div><div class="hb-extra-info"><div class="hb-extra-name">'+escape(it.name)+'</div><div class="hb-extra-price">'+money(it.price)+(it.id==='tent_setup_service'?'／帳／次':it.id==='tarp_setup_3x6'?'／組／次':it.mode==="night"?'／晚':'／次或份')+'</div><div class="hb-extra-deposit">'+(it.deposit?'器材押金 '+money(it.deposit)+'／'+it.unit:'免器材押金')+'</div><div class="hb-extra-desc">'+escape(it.desc)+'</div><select data-extra-id="'+it.id+'" aria-label="'+escape(it.name)+'數量">'+Array.from({length:it.max+1},(_,i)=>'<option value="'+i+'">'+(i===0?'不加購':i+' '+it.unit)+'</option>').join('')+'</select></div></div>'
+ }).join('')+'</div></section>').join('')+'<p class="hb-extra-note">設備租金以住宿晚數／露營晚數計算；炭精、泳池、投影機與代客搭設依次計費；天幕搭設需搭配3×6公尺天幕完整套組，且每組僅收一次。器材押金為可退押金，<strong>不計入訂單租金或 30% 預訂訂金</strong>，由現場另外收取，點交後依規定退還。數量、時段、天候與實際庫存以營主確認為準。</p><p class="hb-extra-warning" role="status"></p></div>';
  const qty=()=>Object.fromEntries([...el.querySelectorAll("select[data-extra-id]")].map(x=>[x.dataset.extraId,Number(x.value)]).filter(x=>x[1]>0));
  const warn=el.querySelector(".hb-extra-warning");
  const selects=[...el.querySelectorAll("select[data-extra-id]")];
+ const syncTarpSetup = () => {
+  const rented=el.querySelector('select[data-extra-id="tarp_complete_3x6"]');
+  const setup=el.querySelector('select[data-extra-id="tarp_setup_3x6"]');
+  if(!rented||!setup)return;
+  const limit=Number(rented.value)||0;
+  for(const option of setup.options)option.disabled=Number(option.value)>limit;
+  if(Number(setup.value)>limit)setup.value=String(limit);
+  setup.disabled=limit===0;
+ };
+ syncTarpSetup();
  selects.forEach(select=>select.addEventListener("change",()=>{
+  syncTarpSetup();
   const selected=qty();
   for(const [a,b] of CONFLICTS){if(selected[a]>0&&selected[b]>0){select.value="0";warn.textContent="同一組器材不可重複租借（烤爐、桌椅套組或燈串套組），已取消後選的項目。";change?.();return}}
   warn.textContent="";change?.();
  }));
- return {quantities:qty,calculate:n=>calculate(qty(),n),reset:()=>{selects.forEach(s=>s.value="0");warn.textContent=""}};
+ return {quantities:qty,calculate:n=>calculate(qty(),n),reset:()=>{selects.forEach(s=>s.value="0");syncTarpSetup();warn.textContent=""}};
 }
 window.HallelujahBookingExtras={catalog:CATALOG,calculate,mount,money};
 })();
