@@ -90,7 +90,7 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 <body>
 <header class="dashboard-head"><div class="head-inner"><a class="brand-row" href="index.html"><img src="assets/logo.webp" alt="哈雷露亞民宿"><span>哈雷露亞｜整合訂單後台</span></a><nav class="head-actions"><a href="index.html">網站首頁</a><button type="button" id="refreshAll" hidden>重新整理</button><button type="button" id="logout" hidden>登出</button></nav></div></header>
 <main>
-<div class="page-intro"><div><div class="kicker">HALLELUJAH · BOOKINGS</div><h1>民宿＋露營，一個後台看全部</h1><p>電腦版左邊民宿、右邊露營。兩套預訂系統獨立運作，管理金鑰只須輸入一次。</p></div></div>
+<div class="page-intro"><div><div class="kicker">HALLELUJAH · BOOKINGS</div><h1>民宿＋露營＋純設備租借，一個後台看全部</h1><p>電腦版左邊民宿、右邊露營。三類訂單獨立運作，管理金鑰只須輸入一次。</p></div></div>
 <section class="login-card" id="loginCard"><h2>管理員登入</h2><p>請輸入原本民宿訂房後台使用的管理金鑰。登入後會同時確認民宿與露營管理權限。</p><form id="loginForm"><input id="adminKey" type="password" autocomplete="current-password" placeholder="管理金鑰" aria-label="管理金鑰" required><button type="submit" id="loginButton">登入整合後台</button></form><div class="message" id="loginMessage" role="status"></div></section>
 <section class="board" id="board" hidden>
 <article class="panel" id="lodgingPanel">
@@ -103,6 +103,19 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 <div class="panel-main"><div class="stats"><div class="stat"><small>待確認</small><strong id="campingPending">—</strong></div><div class="stat"><small>已確認</small><strong id="campingConfirmed">—</strong></div><div class="stat"><small>已收款</small><strong id="campingPaid">—</strong></div><div class="stat"><small>總訂單</small><strong id="campingTotal">—</strong></div></div>
 <div class="toolbar"><label>篩選<select id="campingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="campingSort"><option value="checkin">入住日期優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="camping-admin.html#manualBooking">新增訂位／封位</a></div>
 <p class="table-meta" id="campingCount"></p><div class="orders" id="campingOrders"></div><p class="panel-message" id="campingMessage" role="status"></p></div></article>
+</section>
+<section class="panel" id="rentalPanel" hidden style="margin-top:22px">
+ <div class="panel-head"><div class="panel-title"><div><h2>🧰 純設備租借訂單</h2><small>不用選營位｜取件日期優先｜收款與取消獨立管理</small></div><a href="camping-booking.html">客人預訂頁</a></div></div>
+ <div class="panel-main">
+  <div class="stats">
+   <div class="stat"><small>待確認</small><strong id="rentalPending">0</strong></div>
+   <div class="stat"><small>已確認</small><strong id="rentalConfirmed">0</strong></div>
+   <div class="stat"><small>已收款</small><strong id="rentalPaid">0</strong></div>
+   <div class="stat"><small>總訂單</small><strong id="rentalTotal">0</strong></div>
+  </div>
+  <div class="toolbar"><label>篩選<select id="rentalFilter"><option value="all">全部訂單</option><option value="pending">待確認</option><option value="confirmed">已確認</option><option value="paid">已收款</option><option value="cancelled">已取消</option></select></label><button type="button" id="rentalRefresh" class="new-link" style="border:0;cursor:pointer">重新整理租借訂單</button></div>
+  <p class="table-meta" id="rentalCount">—</p><div id="rentalOrders" class="orders"></div><p class="panel-message" id="rentalMessage" role="status"></p>
+ </div>
 </section>
 <p class="page-note">資料即時讀取各自的中央訂單系統；在這裡確認、收款或取消，會同步影響原後台及其可訂庫存。需操作完整人工訂位、LINE 通知等設定時，請點各區的「完整後台」。</p>
 </main>
@@ -130,11 +143,77 @@ async function api(kind,action,options={}){
  return data;
 }
 const showError=e=>e.status===401?'管理金鑰錯誤或已失效。':e.message==='occupied_sites'?'訂位日期衝突，請先檢查營位。':e.message==='unauthorized'?'管理金鑰驗證失敗。':e.message||'請檢查網路連線';
+let rentalOrders=[];
+const rentalStatus=b=>b.status==='cancelled'?'cancelled':Number(b.deposit_paid||0)+Number(b.balance_paid||0)>=Number(b.total||0)?'paid':b.status;
+function renderRentals(){
+ const all=rentalOrders,filtered=all.filter(b=>$('rentalFilter').value==='all'||rentalStatus(b)===$('rentalFilter').value);
+ const orderRank=b=>{const s=rentalStatus(b);return s==='pending'?0:s==='cancelled'?2:1};
+ filtered.sort((a,b)=>orderRank(a)-orderRank(b)||String(a.checkin).localeCompare(String(b.checkin))||stamp(b.created_at)-stamp(a.created_at));
+ for(const [s,id] of [['pending','rentalPending'],['confirmed','rentalConfirmed'],['paid','rentalPaid']])$(id).textContent=all.filter(b=>rentalStatus(b)===s).length;
+ $('rentalTotal').textContent=all.length;$('rentalCount').textContent='顯示 '+filtered.length+'／'+all.length+' 筆，待確認置頂，其餘依取件日期排序';
+ const target=$('rentalOrders');target.replaceChildren();
+ if(!filtered.length){target.append(make('div','empty','目前沒有純設備租借訂單。'));return;}
+ for(const b of filtered){
+  const card=make('article','order'),head=make('div','order-head');
+  const dates=make('div','');
+  dates.append(make('span','order-date',day(b.checkin)+' → '+day(b.checkout)));
+  dates.append(make('span','order-subdate',' · 取件／歸還日期'));
+  if(b.created_at)dates.append(make('div','order-small','🕒 預訂時間：'+new Intl.DateTimeFormat('zh-TW',{timeZone:'Asia/Taipei',dateStyle:'short',timeStyle:'short'}).format(new Date(b.created_at))));
+  head.append(dates,make('span','status '+rentalStatus(b),names[rentalStatus(b)]||rentalStatus(b)));
+  card.append(head);
+  const body=make('div','order-body'),person=make('div',''),sum=make('div','');
+  person.append(make('div','order-name',b.guest_name));
+  const tel=make('a','order-small',b.guest_phone);tel.href='tel:'+String(b.guest_phone||'').replace(/[^+\d]/g,'');person.append(tel);
+  person.append(make('div','order-small','純設備租借｜不占營位'));
+  sum.append(make('div','money',money(b.total)));
+  sum.append(make('div','order-small','訂金 '+money(b.deposit_due)+'｜尾款 '+money(b.total-b.deposit_due)));
+  sum.append(make('div','order-small',b.code||''));
+  body.append(person,sum);card.append(body);
+  const details=make('div','order-extras');
+  details.append(make('div','order-extras-title','🛒 租借設備'));
+  for(const item of Array.isArray(b.extras)?b.extras:[]){
+   const line=make('div','order-extra-line');
+   line.append(make('span','order-extra-name',item.name+' × '+item.qty+(item.unit||'')),make('span','order-extra-subtotal',money(item.rent_total)));
+   details.append(line);
+  }
+  details.append(make('div','order-extra-summary','器材押金（另收、可退）：'+money(b.equipment_deposit_due)));
+  details.append(make('div','order-extra-summary','已收租金：'+money(Number(b.deposit_paid||0)+Number(b.balance_paid||0))));
+  card.append(details);
+  if(b.note)card.append(make('div','order-note',b.note));
+  const bar=make('div','order-actions'),cancelled=b.status==='cancelled',remaining=Math.max(0,Number(b.total)-Number(b.deposit_paid)-Number(b.balance_paid));
+  for(const [title,action,cls,disabled] of [['確認','confirmed','confirmed',cancelled||b.status==='confirmed'],['已收款','paid','paid',cancelled||remaining<=0],['待確認','pending','pending',cancelled||b.status==='pending'],['取消','cancelled','cancelled',cancelled]]){
+   const btn=make('button',cls,title);btn.type='button';btn.disabled=disabled;
+   btn.addEventListener('click',()=>changeRental(b,action));bar.append(btn);
+  }
+  card.append(bar);target.append(card);
+ }
+}
+async function loadRentals(){
+ const d=await api('camping','admin-rental-bookings');
+ rentalOrders=Array.isArray(d.bookings)?d.bookings:[];
+ renderRentals();
+}
+async function changeRental(b,status){
+ if(busy)return;
+ const remaining=Math.max(0,Number(b.total)-Number(b.deposit_paid)-Number(b.balance_paid));
+ const message=status==='cancelled'?'確定取消純設備租借 '+b.code+'？':status==='paid'?'確定已收到 '+money(remaining)+'？': '確定將 '+b.code+' 改為'+(names[status]||status)+'？';
+ if(!confirm(message))return;
+ busy=true;$('rentalMessage').textContent='處理中…';
+ try{
+  if(status==='paid')await api('camping','admin-rental-payment',{method:'POST',body:{id:b.id,kind:'balance',amount:remaining}});
+  else await api('camping','admin-rental-status',{method:'PATCH',body:{id:b.id,status}});
+  await loadRentals();$('rentalMessage').textContent='訂單 '+b.code+' 已更新';
+ }catch(e){$('rentalMessage').textContent='操作失敗：'+showError(e)}
+ finally{busy=false}
+}
+$('rentalFilter').addEventListener('change',renderRentals);
+$('rentalRefresh').addEventListener('click',async()=>{if(!secret)return;try{await loadRentals();$('rentalMessage').textContent='已更新'}catch(e){$('rentalMessage').textContent=showError(e)}});
 async function loadBoth(){
- const [l,c]=await Promise.all([api('lodging','admin_list'),api('camping','admin-bookings')]);
+ const [l,c,r]=await Promise.all([api('lodging','admin_list'),api('camping','admin-bookings'),api('camping','admin-rental-bookings')]);
  state.lodging=Array.isArray(l.bookings)?l.bookings:[];
  state.camping=Array.isArray(c.bookings)?c.bookings:[];
- render('lodging');render('camping');
+ rentalOrders=Array.isArray(r.bookings)?r.bookings:[];
+ render('lodging');render('camping');renderRentals();
 }
 async function login(value){
  if(busy)return;
@@ -143,7 +222,7 @@ async function login(value){
  try{
   await loadBoth();
   sessionStorage.setItem(SESSION,value);
-  $('loginCard').hidden=true;$('board').hidden=false;$('logout').hidden=false;$('refreshAll').hidden=false;
+  $('loginCard').hidden=true;$('board').hidden=false;$('rentalPanel').hidden=false;$('logout').hidden=false;$('refreshAll').hidden=false;
   $('loginMessage').textContent='';
  }catch(e){
   secret='';sessionStorage.removeItem(SESSION);
@@ -153,7 +232,7 @@ async function login(value){
 $('loginForm').addEventListener('submit',e=>{e.preventDefault();const v=$('adminKey').value.trim();if(v)login(v)});
 $('logout').addEventListener('click',()=>{
  secret='';sessionStorage.removeItem(SESSION);state.lodging=[];state.camping=[];
- $('board').hidden=true;$('loginCard').hidden=false;$('logout').hidden=true;$('refreshAll').hidden=true;
+ $('board').hidden=true;$('rentalPanel').hidden=true;$('loginCard').hidden=false;$('logout').hidden=true;$('refreshAll').hidden=true;
  $('adminKey').value='';$('loginMessage').textContent='已登出兩個後台。';
 });
 async function refresh(){
