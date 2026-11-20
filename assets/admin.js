@@ -11,6 +11,7 @@ async function createPublicBooking(body){const r=await fetch(API+'?action=create
 let latestBookings=[];
 const listFilter=$('#listFilter'),listSort=$('#listSort'),listHint=$('#listHint');
 const dateOnly=v=>String(v||'').slice(0,10);
+const isHistoricalOrder=b=>{const end=dateOnly(b.checkout);return !!end&&end<new Date(Date.now()+8*3600000).toISOString().slice(0,10)};
 function displayedBookings(list,statusOf){
  const filter=listFilter?.value||'all',sort=listSort?.value||'checkin';
  const today=new Date(Date.now()+8*3600000).toISOString().slice(0,10);
@@ -37,7 +38,7 @@ function render(list){
  $('#statConfirmed').textContent=list.filter(x=>x.status==='confirmed').length;
  $('#statPaid').textContent=list.filter(x=>x.status==='paid').length;
  $('#statTotal').textContent=list.length;
- rowsEl.innerHTML=visible.map(b=>`<tr>
+ rowsEl.innerHTML=visible.map(b=>`<tr class="${isHistoricalOrder(b)?'historical-order':''}">
  <td><span class="status-chip ${b.status}">${statusName(b.status)}</span>${b.status==='pending'&&b.hold_expires_at?`<div style="font-size:11px;color:#777;margin-top:5px">保留至 ${dt(b.hold_expires_at)}</div>`:''}</td>
  <td><strong>${b.code}</strong><div style="font-size:12px;color:#777">${dt(b.created_at)}</div></td>
  <td><strong>${escapeHtml(b.name)}</strong><div>${escapeHtml(b.phone)}</div>${b.line_name?`<div style="font-size:12px;color:#777">LINE：${escapeHtml(b.line_name)}</div>`:''}</td>
