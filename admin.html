@@ -12,6 +12,10 @@ body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}
 @media(max-width:900px){.manual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:720px){.admin-stats{grid-template-columns:1fr 1fr}.manual-grid{grid-template-columns:1fr}.manual-grid .wide,.manual-grid .full{grid-column:auto}}
 
 .booking-list-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.booking-list-controls label{font-size:13px;font-weight:700;color:#52635a;display:flex;gap:6px;align-items:center}.booking-list-controls select{width:auto;min-width:155px;max-width:100%;border:1px solid #d4dcd5;background:#fff;border-radius:12px;padding:8px 10px;color:#214332;font:inherit}.booking-list-hint{margin:0 0 12px;font-size:12px;color:#66766b}@media(max-width:700px){.booking-list-controls{justify-content:flex-start}.booking-list-controls label{width:100%}.booking-list-controls select{flex:1;min-width:0}}
+
+/* Ended bookings (checkout date before today in Taiwan): visual only; no status or action changes. */
+.admin-table tbody tr.historical-order > td{background-color:#f0f2ef}
+.admin-table tbody tr.historical-order > td:first-child{box-shadow:inset 4px 0 0 #c4cdc6}
 </style>
 </head>
 <body>
@@ -61,5 +65,5 @@ body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}
 <div class="admin-card"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px"><h3 style="margin:0">訂單列表</h3><div class="booking-list-controls"><label>顯示<select id="listFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option></select></label><label>排序<select id="listSort"><option value="checkin">入住日期（未入住優先）</option><option value="created">建立時間（最新優先）</option></select></label><button id="adminRefresh" class="btn" type="button">重新整理</button></div></div><p class="booking-list-hint" id="listHint">待確認訂單排最上方；其餘依入住日期排序，已取消訂單排最後。</p><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>狀態</th><th>編號／建立時間</th><th>客人</th><th>住宿日期</th><th>房數／人數</th><th>金額</th><th>備註</th><th>操作</th></tr></thead><tbody id="bookingRows"></tbody></table></div></div>
 </section>
 </main>
-<script src="assets/admin.js?v=20261103-pending-priority"></script>
+<script src="assets/admin.js?v=20261120-historical-rows"></script>
 </body></html>
