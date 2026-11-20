@@ -79,3 +79,17 @@
  .availability-alert{font-size:12px;line-height:1.6}
 }
 @media(max-width:360px){.calendar-grid .cal-day{min-height:72px}.calendar-grid .cal-stock,.calendar-grid .cal-rate{font-size:8px}}
+
+/* Booking calendar statuses: expired, today, full and selected. */
+.calendar-grid .cal-day.past{background:#f0f1ef;border-color:#e2e6e2;color:#9ca5a0;opacity:.62;cursor:not-allowed;box-shadow:none;justify-content:center}
+.calendar-grid .cal-day.past .cal-date{color:#9ca5a0}
+.calendar-grid .cal-day.past .cal-stock,.calendar-grid .cal-day.past .cal-rate{display:none!important}
+.calendar-grid .cal-day.full:not(.past){background:#faeeea;border-color:#e7beb5;color:#9c5147;opacity:1}
+.calendar-grid .cal-day.full:not(.past) .cal-stock{color:#9c5147}
+.calendar-grid .cal-day.today:not(.past):not(.full):not(.selected){background:#245e45;color:#fff;border-color:#245e45;opacity:1}
+.calendar-grid .cal-day.today:not(.past):not(.full):not(.selected) .cal-stock,.calendar-grid .cal-day.today:not(.past):not(.full):not(.selected) .cal-rate{color:#fff}
+.calendar-grid .cal-day.selected:not(.past){background:#245e45;color:#fff;border:2px solid #e8a747;box-shadow:inset 0 0 0 1px #e8a747;opacity:1}
+.calendar-grid .cal-day.selected:not(.past) .cal-stock,.calendar-grid .cal-day.selected:not(.past) .cal-rate{color:#fff}
+.calendar-grid .cal-day:focus-visible{outline:3px solid #e8a747;outline-offset:2px}
+.legend-dot.past{background:#f0f1ef;border-color:#dce1dc}
+.legend-dot.today{background:#245e45;border-color:#245e45}
