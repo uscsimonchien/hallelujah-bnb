@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261119-butane80-v1';
+  const VERSION = '20261120-heater-2units';
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
