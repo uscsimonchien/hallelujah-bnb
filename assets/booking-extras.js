@@ -35,7 +35,7 @@ const CATALOG=[
     "mode": "once",
     "category": "烤肉用品",
     "unit": "瓶",
-    "image": "assets/images/butane-canister.svg",
+    "image": "assets/images/butane-canister.png",
     "desc": "瓦斯罐每瓶NT$80，屬耗材商品，售出不退；卡式爐租金不含瓦斯罐"
   },
   {
@@ -156,7 +156,7 @@ const CATALOG=[
     "mode": "night",
     "category": "烤肉用品",
     "unit": "張",
-    "image": "assets/images/fire-blanket-m.svg",
+    "image": "assets/images/fire-blanket-m.png",
     "desc": "80×80公分防火布，附收納袋；租金每晚100元，押金200元"
   },
   {
