@@ -152,10 +152,11 @@ let rentalOrders=[];
 const rentalStatus=b=>b.status==='cancelled'?'cancelled':Number(b.deposit_paid||0)+Number(b.balance_paid||0)>=Number(b.total||0)?'paid':b.status;
 function renderRentals(){
  const all=rentalOrders,filtered=all.filter(b=>$('rentalFilter').value==='all'||rentalStatus(b)===$('rentalFilter').value);
- const orderRank=b=>{const s=rentalStatus(b);return s==='pending'?0:s==='cancelled'?2:1};
- filtered.sort((a,b)=>orderRank(a)-orderRank(b)||String(a.checkin).localeCompare(String(b.checkin))||stamp(b.created_at)-stamp(a.created_at));
+ const now=today();
+ const orderRank=b=>{const s=rentalStatus(b);return s==='cancelled'?4:s==='pending'?0:day(b.checkout)<now?3:day(b.checkin)<=now?1:2};
+ filtered.sort((a,b)=>{const rank=orderRank(a)-orderRank(b);if(rank)return rank;const g=orderRank(a);const dates=g===3?day(b.checkout).localeCompare(day(a.checkout)):g===1?day(a.checkout).localeCompare(day(b.checkout)):day(a.checkin).localeCompare(day(b.checkin));return dates||stamp(b.created_at)-stamp(a.created_at)});
  for(const [s,id] of [['pending','rentalPending'],['confirmed','rentalConfirmed'],['paid','rentalPaid']])$(id).textContent=all.filter(b=>rentalStatus(b)===s).length;
- $('rentalTotal').textContent=all.length;$('rentalCount').textContent='顯示 '+filtered.length+'／'+all.length+' 筆，待確認置頂，其餘依取件日期排序';
+ $('rentalTotal').textContent=all.length;$('rentalCount').textContent='顯示 '+filtered.length+'／'+all.length+' 筆，待確認置頂，租借中／未來／已歸還／已取消依序排序';
  const target=$('rentalOrders');target.replaceChildren();
  if(!filtered.length){target.append(make('div','empty','目前沒有純設備租借訂單。'));return;}
  for(const b of filtered){
@@ -259,9 +260,10 @@ function sorted(kind){
   const priority=o=>{const display=actualStatus(kind,o);return display==='pending'?0:display==='cancelled'||display==='expired'?2:1};
   const order=priority(a)-priority(b);if(order)return order;
   if(srt==='created')return stamp(b.created_at)-stamp(a.created_at);
-  const group=o=>day(o.checkin)<now?1:0;
+  const group=o=>day(o.checkout)<now?2:day(o.checkin)<=now?0:1;
   const diff=group(a)-group(b);if(diff)return diff;
-  const dates=group(a)===1?day(b.checkin).localeCompare(day(a.checkin)):day(a.checkin).localeCompare(day(b.checkin));
+  const g=group(a);
+  const dates=g===2?day(b.checkout).localeCompare(day(a.checkout)):g===0?day(a.checkout).localeCompare(day(b.checkout)):day(a.checkin).localeCompare(day(b.checkin));
   return dates||stamp(b.created_at)-stamp(a.created_at);
  });
  return arr;
@@ -293,7 +295,7 @@ function render(kind){
  $(id+'Pending').textContent=count('pending');$(id+'Confirmed').textContent=count('confirmed');
  $(id+'Paid').textContent=count('paid');$(id+'Total').textContent=all.length;
  const list=sorted(kind),box=$(id+'Orders');box.replaceChildren();
- $(id+'Count').textContent='顯示 '+list.length+'／'+all.length+' 筆｜'+($(id+'Sort').value==='checkin'?'待確認置頂；其餘未入住依日期由近到遠，已取消在後。':'待確認置頂；同狀態依建立時間由新到舊。');
+ $(id+'Count').textContent='顯示 '+list.length+'／'+all.length+' 筆｜'+($(id+'Sort').value==='checkin'?'待確認置頂；入住中、未來、已結束、取消依序排列。':'待確認置頂；同狀態依建立時間由新到舊。');
  if(!list.length){box.append(make('div','empty','目前沒有符合篩選條件的訂單。'));return}
  const fragment=document.createDocumentFragment();
  const wholeHouse=kind==='lodging'?wholeHouseBookingCodes():null;
