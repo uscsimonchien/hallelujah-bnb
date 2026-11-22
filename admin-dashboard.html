@@ -92,7 +92,7 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 .order.historical-order .order-extras,.order.historical-order.lodging-whole-house .order-extras{background:#f5f6f4;border-color:#dce2dc}
 </style></head>
 <body>
-<header class="dashboard-head"><div class="head-inner"><a class="brand-row" href="index.html"><img src="assets/logo.webp" alt="哈雷露亞民宿"><span>哈雷露亞｜整合訂單後台</span></a><nav class="head-actions"><a href="index.html">網站首頁</a><button type="button" id="refreshAll" hidden>重新整理</button><button type="button" id="logout" hidden>登出</button></nav></div></header>
+<header class="dashboard-head"><div class="head-inner"><a class="brand-row" href="index.html"><img src="assets/logo.webp" alt="哈雷露亞民宿"><span>哈雷露亞｜整合訂單後台</span></a><nav class="head-actions"><a href="index.html">網站首頁</a><button type="button" id="refreshAll" hidden>更新訂單資料</button><button type="button" id="refreshVersion" onclick="const u=new URL(location.href);u.searchParams.set('version',Date.now());location.replace(u.href)">載入最新版</button><button type="button" id="logout" hidden>登出</button></nav></div></header>
 <main>
 <div class="page-intro"><div><div class="kicker">HALLELUJAH · BOOKINGS</div><h1>民宿＋露營＋純設備租借，一個後台看全部</h1><p>電腦版左邊民宿、右邊露營。三類訂單獨立運作，管理金鑰只須輸入一次。</p></div></div>
 <section class="login-card" id="loginCard"><h2>管理員登入</h2><p>請輸入原本民宿訂房後台使用的管理金鑰。登入後會同時確認民宿與露營管理權限。</p><form id="loginForm"><input id="adminKey" type="password" autocomplete="current-password" placeholder="管理金鑰" aria-label="管理金鑰" required><button type="submit" id="loginButton">登入整合後台</button></form><div class="message" id="loginMessage" role="status"></div></section>
@@ -100,12 +100,12 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 <article class="panel" id="lodgingPanel">
 <div class="panel-head"><div class="panel-title"><div><h2>🏡 民宿訂房</h2><small>民宿房間、住宿客人、收款狀態</small></div><a href="admin.html">完整民宿後台</a></div></div>
 <div class="panel-main"><div class="stats"><div class="stat"><small>待確認</small><strong id="lodgingPending">—</strong></div><div class="stat"><small>已確認</small><strong id="lodgingConfirmed">—</strong></div><div class="stat"><small>已收款</small><strong id="lodgingPaid">—</strong></div><div class="stat"><small>總訂單</small><strong id="lodgingTotal">—</strong></div></div>
-<div class="toolbar"><label>篩選<select id="lodgingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="lodgingSort"><option value="checkin">入住日期優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="admin.html#manualBooking">新增訂房／封房</a></div>
-<p class="table-meta" id="lodgingCount"></p><div class="orders" id="lodgingOrders"></div><p class="panel-message" id="lodgingMessage" role="status"></p></div></article>
+<div class="toolbar"><label>篩選<select id="lodgingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="lodgingSort"><option value="checkin">入住中優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="admin.html#manualBooking">新增訂房／封房</a></div>
+<p class="table-meta" id="lodgingCount"></p><p class="table-meta">排序版本：2026-11-22（依退房日期判斷）</p><div class="orders" id="lodgingOrders"></div><p class="panel-message" id="lodgingMessage" role="status"></p></div></article>
 <article class="panel" id="campingPanel">
 <div class="panel-head"><div class="panel-title"><div><h2>🏕️ 露營訂位</h2><small>10 個營位、露營客人、收款狀態</small></div><a href="camping-admin.html">完整露營後台</a></div></div>
 <div class="panel-main"><div class="stats"><div class="stat"><small>待確認</small><strong id="campingPending">—</strong></div><div class="stat"><small>已確認</small><strong id="campingConfirmed">—</strong></div><div class="stat"><small>已收款</small><strong id="campingPaid">—</strong></div><div class="stat"><small>總訂單</small><strong id="campingTotal">—</strong></div></div>
-<div class="toolbar"><label>篩選<select id="campingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="campingSort"><option value="checkin">入住日期優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="camping-admin.html#manualBooking">新增訂位／封位</a></div>
+<div class="toolbar"><label>篩選<select id="campingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="campingSort"><option value="checkin">入住中優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="camping-admin.html#manualBooking">新增訂位／封位</a></div>
 <p class="table-meta" id="campingCount"></p><div class="orders" id="campingOrders"></div><p class="panel-message" id="campingMessage" role="status"></p></div></article>
 </section>
 <section class="panel" id="rentalPanel" hidden style="margin-top:22px">
@@ -257,14 +257,21 @@ function sorted(kind){
  const arr=state[kind].filter(b=>fil==='all'||actualStatus(kind,b)===fil).slice();
  const now=today();
  arr.sort((a,b)=>{
-  const priority=o=>{const display=actualStatus(kind,o);return display==='pending'?0:display==='cancelled'||display==='expired'?2:1};
-  const order=priority(a)-priority(b);if(order)return order;
+  // Pending, currently staying, future, past, cancelled. Checkout day remains active.
+  const priority=o=>{
+   const status=actualStatus(kind,o);
+   if(status==='pending')return 0;
+   if(status==='cancelled'||status==='expired')return 4;
+   const checkin=day(o.checkin),checkout=day(o.checkout);
+   if(checkout&&checkout<now)return 3;
+   if(checkin&&checkin<=now)return 1;
+   return 2;
+  };
+  const pa=priority(a),pb=priority(b);
+  if(pa!==pb)return pa-pb;
   if(srt==='created')return stamp(b.created_at)-stamp(a.created_at);
-  const group=o=>day(o.checkout)<now?2:day(o.checkin)<=now?0:1;
-  const diff=group(a)-group(b);if(diff)return diff;
-  const g=group(a);
-  const dates=g===2?day(b.checkout).localeCompare(day(a.checkout)):g===0?day(a.checkout).localeCompare(day(b.checkout)):day(a.checkin).localeCompare(day(b.checkin));
-  return dates||stamp(b.created_at)-stamp(a.created_at);
+  const dateOrder=pa===3?day(b.checkout).localeCompare(day(a.checkout)):pa===1?day(a.checkout).localeCompare(day(b.checkout)):day(a.checkin).localeCompare(day(b.checkin));
+  return dateOrder||stamp(b.created_at)-stamp(a.created_at);
  });
  return arr;
 }
