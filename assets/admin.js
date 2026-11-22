@@ -17,16 +17,20 @@ function displayedBookings(list,statusOf){
  const today=new Date(Date.now()+8*3600000).toISOString().slice(0,10);
  const filtered=filter==='paid'?list.filter(b=>statusOf(b)==='paid'):list.slice();
  filtered.sort((a,b)=>{
-  const priority=x=>x.status==='pending'?0:x.status==='cancelled'||x.status==='expired'?2:1;
-  const order=priority(a)-priority(b);if(order)return order;
+  const priority=x=>{
+   const status=statusOf(x),checkin=dateOnly(x.checkin),checkout=dateOnly(x.checkout);
+   if(status==='cancelled'||status==='expired')return 5;
+   if(checkout&&checkout<today)return 4;
+   if(checkin&&checkin<=today&&checkout&&checkout>=today)return status==='pending'?0:1;
+   return status==='pending'?2:3;
+  };
+  const pa=priority(a),pb=priority(b);
+  if(pa!==pb)return pa-pb;
   if(sort==='created')return (Date.parse(b.created_at||0)||0)-(Date.parse(a.created_at||0)||0);
-  const bucket=x=>dateOnly(x.checkout)<today?2:dateOnly(x.checkin)<=today?0:1;
-  const diff=bucket(a)-bucket(b);if(diff)return diff;
-  const ga=bucket(a),ad=dateOnly(a.checkin),bd=dateOnly(b.checkin);
-  const byDate=ga===2?dateOnly(b.checkout).localeCompare(dateOnly(a.checkout)):ga===0?dateOnly(a.checkout).localeCompare(dateOnly(b.checkout)):ad.localeCompare(bd);
+  const byDate=pa===4?dateOnly(b.checkout).localeCompare(dateOnly(a.checkout)):pa<=1?dateOnly(a.checkout).localeCompare(dateOnly(b.checkout)):dateOnly(a.checkin).localeCompare(dateOnly(b.checkin));
   return byDate||(Date.parse(b.created_at||0)||0)-(Date.parse(a.created_at||0)||0);
  });
- if(listHint)listHint.textContent=(sort==='checkin'?'待確認優先；入住中、未來預訂、已結束訂單依序排列，取消最後。':'待確認訂單優先；同狀態依建立時間由新到舊排列。')+'目前顯示 '+filtered.length+'／'+list.length+' 筆'+(filter==='paid'?'已收款訂單。':'訂單。');
+ if(listHint)listHint.textContent=(sort==='checkin'?'入住中優先；再依未來待確認、未來預訂、已結束、取消排序。':'入住中及待確認優先；同類訂單依建立時間由新到舊排列。')+'目前顯示 '+filtered.length+'／'+list.length+' 筆'+(filter==='paid'?'已收款訂單。':'訂單。');
  return filtered;
 }
 listFilter?.addEventListener('change',()=>render(latestBookings));
