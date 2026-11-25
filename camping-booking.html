@@ -104,9 +104,9 @@ function applyBookingMode(){
  syncNightArrival();
  update();
 }
-document.querySelectorAll('input[name="bookingMode"]').forEach(x=>x.addEventListener('change',applyBookingMode));
+document.querySelectorAll('input[name="bookingMode"]').forEach(x=>x.addEventListener('change',()=>{applyBookingMode();load()}));
 const today=new Date(Date.now()+8*3600000).toISOString().slice(0,10);ci.min=today;co.min=today;
-let inventory=[],requestId=0;
+let inventory=[],requestId=0,availabilityLoading=false,availabilityCheckedRange='';
 const extras=window.HallelujahBookingExtras.mount(document.querySelector("#campExtras"),()=>update());
 function selected(){return [...siteBox.querySelectorAll('input:checked')].map(x=>x.value)}
 function update(){
@@ -121,9 +121,65 @@ function update(){
   }catch(err){price.textContent=err.message;submit.disabled=true}
   return;
  }
- const effectiveStart=actualFirstNight();if(nightArrival.checked&&!effectiveStart){price.textContent='🌙 夜衝須先填正常入住日前一天的夜衝日期及時間；確認後會加訂前一晚、重新查詢營位。';submit.disabled=true;return;}const n=Math.round((Date.parse(co.value+'T00:00:00Z')-Date.parse(effectiveStart+'T00:00:00Z'))/86400000),ids=selected(),tent=document.querySelector('#addonTent'),bath=document.querySelector('#addonBath');document.querySelector('#campDepositAmount').textContent=ids.length?'露營住宿押金：NT$1,000 × '+ids.length+' 帳＝NT$'+(ids.length*1000).toLocaleString('zh-TW')+'（入住時另收、可退；器材押金另外計算）':'露營住宿押金每帳 NT$1,000，入住時另收（器材押金另外計算）。';for(const option of tent.options)option.disabled=false;const special=ids.filter(x=>x==='6F-A-1'||x==='6F-A-2').length;for(const input of siteBox.querySelectorAll('input[type=checkbox]')){if(input.value==='6F-A-1'||input.value==='6F-A-2'){const site=inventory.find(x=>x.id===input.value);input.disabled=!site?.available;}}const campTotal=inventory.filter(x=>ids.includes(x.id)).reduce((s,x)=>s+Number(x.nightly_price),0)*n,gear=extras.calculate(n),oldAddons=Number(tent.value)*2000*n+Number(bath.value)*1000,addonsTotal=oldAddons+gear.total,total=campTotal+addonsTotal,deposit=Math.round(total*.3),security=gear.securityDeposit+Number(tent.value)*3000;price.textContent=n>0&&ids.length?(nightArrival.checked?'🌙 夜衝加訂前一晚｜實際計費 '+effectiveStart+'～'+co.value+'（'+n+' 晚）\n':'')+'營位 NT$'+campTotal.toLocaleString('zh-TW')+'｜加購 NT$'+addonsTotal.toLocaleString('zh-TW')+'\n總額 NT$'+total.toLocaleString('zh-TW')+'｜訂金 NT$'+deposit.toLocaleString('zh-TW')+'｜現場尾款 NT$'+(total-deposit).toLocaleString('zh-TW')+'\n器材押金（現場另收、可退）NT$'+security.toLocaleString('zh-TW'):'請先選擇營位';submit.disabled=!(n>0&&n<=30&&ids.length&&Number(tent.value)<=ids.length&&special<=Number(tent.value))}
+ const effectiveStart=actualFirstNight();if(nightArrival.checked&&!effectiveStart){price.textContent='🌙 夜衝須先填正常入住日前一天的夜衝日期及時間；確認後會加訂前一晚、重新查詢營位。';submit.disabled=true;return;}const n=Math.round((Date.parse(co.value+'T00:00:00Z')-Date.parse(effectiveStart+'T00:00:00Z'))/86400000),ids=selected(),tent=document.querySelector('#addonTent'),bath=document.querySelector('#addonBath');document.querySelector('#campDepositAmount').textContent=ids.length?'露營住宿押金：NT$1,000 × '+ids.length+' 帳＝NT$'+(ids.length*1000).toLocaleString('zh-TW')+'（入住時另收、可退；器材押金另外計算）':'露營住宿押金每帳 NT$1,000，入住時另收（器材押金另外計算）。';for(const option of tent.options)option.disabled=false;const special=ids.filter(x=>x==='6F-A-1'||x==='6F-A-2').length;for(const input of siteBox.querySelectorAll('input[type=checkbox]')){if(input.value==='6F-A-1'||input.value==='6F-A-2'){const site=inventory.find(x=>x.id===input.value);input.disabled=!site?.available;}}const campTotal=inventory.filter(x=>ids.includes(x.id)).reduce((s,x)=>s+Number(x.nightly_price),0)*n,gear=extras.calculate(n),oldAddons=Number(tent.value)*2000*n+Number(bath.value)*1000,addonsTotal=oldAddons+gear.total,total=campTotal+addonsTotal,deposit=Math.round(total*.3),security=gear.securityDeposit+Number(tent.value)*3000;price.textContent=n>0&&ids.length?(nightArrival.checked?'🌙 夜衝加訂前一晚｜實際計費 '+effectiveStart+'～'+co.value+'（'+n+' 晚）\n':'')+'營位 NT$'+campTotal.toLocaleString('zh-TW')+'｜加購 NT$'+addonsTotal.toLocaleString('zh-TW')+'\n總額 NT$'+total.toLocaleString('zh-TW')+'｜訂金 NT$'+deposit.toLocaleString('zh-TW')+'｜現場尾款 NT$'+(total-deposit).toLocaleString('zh-TW')+'\n器材押金（現場另收、可退）NT$'+security.toLocaleString('zh-TW'):'請先選擇營位';submit.disabled=!(availabilityCheckedRange===effectiveStart+'|'+co.value&&!availabilityLoading&&n>0&&n<=30&&ids.length&&Number(tent.value)<=ids.length&&special<=Number(tent.value))}
 function showTentNotice(){let box=document.querySelector('#tentRequiredNotice');if(!box){box=document.createElement('div');box.id='tentRequiredNotice';box.setAttribute('role','alertdialog');box.setAttribute('aria-modal','true');box.style.cssText='position:fixed;inset:0;background:#0008;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';const panel=document.createElement('div');panel.style.cssText='background:#fff;border-radius:18px;padding:24px;max-width:390px;width:100%;box-shadow:0 12px 35px #0003;text-align:center';const msg=document.createElement('p');msg.textContent='6F-A-1、6F-A-2 營位需要搭配租借充氣帳篷才能預訂，每個營位至少租借 1 組（NT$2,000／組／晚，押金另計）。';msg.style.cssText='line-height:1.8;font-weight:700';const go=document.createElement('button');go.type='button';go.textContent='前往選擇充氣帳篷';go.style.cssText='background:#24533c;color:white;border:0;border-radius:10px;padding:13px 16px;font-size:16px;width:100%';go.addEventListener('click',()=>{box.remove();document.querySelector('#addonTent').scrollIntoView({behavior:'smooth',block:'center'});document.querySelector('#addonTent').focus()});const close=document.createElement('button');close.type='button';close.textContent='稍後再選';close.style.cssText='border:0;background:transparent;padding:12px;font-size:15px';close.addEventListener('click',()=>box.remove());panel.append(msg,go,close);box.append(panel);document.body.append(box)}else box.style.display='flex';}
-async function load(){if(rentalOnly()){update();return}const id=++requestId;siteBox.replaceChildren();inventory=[];update();if(!ci.value||!co.value||co.value<=ci.value){statusBox.textContent='請選擇有效入住與退營日期';return}const effectiveStart=actualFirstNight();if(nightArrival.checked&&!effectiveStart){statusBox.textContent='🌙 請先選擇正常入住日前一天的夜衝日期與抵達時間，才能查詢前一晚營位。';return}statusBox.textContent='正在查詢'+(nightArrival.checked?'夜衝與一般入住所有晚數的':'')+'空位…';try{const r=await fetch(api+'?action=availability&'+new URLSearchParams({checkin:effectiveStart,checkout:co.value,_:Date.now()}),{cache:'no-store'});if(!r.ok)throw Error('空位查詢暫時無法使用');const data=await r.json();if(id!==requestId)return;inventory=(data.sites||[]).filter(s=>s.active);for(const s of inventory){const label=document.createElement('label');label.className='site';const input=document.createElement('input');input.type='checkbox';input.value=s.id;input.disabled=!s.available;const specialSite=s.id==='6F-A-1'||s.id==='6F-A-2';if(specialSite){label.addEventListener('click',e=>{if(!s.available)return;const tentQty=Number(document.querySelector('#addonTent').value||0);const selectedSpecial=selected().filter(x=>x==='6F-A-1'||x==='6F-A-2').length;if(!input.checked&&tentQty<=selectedSpecial){e.preventDefault();e.stopPropagation();showTentNotice();}});}input.addEventListener('change',update);label.append(input,document.createTextNode(' '+s.id+'｜'+s.width_m+'×'+s.depth_m+'m｜'+(s.available?(specialSite?'需搭配充氣帳篷':'可預訂'):'已預訂／未開放')));siteBox.append(label)}statusBox.textContent=(nightArrival.checked?'🌙 已檢查夜衝前一晚及全部住宿日期；請重新選擇有空位的營位。':'')+'6F-A-1、6F-A-2 須先選擇充氣帳篷租用組數，每個營位至少搭配 1 組。';update();}catch(e){statusBox.textContent=e.message+'，請稍後重試或聯絡官方 LINE。';}}
+async function load(){
+ const id=++requestId;
+ if(rentalOnly()){availabilityLoading=false;availabilityCheckedRange='';update();return;}
+ // Keep checked campsites visible until availability of the full stay is checked.
+ // Checked here does not mean reserved: only the successful booking transaction blocks the campsite.
+ availabilityCheckedRange='';availabilityLoading=false;
+ if(!ci.value||!co.value||co.value<=ci.value){
+  submit.disabled=true;
+  statusBox.textContent='請先選擇有效入住與退營日期；已勾選的營位會暫時留在畫面上。';
+  update();return;
+ }
+ const effectiveStart=actualFirstNight();
+ if(nightArrival.checked&&!effectiveStart){
+  submit.disabled=true;
+  statusBox.textContent='🌙 已勾選的營位仍保留顯示。請填寫正常入住前一晚的夜衝日期及抵達時間，才會確認全部住宿日期的空位。';
+  update();return;
+ }
+ availabilityLoading=true;submit.disabled=true;update();
+ statusBox.textContent='正在核對'+(nightArrival.checked?'夜衝前一晚及後續日期':'住宿日期')+'的空位；先前勾選的營位會保留顯示…';
+ try{
+  const res=await fetch(api+'?action=availability&'+new URLSearchParams({checkin:effectiveStart,checkout:co.value,_:Date.now()}),{cache:'no-store'});
+  if(!res.ok)throw Error('空位查詢暫時無法使用');
+  const data=await res.json();
+  if(id!==requestId)return;
+  const priorSelected=new Set(selected());
+  const newInventory=(data.sites||[]).filter(site=>site.active);
+  const availableIds=new Set(newInventory.filter(site=>site.available).map(site=>site.id));
+  const unavailable=[...priorSelected].filter(siteId=>!availableIds.has(siteId));
+  const newList=document.createDocumentFragment();
+  for(const site of newInventory){
+   const label=document.createElement('label');label.className='site';
+   const input=document.createElement('input');input.type='checkbox';input.value=site.id;
+   input.disabled=!site.available;input.checked=site.available&&priorSelected.has(site.id);
+   const specialSite=site.id==='6F-A-1'||site.id==='6F-A-2';
+   if(specialSite){
+    label.addEventListener('click',evt=>{
+     if(!site.available)return;
+     const tentQty=Number(document.querySelector('#addonTent').value||0);
+     const selectedSpecial=selected().filter(x=>x==='6F-A-1'||x==='6F-A-2').length;
+     if(!input.checked&&tentQty<=selectedSpecial){evt.preventDefault();evt.stopPropagation();showTentNotice();}
+    });
+   }
+   input.addEventListener('change',update);
+   label.append(input,document.createTextNode(' '+site.id+'｜'+site.width_m+'×'+site.depth_m+'m｜'+(site.available?(specialSite?'需搭配充氣帳篷':'可預訂'):'已預訂／未開放')));
+   newList.append(label);
+  }
+  inventory=newInventory;siteBox.replaceChildren(newList);
+  availabilityCheckedRange=effectiveStart+'|'+co.value;availabilityLoading=false;
+  statusBox.textContent=unavailable.length?'⚠️ '+unavailable.join('、')+' 在更新後的日期（含夜衝前一晚）無法預訂，已取消這些營位的勾選。其他仍有空的營位已保留，請重新確認。':priorSelected.size?'✅ 已核對'+(nightArrival.checked?'夜衝及一般住宿':'住宿')+'全部日期；原選營位仍可訂，已保留勾選。':'請選擇有空的營位。6F-A-1、6F-A-2 須搭配充氣帳篷。';
+  update();
+ }catch(err){
+  if(id!==requestId)return;
+  availabilityLoading=false;availabilityCheckedRange='';submit.disabled=true;
+  statusBox.textContent=(err.message||'空位查詢失敗')+'；目前不能送出以免重複預訂。已勾選的營位仍在畫面上，請稍後重試。';
+  update();
+ }
+}
 window.addEventListener('focus',()=>{if(ci.value&&co.value)load();fetchCalendar()});document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(ci.value&&co.value)load();fetchCalendar()}});ci.onchange=()=>{const d=new Date(ci.value+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+1);co.min=d.toISOString().slice(0,10);syncNightArrival();load()};co.onchange=load;document.querySelector("#addonTent").addEventListener("change",update);document.querySelector("#addonBath").addEventListener("change",update);
 form.onsubmit=async e=>{
  e.preventDefault();
@@ -145,7 +201,7 @@ form.onsubmit=async e=>{
   }catch(err){alert(err.message)}finally{update()}
   return;
  }
- const chosen=selected();const tentCount=Number(document.querySelector('#addonTent').value||0);const required=chosen.filter(x=>x==='6F-A-1'||x==='6F-A-2').length;if(required>tentCount){showTentNotice();return;}if(tentCount>chosen.length){alert('充氣帳篷租借組數不可超過預訂營位數量。');return;}const b=Object.fromEntries(new FormData(form));b.checkin=ci.value;b.checkout=co.value;b.sites=selected();const isNightArrival=nightArrival.checked;const arrivalValue=isNightArrival?nightArrivalTime.value:'';if(isNightArrival&&!actualFirstNight()){nightArrivalTime.focus();alert('請填寫正常入住日前一天的夜衝日期及抵達時間；夜衝會多收一晚營位費。');return;}b.night_arrival=isNightArrival;if(isNightArrival)b.night_arrival_datetime=arrivalValue;submit.disabled=true;b.addons={inflatable_tent:Number(b.addonTent||0),bath_90min:Number(b.addonBath||0)};delete b.addonTent;delete b.addonBath;b.extras=Object.entries(extras.quantities()).map(([id,qty])=>({id,qty}));try{const r=await fetch(api+'?action=bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}),data=await r.json();if(!r.ok)throw Error(r.status===409?'部分營位已被預訂，請重新選擇':data.error==='night_arrival_must_be_previous_day'?'夜衝必須是正常入住日前一天，且不能早於今天。':data.error==='night_arrival_requires_new_booking_form'?'請重新開啟最新版露營預訂網頁，再選擇夜衝。':data.error==='invalid_night_arrival_datetime'?'請填寫正確夜衝日期及時間。':data.error==='occupied'?'夜衝前一晚或原訂日期的營位已被預訂，請重新選擇。':data.error==='booking_failed'?'預訂未成功，請確認營位與充氣帳篷租借組數，或聯絡營主協助。':data.error==='inflatable_tent_required'?'6F-A 營位必須搭配租借充氣帳篷，每個營位至少 1 組。':data.error||'預訂失敗');const x=data.booking;const addonLines=[];if(Number(x.addons?.inflatable_tent)>0)addonLines.push('充氣帳篷－含搭設 × '+x.addons.inflatable_tent+' 組');if(Number(x.addons?.bath_90min)>0)addonLines.push('湯屋 90 分鐘 × '+x.addons.bath_90min+' 次');if(Array.isArray(x.extras))for(const item of x.extras)addonLines.push(item.name+' × '+item.qty+item.unit);document.querySelector('#result').textContent='訂單編號：'+x.code+'\n實際入住／計費：'+(data.charged_checkin||ci.value)+' → '+co.value+(isNightArrival?'（含夜衝前一晚）':'')+'\n營位：'+x.sites.join('、')+'\n加購：'+(addonLines.join('、')||'無')+'\n營位費用：NT$'+Number(x.camping_total).toLocaleString('zh-TW')+'\n加購費用：NT$'+Number(x.addons_total).toLocaleString('zh-TW')+'\n總額：NT$'+Number(x.total).toLocaleString('zh-TW')+'\n應付訂金：NT$'+Number(x.deposit_due).toLocaleString('zh-TW')+'\n入住尾款：NT$'+Number(x.balance).toLocaleString('zh-TW')+'\n器材押金（現場另收、可退）：NT$'+Number(x.equipment_deposit_due||0).toLocaleString('zh-TW')+(isNightArrival?'\n🌙 夜衝預計抵達：'+arrivalValue.replace('T',' ').replace(/-/g,'/'):'')+'\n請聯絡營主取得匯款資訊。';document.querySelector('#confirmation').hidden=false;form.reset();syncNightArrival();document.querySelector('#confirmation').scrollIntoView({behavior:'smooth'});await load();}catch(e){alert(e.message);await load()}finally{update()}};
+ if(availabilityLoading||availabilityCheckedRange!==actualFirstNight()+'|'+co.value){alert('尚未核對新日期的營位空缺，請完成夜衝時間並重新查詢。');return;}const chosen=selected();const tentCount=Number(document.querySelector('#addonTent').value||0);const required=chosen.filter(x=>x==='6F-A-1'||x==='6F-A-2').length;if(required>tentCount){showTentNotice();return;}if(tentCount>chosen.length){alert('充氣帳篷租借組數不可超過預訂營位數量。');return;}const b=Object.fromEntries(new FormData(form));b.checkin=ci.value;b.checkout=co.value;b.sites=selected();const isNightArrival=nightArrival.checked;const arrivalValue=isNightArrival?nightArrivalTime.value:'';if(isNightArrival&&!actualFirstNight()){nightArrivalTime.focus();alert('請填寫正常入住日前一天的夜衝日期及抵達時間；夜衝會多收一晚營位費。');return;}b.night_arrival=isNightArrival;if(isNightArrival)b.night_arrival_datetime=arrivalValue;submit.disabled=true;b.addons={inflatable_tent:Number(b.addonTent||0),bath_90min:Number(b.addonBath||0)};delete b.addonTent;delete b.addonBath;b.extras=Object.entries(extras.quantities()).map(([id,qty])=>({id,qty}));try{const r=await fetch(api+'?action=bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}),data=await r.json();if(!r.ok)throw Error(r.status===409?'部分營位已被預訂，請重新選擇':data.error==='night_arrival_must_be_previous_day'?'夜衝必須是正常入住日前一天，且不能早於今天。':data.error==='night_arrival_requires_new_booking_form'?'請重新開啟最新版露營預訂網頁，再選擇夜衝。':data.error==='invalid_night_arrival_datetime'?'請填寫正確夜衝日期及時間。':data.error==='occupied'?'夜衝前一晚或原訂日期的營位已被預訂，請重新選擇。':data.error==='booking_failed'?'預訂未成功，請確認營位與充氣帳篷租借組數，或聯絡營主協助。':data.error==='inflatable_tent_required'?'6F-A 營位必須搭配租借充氣帳篷，每個營位至少 1 組。':data.error||'預訂失敗');const x=data.booking;const addonLines=[];if(Number(x.addons?.inflatable_tent)>0)addonLines.push('充氣帳篷－含搭設 × '+x.addons.inflatable_tent+' 組');if(Number(x.addons?.bath_90min)>0)addonLines.push('湯屋 90 分鐘 × '+x.addons.bath_90min+' 次');if(Array.isArray(x.extras))for(const item of x.extras)addonLines.push(item.name+' × '+item.qty+item.unit);document.querySelector('#result').textContent='訂單編號：'+x.code+'\n實際入住／計費：'+(data.charged_checkin||ci.value)+' → '+co.value+(isNightArrival?'（含夜衝前一晚）':'')+'\n營位：'+x.sites.join('、')+'\n加購：'+(addonLines.join('、')||'無')+'\n營位費用：NT$'+Number(x.camping_total).toLocaleString('zh-TW')+'\n加購費用：NT$'+Number(x.addons_total).toLocaleString('zh-TW')+'\n總額：NT$'+Number(x.total).toLocaleString('zh-TW')+'\n應付訂金：NT$'+Number(x.deposit_due).toLocaleString('zh-TW')+'\n入住尾款：NT$'+Number(x.balance).toLocaleString('zh-TW')+'\n器材押金（現場另收、可退）：NT$'+Number(x.equipment_deposit_due||0).toLocaleString('zh-TW')+(isNightArrival?'\n🌙 夜衝預計抵達：'+arrivalValue.replace('T',' ').replace(/-/g,'/'):'')+'\n請聯絡營主取得匯款資訊。';document.querySelector('#confirmation').hidden=false;form.reset();syncNightArrival();siteBox.querySelectorAll('input[type=checkbox]').forEach(input=>{input.checked=false});document.querySelector('#confirmation').scrollIntoView({behavior:'smooth'});await load();}catch(e){alert(e.message);await load()}finally{update()}};
 
 const cal=document.querySelector('#campCalendar'),monthTitle=document.querySelector('#monthTitle'),prev=document.querySelector('#prevMonth'),next=document.querySelector('#nextMonth');
 let shown=new Date(),calendarAvailability=new Map(),calendarLoading=false,calendarRequest=0;shown.setDate(1);
