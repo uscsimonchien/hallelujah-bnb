@@ -43,7 +43,7 @@ function render(list){
  $('#statPaid').textContent=list.filter(x=>x.status==='paid').length;
  $('#statTotal').textContent=list.length;
  rowsEl.innerHTML=visible.map(b=>`<tr class="${isHistoricalOrder(b)?'historical-order':''}">
- <td><span class="status-chip ${b.status}">${statusName(b.status)}</span>${b.status==='pending'&&b.hold_expires_at?`<div style="font-size:11px;color:#777;margin-top:5px">保留至 ${dt(b.hold_expires_at)}</div>`:''}</td>
+ <td><span class="status-chip ${b.status}">${statusName(b.status)}</span>${b.status==='pending'&&b.hold_expires_at?`<div style="font-size:11px;color:#777;margin-top:5px">訂金期限 ${dt(b.hold_expires_at)}（待確認仍占房）</div>`:''}</td>
  <td><strong>${b.code}</strong><div style="font-size:12px;color:#777">${dt(b.created_at)}</div></td>
  <td><strong>${escapeHtml(b.name)}</strong><div>${escapeHtml(b.phone)}</div>${b.line_name?`<div style="font-size:12px;color:#777">LINE：${escapeHtml(b.line_name)}</div>`:''}</td>
  <td>${String(b.checkin).slice(0,10)} → ${String(b.checkout).slice(0,10)}<div style="font-size:12px;color:#777">${b.nights} 晚</div></td>
