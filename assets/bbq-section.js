@@ -32,7 +32,7 @@
         </div>
         <div class="rental-price-row">
           <div><small>${type === '購買' ? '售價' : '固定租金'}</small><strong>NT$${price}</strong></div>
-          ${deposit ? `<div class="rental-deposit">押金<br>NT${deposit}</div>` : type === '購買' ? '<div class="rental-deposit">耗材商品<br>售出不退</div>' : '<div class="rental-deposit">押金<br>待確認</div>'}
+          ${deposit ? `<div class="rental-deposit">押金<br>NT$${deposit}</div>` : type === '購買' ? '<div class="rental-deposit">耗材商品<br>售出不退</div>' : '<div class="rental-deposit">押金<br>待確認</div>'}
         </div>
       </div>
     </article>`;
