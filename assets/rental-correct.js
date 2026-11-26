@@ -1,5 +1,5 @@
 (() => {
-  const VERSION = '20261120-heater-2units';
+  const VERSION = '20261126-rental-price-sync';
   const load = (src) => new Promise((resolve, reject) => {
     const s = document.createElement('script');
     s.src = src;
