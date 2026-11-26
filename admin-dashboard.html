@@ -87,9 +87,18 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 @media(max-width:1190px){.board{grid-template-columns:1fr}.orders{max-height:630px}}
 @media(max-width:700px){.head-inner{padding:10px 14px}.brand-row{font-size:15px}.brand-row img{height:40px;width:40px}.head-actions{gap:5px}.head-actions button,.head-actions a{font-size:11px;padding:8px}main{padding:20px 12px 44px}.panel-head{padding:17px 16px}.panel-main{padding:16px 13px 20px}.panel-title h2{font-size:23px}.stats{gap:6px}.stat{padding:8px 6px}.stat strong{font-size:22px}.stat small{font-size:10px}.order{padding:12px}.toolbar label{flex:1 1 140px}.toolbar select{max-width:100%;flex:1}.toolbar .new-link{margin-left:0}.orders{max-height:610px}}
 
-/* Orders whose checkout date is strictly before today's Taiwan date. */
-.order.historical-order,.order.historical-order.lodging-whole-house{background:#f0f2ef;border-color:#dce2dc;box-shadow:inset 4px 0 0 #c4cdc6}
-.order.historical-order .order-extras,.order.historical-order.lodging-whole-house .order-extras{background:#f5f6f4;border-color:#dce2dc}
+/* 已退房／退營／歸還，或已取消：整張訂單卡保持一致的灰底（不更動資料狀態）。 */
+.order.archived-order,.order.archived-order.lodging-whole-house{
+ background:#e3e6e8;border-color:#c4cbd0;box-shadow:inset 5px 0 0 #929da5;color:#48525a
+}
+.order.archived-order .order-extras,.order.archived-order.lodging-whole-house .order-extras{
+ background:#dce1e4;border-color:#c1c9ce;color:#47515a
+}
+.order.archived-order .status{background:#cbd1d5;color:#39454d}
+.order.archived-order .order-date,.order.archived-order .order-name,.order.archived-order .money,
+.order.archived-order .order-extras-title{color:#39454d}
+.order.archived-order .order-actions button{background:#cbd2d6;color:#3d4850;border:1px solid #b6c0c6}
+.order.archived-order .cancel-confirm{background:#dce1e4;border-color:#b7c2c8}
 </style></head>
 <body>
 <header class="dashboard-head"><div class="head-inner"><a class="brand-row" href="index.html"><img src="assets/logo.webp" alt="哈雷露亞民宿"><span>哈雷露亞｜整合訂單後台</span></a><nav class="head-actions"><a href="index.html">網站首頁</a><button type="button" id="refreshAll" hidden>更新訂單資料</button><button type="button" id="refreshVersion" onclick="const u=new URL(location.href);u.searchParams.set('version',Date.now());location.replace(u.href)">載入最新版</button><button type="button" id="logout" hidden>登出</button></nav></div></header>
@@ -161,6 +170,7 @@ function renderRentals(){
  if(!filtered.length){target.append(make('div','empty','目前沒有純設備租借訂單。'));return;}
  for(const b of filtered){
   const card=make('article','order'),head=make('div','order-head');
+  if(isHistoricalOrder(b)||['cancelled','expired'].includes(b.status))card.classList.add('archived-order');
   const dates=make('div','');
   dates.append(make('span','order-date',day(b.checkin)+' → '+day(b.checkout)));
   dates.append(make('span','order-subdate',' · 取件／歸還日期'));
@@ -383,8 +393,8 @@ function appendAddons(kind,b,card){
 function orderCard(kind,b,wholeHouse){
  const status=actualStatus(kind,b),cancelled=b.status==='cancelled';
  const card=make('article','order'),head=make('div','order-head'),dates=make('div','');
- if(isHistoricalOrder(b))card.classList.add('historical-order');
-  // 四間民宿由同一筆訂單預訂時，整張訂單卡以淡粉色區分；取消訂單不標示。
+ if(isHistoricalOrder(b)||['cancelled','expired'].includes(b.status))card.classList.add('archived-order');
+  // 四間民宿由同一筆訂單預訂時，仍保留淡粉標示；已結束／已取消則優先顯示整張灰底。
   if(kind==='lodging'&&wholeHouse?.has(b))card.classList.add('lodging-whole-house');
  dates.append(make('span','order-date',day(b.checkin)+' → '+day(b.checkout)));
  const night=Math.round((Date.parse(day(b.checkout)+'T00:00:00Z')-Date.parse(day(b.checkin)+'T00:00:00Z'))/86400000);
