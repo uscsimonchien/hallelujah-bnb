@@ -51,6 +51,30 @@ const CATALOG=[
     "desc": "尺寸3×3公尺，高約2.7公尺；租金每組每晚NT$500，押金另行確認"
   },
   {
+    "id": "tail_tent_standard",
+    "name": "車尾帳（一般款）",
+    "price": 500,
+    "deposit": 1000,
+    "max": 1,
+    "mode": "night",
+    "category": "車宿裝備",
+    "unit": "頂",
+    "image": "assets/images/tailtent-standard-live-20261005.jpeg",
+    "desc": "每頂每晚 NT$500；押金 NT$1,000（另收、可退），實際借用與車輛搭配以營主確認為準"
+  },
+  {
+    "id": "tail_tent_aladdin",
+    "name": "阿拉丁車尾帳",
+    "price": 1000,
+    "deposit": 2000,
+    "max": 1,
+    "mode": "night",
+    "category": "車宿裝備",
+    "unit": "頂",
+    "image": "assets/images/tailtent-aladdin-live-20261005.jpeg",
+    "desc": "每頂每晚 NT$1,000；押金 NT$2,000（另收、可退），實際借用與車輛搭配以營主確認為準"
+  },
+  {
     "id": "tarp_complete_3x6",
     "name": "3×6公尺天幕完整套組",
     "price": 600,
@@ -319,8 +343,8 @@ function mount(el,change){
  const cats=[...new Set(CATALOG.map(x=>x.category))];
  el.innerHTML='<div class="hb-extra-wrap"><h3>其他用品與活動加購（選填）</h3>'+cats.map(cat=>'<section class="hb-extra-section"><h4>'+escape(cat)+'</h4><div class="hb-extra-grid">'+CATALOG.filter(x=>x.category===cat).map(it=>{
  const thumb='<img src="'+escape(it.image)+'" alt="'+escape(it.name)+'" loading="lazy">'+(it.image2?'<img class="hb-second" src="'+escape(it.image2)+'" alt="" loading="lazy">':'');
- return '<div class="hb-extra-item"><div class="hb-extra-thumb">'+thumb+'</div><div class="hb-extra-info"><div class="hb-extra-name">'+escape(it.name)+'</div><div class="hb-extra-price">'+money(it.price)+(it.id==='tarp_setup_3x6'?'／組／次':it.mode==="night"?'／晚':'／次或份')+'</div><div class="hb-extra-deposit">'+(it.deposit?'器材押金 '+money(it.deposit)+'／'+it.unit:'免器材押金')+'</div><div class="hb-extra-desc">'+escape(it.desc)+'</div><select data-extra-id="'+it.id+'" aria-label="'+escape(it.name)+'數量">'+Array.from({length:it.max+1},(_,i)=>'<option value="'+i+'">'+(i===0?'不加購':i+' '+it.unit)+'</option>').join('')+'</select></div></div>'
- }).join('')+'</div></section>').join('')+'<p class="hb-extra-note">設備租金以住宿晚數／露營晚數計算；炭精、泳池、投影機與代客搭設依次計費；天幕搭設需搭配3×6公尺天幕完整套組，且每組僅收一次。器材押金為可退押金，<strong>不計入訂單租金或 30% 預訂訂金</strong>，由現場另外收取，點交後依規定退還。數量、時段、天候與實際庫存以營主確認為準。</p><p class="hb-extra-warning" role="status"></p></div>';
+ return '<div class="hb-extra-item"><div class="hb-extra-thumb">'+thumb+'</div><div class="hb-extra-info"><div class="hb-extra-name">'+escape(it.name)+'</div><div class="hb-extra-price">'+money(it.price)+(it.id==='tarp_setup_3x6'?'／組／次':it.mode==="night"?'／晚':'／次或份')+'</div><div class="hb-extra-deposit">'+(it.deposit?'器材押金 '+money(it.deposit)+'／'+it.unit:(['electric_heater','cassette_stove','living_tent_3x3'].includes(it.id)?'器材押金待確認（未列入線上預訂金額）':'免器材押金'))+'</div><div class="hb-extra-desc">'+escape(it.desc)+'</div><select data-extra-id="'+it.id+'" aria-label="'+escape(it.name)+'數量">'+Array.from({length:it.max+1},(_,i)=>'<option value="'+i+'">'+(i===0?'不加購':i+' '+it.unit)+'</option>').join('')+'</select></div></div>'
+ }).join('')+'</div></section>').join('')+'<p class="hb-extra-note">設備租金以住宿晚數／露營晚數計算；炭精、泳池、投影機與代客搭設依次計費；天幕搭設需搭配3×6公尺天幕完整套組，且每組僅收一次。器材押金為可退押金，<strong>不計入訂單租金或 30% 預訂訂金</strong>，由現場另外收取，點交後依規定退還。標示「器材押金待確認」者，金額需營主另行告知，尚未包含在本頁的租金與押金試算。數量、時段、天候與實際庫存以營主確認為準。</p><p class="hb-extra-warning" role="status"></p></div>';
  const qty=()=>Object.fromEntries([...el.querySelectorAll("select[data-extra-id]")].map(x=>[x.dataset.extraId,Number(x.value)]).filter(x=>x[1]>0));
  const warn=el.querySelector(".hb-extra-warning");
  const selects=[...el.querySelectorAll("select[data-extra-id]")];
