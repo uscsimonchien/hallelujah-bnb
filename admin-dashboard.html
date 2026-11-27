@@ -109,12 +109,12 @@ main{max-width:1660px;margin:0 auto;padding:28px 24px 70px}
 <article class="panel" id="lodgingPanel">
 <div class="panel-head"><div class="panel-title"><div><h2>🏡 民宿訂房</h2><small>民宿房間、住宿客人、收款狀態</small></div><a href="admin.html">完整民宿後台</a></div></div>
 <div class="panel-main"><div class="stats"><div class="stat"><small>待確認</small><strong id="lodgingPending">—</strong></div><div class="stat"><small>已確認</small><strong id="lodgingConfirmed">—</strong></div><div class="stat"><small>已收款</small><strong id="lodgingPaid">—</strong></div><div class="stat"><small>總訂單</small><strong id="lodgingTotal">—</strong></div></div>
-<div class="toolbar"><label>篩選<select id="lodgingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="lodgingSort"><option value="checkin">入住中優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="admin.html#manualBooking">新增訂房／封房</a></div>
-<p class="table-meta" id="lodgingCount"></p><p class="table-meta">排序版本：2026-11-22 B（入住中優先）</p><div class="orders" id="lodgingOrders"></div><p class="panel-message" id="lodgingMessage" role="status"></p></div></article>
+<div class="toolbar"><label>篩選<select id="lodgingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="lodgingSort"><option value="checkin">待確認優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="admin.html#manualBooking">新增訂房／封房</a></div>
+<p class="table-meta" id="lodgingCount"></p><p class="table-meta">排序規則：所有待確認訂單置頂（其餘依入住、未來、歷史、取消排序）</p><div class="orders" id="lodgingOrders"></div><p class="panel-message" id="lodgingMessage" role="status"></p></div></article>
 <article class="panel" id="campingPanel">
 <div class="panel-head"><div class="panel-title"><div><h2>🏕️ 露營訂位</h2><small>13 個開放營位、露營客人、收款狀態</small></div><a href="camping-admin.html">完整露營後台</a></div></div>
 <div class="panel-main"><div class="stats"><div class="stat"><small>待確認</small><strong id="campingPending">—</strong></div><div class="stat"><small>已確認</small><strong id="campingConfirmed">—</strong></div><div class="stat"><small>已收款</small><strong id="campingPaid">—</strong></div><div class="stat"><small>總訂單</small><strong id="campingTotal">—</strong></div></div>
-<div class="toolbar"><label>篩選<select id="campingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="campingSort"><option value="checkin">入住中優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="camping-admin.html#manualBooking">新增訂位／封位</a></div>
+<div class="toolbar"><label>篩選<select id="campingFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option><option value="pending">只看待確認</option><option value="confirmed">只看已確認</option><option value="cancelled">只看已取消</option></select></label><label>排序<select id="campingSort"><option value="checkin">待確認優先</option><option value="created">最新建立優先</option></select></label><a class="new-link" href="camping-admin.html#manualBooking">新增訂位／封位</a></div>
 <p class="table-meta" id="campingCount"></p><div class="orders" id="campingOrders"></div><p class="panel-message" id="campingMessage" role="status"></p></div></article>
 </section>
 <section class="panel" id="rentalPanel" hidden style="margin-top:22px">
@@ -267,19 +267,20 @@ function sorted(kind){
  const arr=state[kind].filter(b=>fil==='all'||actualStatus(kind,b)===fil).slice();
  const now=today();
  arr.sort((a,b)=>{
-  // Pending guests currently onsite, other onsite guests, future pending,
-  // future confirmed/paid, fully checked out, then cancelled.
+  // Every pending booking first, regardless of dates; then active stay,
+  // upcoming confirmed/paid, past stays, and finally cancelled.
   const priority=o=>{
    const status=actualStatus(kind,o),checkin=day(o.checkin),checkout=day(o.checkout);
-   if(status==='cancelled'||status==='expired')return 5;
-   if(checkout&&checkout<now)return 4;
-   if(checkin&&checkin<=now&&checkout&&checkout>=now)return status==='pending'?0:1;
-   return status==='pending'?2:3;
+   if(status==='cancelled'||status==='expired')return 4;
+   if(status==='pending')return 0;
+   if(checkout&&checkout<now)return 3;
+   if(checkin&&checkin<=now&&checkout&&checkout>=now)return 1;
+   return 2;
   };
   const pa=priority(a),pb=priority(b);
   if(pa!==pb)return pa-pb;
   if(srt==='created')return stamp(b.created_at)-stamp(a.created_at);
-  const dateOrder=pa===4?day(b.checkout).localeCompare(day(a.checkout)):pa<=1?day(a.checkout).localeCompare(day(b.checkout)):day(a.checkin).localeCompare(day(b.checkin));
+  const dateOrder=pa===3?day(b.checkout).localeCompare(day(a.checkout)):day(a.checkin).localeCompare(day(b.checkin));
   return dateOrder||stamp(b.created_at)-stamp(a.created_at);
  });
  return arr;

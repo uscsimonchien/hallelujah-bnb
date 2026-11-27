@@ -26,7 +26,7 @@ body{background:#f4f1e9}.admin-wrap{width:min(1180px,94%);margin:40px auto 80px}
 <label class="full">備註<textarea id="manualNote" maxlength="950" placeholder="例如：LINE 已確認、特殊需求、封位原因"></textarea></label>
 <div class="full manual-actions"><button class="btn dark" id="manualSubmit" type="submit">新增並立即占位</button><span class="manual-hint" id="manualResult">建立後為「已確認」，取消後營位會釋出。</span></div>
 </div></form></section><div class="admin-stats"><div class="admin-stat"><small>待確認</small><strong id="statPending">—</strong></div><div class="admin-stat"><small>已確認</small><strong id="statConfirmed">—</strong></div><div class="admin-stat"><small>已收款</small><strong id="statPaid">—</strong></div><div class="admin-stat"><small>總訂單</small><strong id="statTotal">—</strong></div></div>
-<section class="admin-card"><div class="section-title"><h3>訂單列表</h3><div class="booking-list-controls"><label>顯示<select id="listFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option></select></label><label>排序<select id="listSort"><option value="checkin">入住日期（未入住優先）</option><option value="created">建立時間（最新優先）</option></select></label><button id="refresh" class="btn" type="button">重新整理</button></div></div><p class="booking-list-hint" id="listHint">排序：入住中（含退營當天）優先，再顯示未來待確認、未來預訂、已結束、已取消訂單。</p><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>狀態</th><th>編號／建立時間</th><th>客人</th><th>住宿日期</th><th>營位／人數</th><th>金額</th><th>備註</th><th>操作</th></tr></thead><tbody id="rows"></tbody></table></div></section></main><script>
+<section class="admin-card"><div class="section-title"><h3>訂單列表</h3><div class="booking-list-controls"><label>顯示<select id="listFilter"><option value="all">全部訂單</option><option value="paid">只看已收款</option></select></label><label>排序<select id="listSort"><option value="checkin">待確認優先（再依入住日）</option><option value="created">建立時間（最新優先）</option></select></label><button id="refresh" class="btn" type="button">重新整理</button></div></div><p class="booking-list-hint" id="listHint">排序：入住中（含退營當天）優先，再顯示未來待確認、未來預訂、已結束、已取消訂單。</p><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>狀態</th><th>編號／建立時間</th><th>客人</th><th>住宿日期</th><th>營位／人數</th><th>金額</th><th>備註</th><th>操作</th></tr></thead><tbody id="rows"></tbody></table></div></section></main><script>
 const API='https://hkrttulwietizshbfigq.supabase.co/functions/v1/camping-api';let key=sessionStorage.getItem('hallelujah_admin_key')||'';
 const rows=document.querySelector('#rows'),msg=document.querySelector('#message');
 const dateOnly=v=>String(v||'').slice(0,10);
@@ -39,18 +39,19 @@ function displayedBookings(list){
  filtered.sort((a,b)=>{
   const priority=x=>{
    const status=effectiveStatus(x),checkin=dateOnly(x.checkin),checkout=dateOnly(x.checkout);
-   if(status==='cancelled'||status==='expired')return 5;
-   if(checkout&&checkout<today)return 4;
-   if(checkin&&checkin<=today&&checkout&&checkout>=today)return status==='pending'?0:1;
-   return status==='pending'?2:3;
+   if(status==='cancelled'||status==='expired')return 4;
+   if(status==='pending')return 0;
+   if(checkout&&checkout<today)return 3;
+   if(checkin&&checkin<=today&&checkout&&checkout>=today)return 1;
+   return 2;
   };
   const pa=priority(a),pb=priority(b);
   if(pa!==pb)return pa-pb;
   if(sort==='created')return (Date.parse(b.created_at||0)||0)-(Date.parse(a.created_at||0)||0);
-  const byDate=pa===4?dateOnly(b.checkout).localeCompare(dateOnly(a.checkout)):pa<=1?dateOnly(a.checkout).localeCompare(dateOnly(b.checkout)):dateOnly(a.checkin).localeCompare(dateOnly(b.checkin));
+  const byDate=pa===3?dateOnly(b.checkout).localeCompare(dateOnly(a.checkout)):dateOnly(a.checkin).localeCompare(dateOnly(b.checkin));
   return byDate||(Date.parse(b.created_at||0)||0)-(Date.parse(a.created_at||0)||0);
  });
- if(listHint)listHint.textContent=(sort==='checkin'?'入住中優先；再依未來待確認、未來預訂、已結束、取消排序。':'入住中及待確認優先；同類訂單依建立時間由新到舊排列。')+'目前顯示 '+filtered.length+'／'+list.length+' 筆'+(filter==='paid'?'已收款訂單。':'訂單。');
+ if(listHint)listHint.textContent=(sort==='checkin'?'所有待確認置頂；其後依入住中、未來訂單、已結束、已取消排序。':'所有待確認置頂；同類訂單再依建立時間由新到舊排列。')+'目前顯示 '+filtered.length+'／'+list.length+' 筆'+(filter==='paid'?'已收款訂單。':'訂單。');
  return filtered;
 }
 listFilter?.addEventListener('change',()=>renderRows(latestBookings));
